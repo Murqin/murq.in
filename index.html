@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Murqin's Bio</title>
+    <meta name="author" content="Ikarus Murqin">
+    <meta name="description" content="Ikarus Murqin'in kişisel biyografi ve portfolyo sayfası.">
+    <meta name="keywords" content="Ikarus Murqin, Muratcan, kişisel sayfa, portfolyo, web geliştirici, Kocaeli">
+    
+    <meta property="og:title" content="Murqin's Bio">
+    <meta property="og:description" content="Ikarus Murqin'in kişisel biyografi ve portfolyo sayfası.">
+    <meta property="og:image" content="https://www.seninsiten.com/assets/sosyal-medya-kapak.png">
+    <meta property="og:url" content="https://www.seninsiten.com">
+    <meta property="og:type" content="website">
+
+    <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
+    
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="blur-blob blob-1"></div>
+    <div class="blur-blob blob-2"></div>
+
+    <header>
+        <div class="site-title" data-key="siteTitle">Feel Nothing</div>
+        <div class="header-right">
+            <nav class="main-menu">
+                <ul>
+                    <li><a href="#"><span data-key="menuProjects">Projeler</span></a></li>
+                    <li><a href="#"><span data-key="menuAbout">Hakkımda</span></a></li>
+                    <li><a href="#"><span data-key="menuContact">İletişim</span></a></li>
+                </ul>
+            </nav>
+            <div class="lang-switcher">
+                <button data-lang="tr" class="active">TR</button>
+                <button data-lang="en">EN</button>
+            </div>
+            <button class="menu-toggle" aria-label="Menüyü Aç">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 6H20M4 12H20M4 18H20" stroke="#f0f0f0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+        </div>
+    </header>
+
+    <div class="overlay-menu">
+        <button class="menu-close" aria-label="Menüyü Kapat">&times;</button>
+        <nav class="overlay-nav">
+            <ul>
+                <li><a href="#"><span data-key="menuProjects">Projeler</span></a></li>
+                <li><a href="#"><span data-key="menuAbout">Hakkımda</span></a></li>
+                <li><a href="#"><span data-key="menuContact">İletişim</span></a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <main class="content-wrapper">
+        <h1 data-key="mainText">Bendeniz, "Ikarus Murqin" veya "Muratcan"...</h1>
+        <a href="https://instagram.com/murqin" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram Profili">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+            </svg>
+        </a>
+    </main>
+
+    <footer>
+        <p>
+            &copy;<span id="yil"></span><span data-key="footerText">Ikarus Murqin'den: Murq.in</span>
+            <span class="separator">&bull;</span>
+            <a href="https://github.com/your-username/your-repo" target="_blank" rel="noopener noreferrer">
+                <span data-key="sourceCode">Kaynak Kodu</span>
+            </a>
+        </p>
+    </footer>
+
+   
+    <script src="https://unpkg.com/i18next/i18next.min.js"></script>
+    <script src="https://unpkg.com/i18next-http-backend/i18nextHttpBackend.min.js"></script>
+    
+    <script defer src="js/script.js"></script>
+</body>
+</html>
