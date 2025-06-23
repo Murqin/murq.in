@@ -1,3 +1,3 @@
-Murq.in source code
+[Source code of murq.in](https://murq.in)
 
-Coded by gemini
+Coded by gemini.
