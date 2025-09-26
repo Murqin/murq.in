@@ -3,71 +3,214 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title>For Nothing</title>
-    <meta name="author" content="Ikarus Murqin">
-    <meta name="description" content="Biyografi, Kişisel Blog.">
-    <meta name="keywords" content="Ikarus Murqin, Muratcan, kişisel blog, biyografi">
-    
-    <meta property="og:title" content="For Nothing">
-    <meta property="og:description" content="Biyografi, Kişisel Blog.">
-    <meta property="og:url" content="https://www.murq.in">
-    <meta property="og:type" content="website">
+    <title>Welcome to 2005!</title>
+    <style>
+        /* CSS Styles for 2005 Aesthetic */
+        body {
+            background-color: #B0C4DE; /* Light steel blue */
+            background-image: url('https://www.transparenttextures.com/patterns/cubes.png'); /* Subtle texture background */
+            font-family: Verdana, Arial, Tahoma, sans-serif;
+            font-size: 12px;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            /* Center the page content */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+        }
 
-    <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
-    
-    <link rel="stylesheet" href="css/style.css">
+        /* Main container - Responsive and centered */
+        #container {
+            max-width: 800px;
+            width: 100%;
+            margin: 0;
+            background-color: #FFFFFF;
+            border: 2px solid #333;
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Header section */
+        #header {
+            background-color: #4682B4; /* Steel blue */
+            border-bottom: 2px solid #333;
+            height: 50px; /* Matched with footer height */
+            box-sizing: border-box;
+        }
+
+        /* Layout for main content and sidebar */
+        #main-wrapper {
+            display: flex;
+            flex-wrap: wrap; /* Allows items to wrap on mobile */
+            width: 100%;
+        }
+
+        #content {
+            flex: 1 1 65%;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        #content h2 {
+            color: #4682B4;
+            border-bottom: 1px dotted #666;
+            padding-bottom: 5px;
+            overflow: hidden; /* Fixes the border overlapping the floated image */
+        }
+
+        #content p {
+            line-height: 1.6;
+        }
+
+        /* Sidebar */
+        #sidebar {
+            flex: 1 1 35%;
+            padding: 20px;
+            background-color: #F0F8FF; /* Alice blue */
+            border-left: 1px dashed #999;
+            box-sizing: border-box;
+        }
+
+        #sidebar h3 {
+            margin-top: 0;
+            color: #4682B4;
+        }
+
+        #sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        #sidebar ul li {
+            margin-bottom: 10px;
+        }
+
+        #sidebar ul li a {
+            display: block;
+            padding: 8px;
+            text-decoration: none;
+            background-color: #E6E6FA; /* Lavender */
+            color: #333;
+            border: 1px outset #CCC;
+        }
+
+        #sidebar ul li a:hover {
+            background-color: #D8BFD8; /* Thistle */
+            color: #000;
+            border-style: inset;
+        }
+
+        .animated-gif {
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+
+        /* Profile picture style */
+        .profile-pic {
+            float: left;
+            margin-right: 25px;
+            margin-bottom: 10px;
+            border: 2px outset #CCC;
+            padding: 3px;
+            background-color: #FFF;
+        }
+
+        /* Footer */
+        #footer {
+            clear: both;
+            border-top: 2px solid #333;
+            background-color: #4682B4;
+            color: #FFF;
+            height: 50px; /* Matched with header height */
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #footer p {
+            margin: 0;
+        }
+
+        /* Media Query for Mobile Devices */
+        @media (max-width: 768px) {
+            body {
+                padding: 0;
+                align-items: flex-start;
+            }
+
+            #container {
+                width: 100%;
+                height: 100%;
+                border: none;
+                box-shadow: none;
+            }
+
+            #main-wrapper {
+                flex-direction: column; /* Stack content and sidebar vertically */
+            }
+
+            #sidebar {
+                border-left: none;
+                border-top: 1px dashed #999;
+            }
+        }
+
+    </style>
 </head>
 <body>
-    <div class="blur-blob blob-1"></div>
-    <div class="blur-blob blob-2"></div>
-     <header>
-        <div class="site-title" data-key="siteTitle"></div>
-        <div class="header-right">
-            <div class="lang-switcher">
-                <button data-lang="tr" class="active">TR</button>
-                <button data-lang="en">EN</button>
-            </div>
-            <button class="menu-toggle" aria-label="Menüyü Aç">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 6H20M4 12H20M4 18H20" stroke="#f0f0f0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-        </div>
-    </header>
 
-    <div class="overlay-menu">
-        <button class="menu-close" aria-label="Menüyü Kapat">&times;</button>
-        <nav class="overlay-nav">
-            <ul>
-                <li><a href="#"><span data-key="menuMainPage"></span></a></li>
-            </ul>
-        </nav>
+    <div id="container">
+        <!-- Header -->
+        <div id="header">
+        </div>
+
+        <div id="main-wrapper">
+            <!-- Main Content - Biography -->
+            <div id="content">
+                <!--
+                    EDITABLE AREA 1: GRAVATAR PHOTO
+                    To show your own photo:
+                    1. Convert your email address to an MD5 hash (you can use an online MD5 generator).
+                    2. Replace "23463b99b62a72f26ed677cc556c44e8" in the URL below with your own MD5 hash.
+                    (The current hash is for "example@example.com")
+                -->
+                <img src="https://www.gravatar.com/avatar/23463b99b62a72f26ed677cc556c44e8?s=100&d=mp" alt="Profile Picture" class="profile-pic">
+
+                <h2>About Me</h2>
+                <!-- EDITABLE AREA 2: ABOUT ME TEXT -->
+                <p>
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam eu quam tempor, sodales nisl in, suscipit justo. Aenean dictum, lacus at bibendum commodo, augue elit pulvinar ligula, quis porttitor nibh ex sit amet turpis. Curabitur tempor ullamcorper malesuada. Fusce laoreet nec ligula vitae hendrerit. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. In hac habitasse platea dictumst. Donec sit amet fringilla lacus. In tempus consequat diam, porttitor commodo ipsum porttitor sed. Nulla sapien lorem, iaculis eget imperdiet in, tincidunt sit amet eros. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean mauris augue, lacinia vitae aliquet eget, tempor quis dolor. Cras semper ligula ut mi hendrerit dapibus. Curabitur quis tortor neque. Cras congue libero ipsum, a gravida nibh egestas vel. Mauris viverra metus a diam porta, vel pharetra ipsum volutpat.
+
+                </p>
+                <p>
+                Duis in dui et nulla laoreet accumsan vitae ac ligula. Vestibulum tempor velit vel libero ultrices, vel suscipit lectus commodo. Mauris scelerisque vel quam at interdum. Morbi sit amet mauris ut dui elementum condimentum. Proin ac efficitur lacus. Aliquam eleifend sagittis erat scelerisque interdum. Aliquam erat volutpat. Morbi aliquam lacus vitae odio mollis, ut vulputate mi tristique. Donec et dui nec mi elementum egestas vel et ligula.
+                </p>
+            </div>
+
+            <!-- Sidebar - Social Media Links -->
+            <div id="sidebar">
+                <h3>My Links</h3>
+                <!-- EDITABLE AREA 3: LINKS -->
+                <ul>
+                    <li><a href="#">Link 1</a></li>
+                    <li><a href="#">Link 2</a></li>
+                    <li><a href="#">Link 3</a></li>
+                    <li><a href="#">Link 4</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div id="footer">
+             <!-- EDITABLE AREA 4: FOOTER -->
+            <p>&copy; 2025 - Murqin - <a href="#" style="color: #FFF;">Source Code</a></p>
+        </div>
     </div>
 
-    <main class="content-wrapper">
-        <h1 data-key="mainText"></h1>
-        <a href="https://instagram.com/murqin" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram Profili">
-            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-            </svg>
-        </a>
-    </main>
-
-    <footer>
-        <p>
-            &copy;<span id="yil"></span><span data-key="footerText"></span>
-            <span class="separator">&bull;</span>
-            <a href="https://github.com/Murqin/murq.in" target="_blank" rel="noopener noreferrer">
-                <span data-key="sourceCode"></span>
-            </a>
-        </p>
-    </footer>
-
-   
-    <script src="https://unpkg.com/i18next/i18next.min.js"></script>
-    <script src="https://unpkg.com/i18next-http-backend/i18nextHttpBackend.min.js"></script>
-    
-    <script defer src="js/script.js"></script>
 </body>
 </html>
+
