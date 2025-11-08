@@ -13,7 +13,3 @@ You can use this project as a template or inspiration for your own personal webs
 ## License
 
 Distributed under the MIT License. See `LICENSE` for more information.
-
-## Acknowledgments
-
-* **Gemini:** The code for this site was written by Gemini.
