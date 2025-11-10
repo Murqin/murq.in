@@ -223,14 +223,15 @@ header {
 /* Email styling */
 .email {
   margin-top: 0.5rem;
-  color: var(--accent-color);
 }
-.email {
+
+.email a {
   color: var(--accent-color);
   text-decoration: none;
   transition: color 0.3s;
 }
-.email :hover {
+
+.email a:hover {
   color: var(--primary-color);
 }
 
