@@ -225,6 +225,19 @@ header {
   margin-top: 0.5rem;
   color: var(--accent-color);
 }
+.email a {
+  color: var(--accent-color);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+.email a:hover {
+  color: var(--primary-color);
+}
+
+.email-note {
+  margin-top: 1rem;
+  color: var(--accent-color);
+}
 
 /* ===============================
    Footer
