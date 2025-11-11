@@ -9,4 +9,4 @@ This repository contains the source code for my personal biography website.
 
 ## License
 
-Distributed under the The Unlicense. See `LICENSE` for more information.
+The code for this site is public domain. For details, see the `LICENSE` file.
