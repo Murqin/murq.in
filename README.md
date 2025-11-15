@@ -8,7 +8,7 @@ This repository contains the source code for my personal biography website.
 * CSS
 
 # Information
-* This site is a vibe coding project.
+This site is a vibe coding project.
 
 ## License
 
