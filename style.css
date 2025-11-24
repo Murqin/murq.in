@@ -1,488 +1,392 @@
 /* ==================================================
-   Global Reset & Base Settings
+   Geist Design System - Dark Mode (Blue Accent)
+   Full Compliance Implementation
    ================================================== */
+:root {
+  /* Core Colors */
+  --bg: #000000;
+  --bg-2: #111111;
+  --fg: #ffffff;
+
+  /* Accents (Grayscale) */
+  --accents-1: #111;
+  --accents-2: #333;
+  --accents-3: #444;
+  --accents-4: #666;
+  --accents-5: #888;
+  --accents-6: #999;
+  --accents-7: #eaeaea;
+  --accents-8: #fafafa;
+
+  /* Brand Colors (Vercel Blue) */
+  --geist-blue: #0070f3;
+  --geist-blue-light: #3291ff;
+  --geist-blue-dark: #0761d1;
+
+  /* Layout (4px Grid System) */
+  --page-width: 1000px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-full: 9999px;
+
+  /* Spacing (4px base) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* Typography Scale */
+  --font-size-12: 12px;
+  --font-size-14: 14px;
+  --font-size-16: 16px;
+  --font-size-20: 20px;
+  --font-size-24: 24px;
+  --font-size-32: 32px;
+  --font-size-40: 40px;
+  --font-size-48: 48px;
+
+  /* Line Heights */
+  --line-height-tight: 1.25;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.75;
+
+  /* Transitions (Geist Standard) */
+  --transition-fast: 150ms;
+  --transition-normal: 300ms;
+  --transition-slow: 500ms;
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
 }
 
 html {
   scroll-behavior: smooth;
 }
 
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  background-image:
-    linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0)),
-    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
-  background-size: 100% 100%, 60px 60px, 60px 60px;
-  z-index: 0;
-}
-
 body {
-  font-family: 'JetBrains Mono', monospace;
-  background-color: #060b23;
-  color: #d6d6f5;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: var(--bg);
+  color: var(--fg);
   overflow-x: hidden;
-  position: relative;
-  z-index: 0;
+  line-height: var(--line-height-normal);
+  font-size: var(--font-size-16);
 }
 
 /* ==================================================
-   CSS Variables
+   Floating Dock Navigation
    ================================================== */
-:root {
-  --primary-color: #cfcff8;
-  --accent-color: #b3b3ff;
-  --navy: #060b23;
-  --sidebar-width: 130px;
+.floating-dock {
+  position: fixed;
+  top: var(--space-6);
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(17, 17, 17, 0.8);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--accents-2);
+  border-radius: var(--radius-full);
+  padding: var(--space-3) var(--space-6);
+  display: flex;
+  gap: var(--space-6);
+  z-index: 1000;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05), 0 10px 30px rgba(0, 0, 0, 0.5);
+  transition: transform var(--transition-normal) cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.floating-dock:hover {
+  transform: translateX(-50%) scale(1.02);
+  border-color: var(--accents-4);
+}
+
+.floating-dock a {
+  text-decoration: none;
+  color: var(--accents-5);
+  font-size: var(--font-size-14);
+  font-weight: 500;
+  position: relative;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-full);
+  transition: all var(--transition-fast) ease;
+}
+
+.floating-dock a:hover {
+  color: var(--geist-blue);
+  background: rgba(0, 112, 243, 0.1);
 }
 
 /* ==================================================
-   Layout & Structure
+   Main Layout
    ================================================== */
 .main-content {
-  margin-left: var(--sidebar-width);
-  transition: margin-left 0.3s ease;
-}
-
-/* ===============================
-   Sidebar / Navigation
-   =============================== */
-header {
-  position: fixed;
-  top: 0;
-  right: 0;
-  width: var(--sidebar-width);
-  height: 100vh;
-  background: rgba(6, 11, 35, 0.75);
-  backdrop-filter: blur(14px);
-  z-index: 1000;
-  border-left: 1px solid rgba(207, 207, 248, 0.15);
-  transition: width 0.3s ease, height 0.3s ease;
-}
-
-.navbar {
+  padding-top: var(--space-16);
+  padding-bottom: var(--space-12);
+  min-height: 100vh;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  height: 100%;
-  gap: 1.5rem;
-  padding: 1rem;
+  animation: fadeUp 600ms ease-out forwards;
 }
 
-.navbar a {
-  text-decoration: none;
-  color: var(--primary-color);
-  font-size: 0.9rem;
-  font-weight: 500;
-  letter-spacing: 0.5px;
-  position: relative;
-  transition: color 0.3s, transform 0.3s, text-shadow 0.3s;
-}
-
-.navbar a::after {
-  content: "";
-  position: absolute;
-  bottom: -3px;
-  left: 0;
-  width: 0;
-  height: 1px;
-  background: var(--accent-color);
-  transition: width 0.3s ease;
-}
-
-.navbar a:hover::after {
+section {
   width: 100%;
+  max-width: var(--page-width);
+  padding: var(--space-12) var(--space-6);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
 }
 
-.navbar a:hover {
-  color: var(--primary-color);
-  transform: scale(1.05);
-  text-shadow: 0 0 8px var(--accent-color);
-}
-
-/* ===============================
-   Section Cards
-   =============================== */
+/* ==================================================
+   Components & Cards
+   ================================================== */
 .section-card {
+  background: var(--bg-2);
+  border: 1px solid var(--accents-2);
+  border-radius: var(--radius-lg);
+  padding: var(--space-12);
   width: 100%;
-  max-width: 700px;
-  padding: 2rem;
-  border-radius: 12px;
-  background: rgba(12, 18, 50, 0.6);
-  backdrop-filter: blur(8px);
-  box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  max-width: 600px;
   text-align: center;
-  transition: transform 0.3s, box-shadow 0.3s, border 0.3s;
-  margin: 2rem auto;
+  transition: border-color var(--transition-fast) ease,
+    transform var(--transition-fast) ease,
+    box-shadow var(--transition-fast) ease;
 }
 
 .section-card:hover {
-  transform: translateY(-5px) scale(1.02);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.4), 0 0 15px rgba(179,179,255,0.2);
-  border: 1px solid rgba(179,179,255,0.3);
-}
-
-/* Hero özel kart */
-.hero .section-card {
-  max-width: 650px;
-  padding: 1.5rem 2rem;
-  border-radius: 12px;
-  border: 1px solid rgba(207, 207, 248, 0.15);
+  border-color: var(--geist-blue);
+  box-shadow: 0 0 40px rgba(0, 112, 243, 0.15);
+  transform: translateY(-4px);
 }
 
 /* ==================================================
    Hero Section
    ================================================== */
 .hero {
-  padding: 6rem 2rem;
-  min-height: 100vh;
-  display: flex;
+  min-height: 70vh;
   justify-content: center;
-  align-items: center;
-  text-align: center;
 }
 
-.hero .avatar-container {
-  width: 160px;
-  height: 160px;
+.avatar-container {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto var(--space-8);
+  position: relative;
 }
 
-.hero .avatar {
+.avatar {
   width: 100%;
   height: 100%;
   border-radius: 50%;
   object-fit: cover;
-  border: 3px solid var(--navy);
-  transition: transform 0.4s, box-shadow 0.4s, border 0.4s;
+  border: 2px solid var(--accents-2);
+  transition: border-color var(--transition-fast) ease;
 }
 
-.hero .avatar:hover {
-  transform: scale(1.08);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.4), 0 0 15px rgba(179,179,255,0.2);
-  border: 1px solid rgba(179,179,255,0.3);
+.section-card:hover .avatar {
+  border-color: var(--geist-blue);
 }
 
 .neon-text {
-  font-size: 3.5rem;
-  font-weight: 700;
-  color: var(--primary-color);
-  margin-bottom: 1rem;
+  font-size: var(--font-size-40);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: var(--line-height-tight);
+  margin-bottom: var(--space-4);
+  background: linear-gradient(180deg, #fff, #888);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.small-neon {
+  font-size: var(--font-size-24);
+  font-weight: 600;
+  line-height: var(--line-height-tight);
+  margin-bottom: var(--space-6);
+  background: linear-gradient(180deg, #fff, #999);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .subtitle {
-  font-size: 1.2rem;
-  color: var(--accent-color);
-  display: inline-block;
-  transition: color 0.3s, transform 0.3s, text-shadow 0.3s;
-}
-
-.subtitle:hover {
-  color: var(--primary-color);
-  transform: scale(1.05);
-  text-shadow: 0 0 8px var(--accent-color);
+  font-size: var(--font-size-16);
+  color: var(--accents-5);
+  font-weight: 400;
+  line-height: var(--line-height-relaxed);
+  margin-bottom: var(--space-8);
 }
 
 /* ==================================================
-   About Section
+   Social Links
    ================================================== */
-.about {
-  padding: 6rem 2rem;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  line-height: 1.9;
-}
-
-.about h2 {
-  color: var(--primary-color);
-  font-size: 2rem;
-  margin-bottom: 1rem;
-}
-
-.about p {
-  color: var(--accent-color);
-  font-size: 1rem;
-  display: inline-block;
-  transition: color 0.3s, transform 0.3s, text-shadow 0.3s;
-}
-
-.about p:hover {
-  color: var(--primary-color);
-  transform: scale(1.05);
-  text-shadow: 0 0 8px var(--accent-color);
-}
-
-/* ==================================================
-   Contact Section
-   ================================================== */
-.contact {
-  padding: 6rem 2rem;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.contact h2 {
-  color: var(--primary-color);
-  font-size: 2rem;
-  margin-bottom: 1rem;
-}
-
-.email a {
-  color: var(--accent-color);
-  text-decoration: none;
-  display: inline-block;
-  transition: color 0.3s, transform 0.3s, text-shadow 0.3s;
-}
-
-.email a:hover {
-  color: var(--primary-color);
-  transform: scale(1.05);
-  text-shadow: 0 0 8px var(--accent-color);
-}
-
-.email-note {
-  color: var(--accent-color);
-  margin-top: 1rem;
-  display: inline-block;
-  transition: color 0.3s, transform 0.3s, text-shadow 0.3s;
-}
-
-.email-note:hover {
-  color: var(--primary-color);
-  transform: scale(1.05);
-  text-shadow: 0 0 8px var(--accent-color);
-}
-
-/* ==================================================
-   Social Section
-   ================================================== */
-.social-section {
-  padding: 4rem 2rem;
-  text-align: center;
-}
-
 .social-links {
   display: flex;
   justify-content: center;
-  gap: 2rem;
-  margin-top: 1rem;
+  gap: var(--space-6);
+}
+
+.social-links a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--accents-1);
+  border: 1px solid var(--accents-2);
+  transition: all var(--transition-fast) ease;
 }
 
 .social-links .icon {
-  width: 30px;
-  height: 30px;
-  fill: var(--accent-color);
-  transition: transform 0.3s, fill 0.3s;
+  width: 20px;
+  height: 20px;
+  fill: var(--accents-5);
+  transition: fill var(--transition-fast) ease;
 }
 
-.social-links .icon:hover {
-  fill: var(--primary-color);
-  transform: scale(1.1);
+.social-links a:hover {
+  border-color: var(--geist-blue);
+  background: rgba(0, 112, 243, 0.1);
+}
+
+.social-links a:hover .icon {
+  fill: var(--geist-blue);
 }
 
 /* ==================================================
-   Footer
+   About & Contact
+   ================================================== */
+h2 {
+  font-size: var(--font-size-32);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: var(--line-height-tight);
+  margin-bottom: var(--space-6);
+  color: var(--fg);
+}
+
+p {
+  color: var(--accents-5);
+  font-size: var(--font-size-16);
+  line-height: var(--line-height-relaxed);
+}
+
+.email a {
+  color: var(--geist-blue);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color var(--transition-fast) ease;
+}
+
+.email a:hover {
+  color: var(--geist-blue-light);
+  text-decoration: underline;
+}
+
+.email-note {
+  font-size: var(--font-size-14);
+  color: var(--accents-4);
+  margin-top: var(--space-8);
+  line-height: var(--line-height-normal);
+}
+
+/* ==================================================
+   Animations
+   ================================================== */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==================================================
+   Footer (Fixed & Centered)
    ================================================== */
 footer {
+  width: 100%;
+  min-height: 120px;
+  padding: var(--space-6) 0;
+  border-top: 1px solid var(--accents-2);
+  background: var(--bg);
+  color: var(--accents-4);
+  font-size: var(--font-size-14);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: auto;
+  position: relative;
+}
+
+.footer-content {
+  width: 100%;
+  max-width: var(--page-width);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  padding: 0 var(--space-6);
+}
+
+footer p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin: 0;
+  line-height: var(--line-height-normal);
   text-align: center;
-  padding: 2.5rem 0;
-  font-size: 0.9rem;
-  color: #6666aa;
-  border-top: 1px solid rgba(207, 207, 248, 0.1);
-  background: rgba(6, 11, 35, 0.6);
-  backdrop-filter: blur(8px);
 }
 
 footer a {
-  color: #8a8ad9;
+  color: var(--accents-5);
   text-decoration: none;
-  display: inline-block;
-  transform: scale(1);
-  text-shadow: 0 0 0 transparent;
-  transition: color 0.3s, transform 0.3s, text-shadow 0.3s;
+  transition: color var(--transition-fast) ease;
 }
 
 footer a:hover {
-  color: var(--primary-color);
-  transform: scale(1.05);
-  text-shadow: 0 0 8px var(--accent-color);
+  color: var(--geist-blue);
 }
 
 /* ==================================================
-   Responsive Design
+   Responsive
    ================================================== */
-
-/* -------------------------------
-   Desktop & Large Tablets
-   ------------------------------- */
-@media (max-width: 1024px) {
-  header {
-    width: 100%;
-    height: auto;
-    border-left: none;
-    border-bottom: 1px solid rgba(207,207,248,0.3);
+@media (max-width: 768px) {
+  .neon-text {
+    font-size: var(--font-size-32);
   }
 
-  .navbar {
-    flex-direction: row;
-    justify-content: center;
-    gap: 1rem;
-    height: auto;
+  .section-card {
+    padding: var(--space-8);
+  }
+
+  .floating-dock {
+    padding: var(--space-2) var(--space-4);
+    gap: var(--space-4);
+    top: var(--space-4);
   }
 
   .main-content {
-    margin-left: 0;
-    padding-top: 3.5rem;
-  }
-
-  .hero, .about, .contact, .social-section {
-    padding: 4rem 1.5rem;
-  }
-
-  .hero {
-    min-height: calc(100vh - 3.5rem);
-  }
-
-  .avatar-container {
-    width: 120px;
-    height: 120px;
-  }
-
-  .neon-text {
-    font-size: 2.2rem;
-  }
-
-  .section-card {
-    max-width: 90%;
-    margin: 1.5rem auto;
-  }
-}
-
-/* -------------------------------
-   Short Screens (Height < 900px)
-   ------------------------------- */
-@media (max-height: 900px) {
-  .hero, .about, .contact, .social-section {
-    padding: 3rem 1rem;
-  }
-
-  .hero {
-    min-height: calc(100vh - 3rem);
-  }
-
-  .avatar-container {
-    width: 100px;
-    height: 100px;
-  }
-
-  .neon-text {
-    font-size: 2rem;
-  }
-}
-
-/* -------------------------------
-   Small Tablets & Large Phones
-   ------------------------------- */
-@media (max-width: 768px) {
-  .hero, .about, .contact, .social-section {
-    padding: 3rem 1rem;
-  }
-
-  .hero {
-    min-height: calc(100vh - 3rem);
-  }
-
-  .navbar {
-    flex-direction: row;
-    justify-content: center;
-    gap: 0.8rem;
-  }
-
-  .avatar-container {
-    width: 100px;
-    height: 100px;
-  }
-
-  .neon-text {
-    font-size: 1.8rem;
-  }
-
-  .section-card {
-    max-width: 95%;
-    margin: 1rem auto;
-  }
-
-  footer p {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-}
-
-/* -------------------------------
-   Mobile Devices (<480px)
-   ------------------------------- */
-@media (max-width: 480px) {
-  .hero, .about, .contact, .social-section {
-    padding: 2rem 1rem;
-  }
-
-  .hero {
-    min-height: calc(100vh - 2rem);
-  }
-
-  .neon-text {
-    font-size: 1.5rem;
-  }
-
-  .subtitle {
-    font-size: 1rem;
-  }
-
-  .avatar-container {
-    width: 80px;
-    height: 80px;
-  }
-
-  .section-card {
-    max-width: 100%;
-    margin: 0.8rem auto;
-    padding: 1rem;
-  }
-
-  footer p {
-    font-size: 0.85rem;
-    gap: 0.3rem;
-  }
-}
-
-/* -------------------------------
-   Disable Hover Effects on Touch Devices
-   ------------------------------- */
-@media (hover: none) and (pointer: coarse) {
-  .navbar a:hover,
-  .section-card:hover,
-  .hero .avatar:hover,
-  .email-note:hover,
-  footer a:hover {
-    transform: none;
-    text-shadow: none;
+    padding-top: var(--space-12);
   }
 }
