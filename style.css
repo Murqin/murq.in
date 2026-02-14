@@ -1,6 +1,5 @@
 /* ==================================================
    Geist Design System - Dark Mode (Blue Accent)
-   Full Compliance Implementation
    ================================================== */
 :root {
   /* Core Colors */
@@ -16,18 +15,13 @@
   --accents-5: #888;
   --accents-6: #999;
   --accents-7: #eaeaea;
-  --accents-8: #fafafa;
 
   /* Brand Colors */
   --geist-blue: #0070f3;
-  --geist-blue-light: #3291ff;
-  --geist-blue-dark: #0761d1;
-  --geist-success: #0070f3;
+  --geist-success: #0070f3; /* Mavi Success */
 
   /* Layout */
   --page-width: 1000px;
-  --radius-sm: 4px;
-  --radius-md: 8px;
   --radius-lg: 12px;
   --radius-full: 9999px;
 
@@ -37,46 +31,26 @@
   --space-3: 12px;
   --space-4: 16px;
   --space-6: 24px;
-  --space-8: 32px; /* Başlık altı için kullanılacak */
+  --space-8: 32px;
   --space-12: 48px;
   --space-16: 64px;
 
   /* Typography */
-  --font-size-12: 12px;
   --font-size-14: 14px;
   --font-size-16: 16px;
-  --font-size-20: 20px;
   --font-size-24: 24px;
   --font-size-32: 32px;
   --font-size-40: 40px;
-  --font-size-48: 48px;
 
-  /* Line Heights */
-  --line-height-tight: 1.25;
   --line-height-normal: 1.5;
-  --line-height-relaxed: 1.75;
-
-  /* Transitions */
   --transition-fast: 150ms;
-  --transition-normal: 300ms;
-  --transition-slow: 500ms;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  -webkit-font-smoothing: antialiased;
-}
-
-html {
-  scroll-behavior: smooth;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: 'Inter', sans-serif;
   background-color: var(--bg);
-  /* Cyber Grid Background */
   background-image:
     radial-gradient(circle at 50% 0%, rgba(0, 112, 243, 0.15) 0%, transparent 60%),
     linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
@@ -84,9 +58,7 @@ body {
   background-size: 100% 100%, 40px 40px, 40px 40px;
   background-attachment: fixed;
   color: var(--fg);
-  overflow-x: hidden;
   line-height: var(--line-height-normal);
-  font-size: var(--font-size-16);
 }
 
 /* ==================================================
@@ -99,7 +71,6 @@ body {
   width: 100%;
   max-width: var(--page-width);
   margin: 0 auto;
-  animation: fadeUp 600ms ease-out forwards;
   
   /* Mobile Default */
   display: flex;
@@ -109,44 +80,29 @@ body {
   padding-right: var(--space-6);
 }
 
-section {
-  width: 100%;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-}
-
-/* Desktop: Bento Grid Layout */
+/* Desktop Grid */
 @media (min-width: 769px) {
   .main-content {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto 1fr;
-    grid-template-areas:
-      "hero hero"
-      "about contact";
+    grid-template-areas: "hero hero" "about contact";
     align-items: start;
     justify-content: center;
   }
-
   #home { grid-area: hero; }
   #about { grid-area: about; }
   #contact { grid-area: contact; }
 
-  /* Bento Eşitleme & Ortalama Fix */
-  .about .section-card,
-  .contact .section-card {
+  .about .section-card, .contact .section-card {
     height: 100%;
     min-height: 250px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center; /* Dikey Ortalama */
-    align-items: center;     /* Yatay Ortalama - Email'i ortalar */
+    justify-content: center; /* Dikey ortalama */
   }
 }
 
 /* ==================================================
-   Components & Cards
+   Card System (Fixed Alignment & Gap)
    ================================================== */
 .section-card {
   background: rgba(10, 10, 10, 0.5);
@@ -154,12 +110,17 @@ section {
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: var(--radius-lg);
-  padding: var(--space-12);
+  padding: var(--space-12); /* İç boşluk */
   width: 100%;
   text-align: center;
-  transition: border-color var(--transition-fast) ease,
-    transform var(--transition-fast) ease,
-    box-shadow var(--transition-fast) ease;
+  
+  /* FLEXBOX MAGIC: Hizalama ve Boşluk Garantisi */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Yatayda tam orta */
+  gap: var(--space-8); /* Başlık ve İçerik arası NET boşluk (32px) */
+  
+  transition: all var(--transition-fast) ease;
 }
 
 .section-card:hover {
@@ -169,115 +130,55 @@ section {
 }
 
 /* ==================================================
-   Typography & Elements
+   Typography
    ================================================== */
 h2 {
   font-size: var(--font-size-32);
   font-weight: 700;
-  letter-spacing: -0.03em;
-  line-height: var(--line-height-tight);
-  margin-bottom: var(--space-8); /* Padding Artırıldı (Space-6 -> Space-8) */
   color: var(--fg);
+  margin: 0; /* Margin'i sıfırladık, GAP kullanıyoruz */
+  line-height: 1.1;
 }
 
 p {
   color: var(--accents-5);
   font-size: var(--font-size-16);
-  line-height: var(--line-height-relaxed);
+  max-width: 400px; /* Okunabilirliği artırır */
 }
 
-/* Hero Section Specifics */
+/* Hero Elements */
 .avatar-container {
   width: 120px;
   height: 120px;
-  margin: 0 auto var(--space-8);
-  position: relative;
+  margin-bottom: var(--space-4); /* Avatar altı boşluk */
 }
-
 .avatar {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  object-fit: cover;
+  width: 100%; height: 100%; border-radius: 50%; object-fit: cover;
   border: 2px solid var(--accents-2);
-  transition: border-color var(--transition-fast) ease;
 }
-
-.section-card:hover .avatar {
-  border-color: var(--geist-blue);
-}
-
 .neon-text {
-  font-size: var(--font-size-40);
-  font-weight: 800;
-  letter-spacing: -0.04em;
-  line-height: var(--line-height-tight);
-  margin-bottom: var(--space-4);
+  font-size: var(--font-size-40); font-weight: 800;
   background: linear-gradient(180deg, #fff, #999);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  margin-bottom: var(--space-2);
 }
+.subtitle { font-size: var(--font-size-16); color: var(--accents-5); }
+.small-neon { font-size: var(--font-size-24); font-weight: 600; color: #fff; margin: 0;}
 
-.small-neon {
-  font-size: var(--font-size-24);
-  font-weight: 600;
-  line-height: var(--line-height-tight);
-  margin-bottom: var(--space-6);
-  background: linear-gradient(180deg, #fff, #aaa);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.subtitle {
-  font-size: var(--font-size-16);
-  color: var(--accents-5);
-  font-weight: 400;
-  line-height: var(--line-height-relaxed);
-  margin-bottom: var(--space-8);
-}
-
-/* ==================================================
-   Social Links
-   ================================================== */
-.social-links {
-  display: flex;
-  justify-content: center;
-  gap: var(--space-6);
-}
-
+/* Social Links */
+.social-links { display: flex; gap: var(--space-6); margin-top: var(--space-2); }
 .social-links a {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  transition: all var(--transition-fast) ease;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
+  display: flex; align-items: center; justify-content: center;
+  transition: all var(--transition-fast);
 }
-
-.social-links .icon {
-  width: 20px;
-  height: 20px;
-  fill: var(--accents-5);
-  transition: fill var(--transition-fast) ease;
-}
-
-.social-links a:hover {
-  border-color: var(--geist-blue);
-  background: rgba(0, 112, 243, 0.1);
-  transform: translateY(-2px);
-}
-
-.social-links a:hover .icon {
-  fill: var(--geist-blue);
-}
+.social-links .icon { width: 20px; height: 20px; fill: var(--accents-5); }
+.social-links a:hover { border-color: var(--geist-blue); background: rgba(0,112,243,0.1); }
+.social-links a:hover .icon { fill: var(--geist-blue); }
 
 /* ==================================================
-   Copy Email Component
+   New Interaction: Email Button
    ================================================== */
 .copy-email-wrapper {
   display: inline-flex;
@@ -291,6 +192,7 @@ p {
   cursor: pointer;
   transition: all var(--transition-fast) ease;
   user-select: none;
+  min-width: 240px; /* Sabit genişlik: Yazı değişince titremesin */
 }
 
 .copy-email-wrapper:hover {
@@ -298,78 +200,37 @@ p {
   border-color: var(--accents-4);
 }
 
-.copy-email-wrapper:active {
-  transform: scale(0.98);
-}
+.copy-email-wrapper:active { transform: scale(0.98); }
 
 .copy-email-text {
-  font-family: 'Geist Mono', monospace;
+  font-family: 'Inter', sans-serif; /* Mono yerine Inter daha temiz durur */
   font-size: var(--font-size-14);
+  font-weight: 500;
   color: var(--accents-6);
+  transition: color 0.2s;
 }
 
-.copy-icon-box {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+.copy-icon-box { display: flex; align-items: center; }
 
-.copy-status {
-  font-size: var(--font-size-12);
-  font-weight: 600;
-  color: var(--geist-success);
-  margin-left: var(--space-2);
-  opacity: 0;
-  transform: translateX(-5px);
-  transition: all var(--transition-normal) ease;
-}
-
-.copy-email-wrapper.copied .copy-status {
-  opacity: 1;
-  transform: translateX(0);
-}
-
+/* Copied State Styling */
 .copy-email-wrapper.copied {
   border-color: var(--geist-success);
-  background: rgba(0, 112, 243, 0.05);
+  background: rgba(0, 112, 243, 0.1);
 }
+.copy-email-wrapper.copied .copy-email-text { color: #fff; }
+.copy-email-wrapper.copied svg { stroke: var(--geist-success); }
 
-/* ==================================================
-   Animations & Footer
-   ================================================== */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
+/* Footer */
 footer {
-  width: 100%;
-  padding: var(--space-6) 0;
-  border-top: 1px solid var(--accents-2);
-  background: rgba(0,0,0,0.8);
-  backdrop-filter: blur(10px);
-  color: var(--accents-4);
-  font-size: var(--font-size-14);
-  display: flex;
-  justify-content: center;
-  margin-top: auto;
+  padding: var(--space-6) 0; border-top: 1px solid var(--accents-2);
+  background: rgba(0,0,0,0.8); backdrop-filter: blur(10px);
+  display: flex; justify-content: center; margin-top: auto;
 }
+.footer-content { text-align: center; color: var(--accents-4); font-size: 14px; }
+footer a { color: var(--accents-5); text-decoration: none; }
+footer a:hover { color: #fff; }
 
-.footer-content { text-align: center; }
-
-footer a {
-  color: var(--accents-5);
-  text-decoration: none;
-  transition: color var(--transition-fast) ease;
-}
-
-footer a:hover { color: var(--fg); }
-
-/* ==================================================
-   Responsive
-   ================================================== */
 @media (max-width: 768px) {
-  .neon-text { font-size: var(--font-size-32); }
-  .section-card { padding: var(--space-6); }
-  .main-content { padding-top: var(--space-6); }
+  .neon-text { font-size: 32px; }
+  .section-card { padding: var(--space-6); gap: var(--space-6); }
 }
