@@ -22,6 +22,7 @@
   --geist-blue: #0070f3;
   --geist-blue-light: #3291ff;
   --geist-blue-dark: #0761d1;
+  --geist-success: #0070f3; /* Success state için */
 
   /* Layout (4px Grid System) */
   --page-width: 1000px;
@@ -75,6 +76,13 @@ html {
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   background-color: var(--bg);
+  /* Cyber Grid Background */
+  background-image:
+    radial-gradient(circle at 50% 0%, rgba(0, 112, 243, 0.15) 0%, transparent 60%),
+    linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 100% 100%, 40px 40px, 40px 40px;
+  background-attachment: fixed;
   color: var(--fg);
   overflow-x: hidden;
   line-height: var(--line-height-normal);
@@ -89,16 +97,16 @@ body {
   top: var(--space-6);
   left: 50%;
   transform: translateX(-50%);
-  background: rgba(17, 17, 17, 0.8);
+  background: rgba(10, 10, 10, 0.7); /* Daha koyu transparan */
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--accents-2);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: var(--radius-full);
-  padding: var(--space-3) var(--space-6);
+  padding: var(--space-2) var(--space-6); /* Padding optimize edildi */
   display: flex;
   gap: var(--space-6);
   z-index: 1000;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05), 0 10px 30px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05), 0 10px 30px rgba(0, 0, 0, 0.8);
   transition: transform var(--transition-normal) cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -119,44 +127,79 @@ body {
 }
 
 .floating-dock a:hover {
-  color: var(--geist-blue);
-  background: rgba(0, 112, 243, 0.1);
+  color: var(--fg);
+  background: rgba(255, 255, 255, 0.05);
 }
 
 /* ==================================================
-   Main Layout
+   Main Layout & Bento Grid
    ================================================== */
 .main-content {
-  padding-top: var(--space-16);
+  padding-top: 120px; /* Dock payı */
   padding-bottom: var(--space-12);
   min-height: 100vh;
   width: 100%;
+  max-width: var(--page-width); /* Genişlik limiti */
+  margin: 0 auto;
+  animation: fadeUp 600ms ease-out forwards;
+  
+  /* Mobile Default: Column */
   display: flex;
   flex-direction: column;
-  align-items: center;
-  animation: fadeUp 600ms ease-out forwards;
+  gap: var(--space-6);
+  padding-left: var(--space-6);
+  padding-right: var(--space-6);
 }
 
 section {
   width: 100%;
-  max-width: var(--page-width);
-  padding: var(--space-12) var(--space-6);
+  padding: 0; /* Padding kaldırıldı, kartlar halledecek */
   display: flex;
   flex-direction: column;
-  align-items: center;
-  margin: 0 auto;
+}
+
+/* Desktop: Bento Grid Layout */
+@media (min-width: 769px) {
+  .main-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 2 Eşit Kolon */
+    grid-template-rows: auto 1fr;
+    grid-template-areas:
+      "hero hero"
+      "about contact";
+    align-items: start;
+    justify-content: center;
+  }
+
+  #home { grid-area: hero; }
+  #about { grid-area: about; }
+  #contact { grid-area: contact; }
+
+  /* Bento'da kartların yüksekliğini eşitle */
+  .about .section-card,
+  .contact .section-card {
+    height: 100%;
+    min-height: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
 }
 
 /* ==================================================
-   Components & Cards
+   Components & Cards (Glassmorphism)
    ================================================== */
 .section-card {
-  background: var(--bg-2);
-  border: 1px solid var(--accents-2);
+  /* Glass Effect */
+  background: rgba(10, 10, 10, 0.5); /* Hafif transparan siyah */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08); /* İnce sınır */
+  
   border-radius: var(--radius-lg);
   padding: var(--space-12);
   width: 100%;
-  max-width: 600px;
+  max-width: 100%; /* Layout kontrol edecek */
   text-align: center;
   transition: border-color var(--transition-fast) ease,
     transform var(--transition-fast) ease,
@@ -164,19 +207,14 @@ section {
 }
 
 .section-card:hover {
-  border-color: var(--geist-blue);
-  box-shadow: 0 0 40px rgba(0, 112, 243, 0.15);
-  transform: translateY(-4px);
+  border-color: var(--accents-4);
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.6);
+  transform: translateY(-2px);
 }
 
 /* ==================================================
    Hero Section
    ================================================== */
-.hero {
-  min-height: 70vh;
-  justify-content: center;
-}
-
 .avatar-container {
   width: 120px;
   height: 120px;
@@ -203,7 +241,7 @@ section {
   letter-spacing: -0.04em;
   line-height: var(--line-height-tight);
   margin-bottom: var(--space-4);
-  background: linear-gradient(180deg, #fff, #888);
+  background: linear-gradient(180deg, #fff, #999);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -214,7 +252,7 @@ section {
   font-weight: 600;
   line-height: var(--line-height-tight);
   margin-bottom: var(--space-6);
-  background: linear-gradient(180deg, #fff, #999);
+  background: linear-gradient(180deg, #fff, #aaa);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -244,8 +282,8 @@ section {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background: var(--accents-1);
-  border: 1px solid var(--accents-2);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   transition: all var(--transition-fast) ease;
 }
 
@@ -259,6 +297,7 @@ section {
 .social-links a:hover {
   border-color: var(--geist-blue);
   background: rgba(0, 112, 243, 0.1);
+  transform: translateY(-2px);
 }
 
 .social-links a:hover .icon {
@@ -266,95 +305,88 @@ section {
 }
 
 /* ==================================================
-   About & Contact
+   Copy Email Component
    ================================================== */
-h2 {
-  font-size: var(--font-size-32);
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  line-height: var(--line-height-tight);
-  margin-bottom: var(--space-6);
-  color: var(--fg);
+.copy-email-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-6);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--accents-2);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all var(--transition-fast) ease;
+  user-select: none;
 }
 
-p {
-  color: var(--accents-5);
-  font-size: var(--font-size-16);
-  line-height: var(--line-height-relaxed);
+.copy-email-wrapper:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--accents-4);
 }
 
-.email a {
-  color: var(--geist-blue);
-  text-decoration: none;
-  font-weight: 500;
-  transition: color var(--transition-fast) ease;
+.copy-email-wrapper:active {
+  transform: scale(0.98);
 }
 
-.email a:hover {
-  color: var(--geist-blue-light);
-  text-decoration: underline;
-}
-
-.email-note {
+.copy-email-text {
+  font-family: 'Geist Mono', monospace; /* Monospace varsa daha iyi durur */
   font-size: var(--font-size-14);
-  color: var(--accents-4);
-  margin-top: var(--space-8);
-  line-height: var(--line-height-normal);
+  color: var(--accents-6);
+}
+
+.copy-icon-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.copy-status {
+  font-size: var(--font-size-12);
+  font-weight: 600;
+  color: var(--geist-success);
+  margin-left: var(--space-2);
+  opacity: 0;
+  transform: translateX(-5px);
+  transition: all var(--transition-normal) ease;
+}
+
+.copy-email-wrapper.copied .copy-status {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.copy-email-wrapper.copied {
+  border-color: var(--geist-success);
+  background: rgba(0, 112, 243, 0.05);
 }
 
 /* ==================================================
    Animations
    ================================================== */
 @keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* ==================================================
-   Footer (Fixed & Centered)
+   Footer
    ================================================== */
 footer {
   width: 100%;
-  min-height: 120px;
   padding: var(--space-6) 0;
   border-top: 1px solid var(--accents-2);
-  background: var(--bg);
+  background: rgba(0,0,0,0.8); /* Footer da hafif transparan */
+  backdrop-filter: blur(10px);
   color: var(--accents-4);
   font-size: var(--font-size-14);
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
   margin-top: auto;
-  position: relative;
 }
 
 .footer-content {
-  width: 100%;
-  max-width: var(--page-width);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-3);
-  padding: 0 var(--space-6);
-}
-
-footer p {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: var(--space-3);
-  margin: 0;
-  line-height: var(--line-height-normal);
   text-align: center;
 }
 
@@ -365,28 +397,15 @@ footer a {
 }
 
 footer a:hover {
-  color: var(--geist-blue);
+  color: var(--fg);
 }
 
 /* ==================================================
-   Responsive
+   Responsive Tweaks
    ================================================== */
 @media (max-width: 768px) {
-  .neon-text {
-    font-size: var(--font-size-32);
-  }
-
-  .section-card {
-    padding: var(--space-8);
-  }
-
-  .floating-dock {
-    padding: var(--space-2) var(--space-4);
-    gap: var(--space-4);
-    top: var(--space-4);
-  }
-
-  .main-content {
-    padding-top: var(--space-12);
-  }
+  .neon-text { font-size: var(--font-size-32); }
+  .section-card { padding: var(--space-6); }
+  .floating-dock { padding: var(--space-2) var(--space-4); gap: var(--space-4); top: var(--space-4); width: 90%; justify-content: space-around;}
+  .main-content { padding-top: 100px; }
 }
