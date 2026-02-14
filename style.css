@@ -8,7 +8,7 @@
   --bg-2: #111111;
   --fg: #ffffff;
 
-  /* Accents (Grayscale) */
+  /* Accents */
   --accents-1: #111;
   --accents-2: #333;
   --accents-3: #444;
@@ -18,7 +18,7 @@
   --accents-7: #eaeaea;
   --accents-8: #fafafa;
 
-  /* Brand Colors (Vercel Blue) */
+  /* Brand Colors */
   --geist-blue: #0070f3;
   --geist-blue-light: #3291ff;
   --geist-blue-dark: #0761d1;
@@ -37,7 +37,7 @@
   --space-3: 12px;
   --space-4: 16px;
   --space-6: 24px;
-  --space-8: 32px;
+  --space-8: 32px; /* Başlık altı için kullanılacak */
   --space-12: 48px;
   --space-16: 64px;
 
@@ -93,8 +93,7 @@ body {
    Main Layout & Bento Grid
    ================================================== */
 .main-content {
-  /* Navbar gittiği için padding'i düşürdüm */
-  padding-top: var(--space-16); 
+  padding-top: var(--space-16);
   padding-bottom: var(--space-12);
   min-height: 100vh;
   width: 100%;
@@ -128,26 +127,26 @@ section {
       "about contact";
     align-items: start;
     justify-content: center;
-    /* Dikeyde ortalamak istersen: align-content: center; min-height: 80vh; */
   }
 
   #home { grid-area: hero; }
   #about { grid-area: about; }
   #contact { grid-area: contact; }
 
-  /* Bento Eşitleme */
+  /* Bento Eşitleme & Ortalama Fix */
   .about .section-card,
   .contact .section-card {
     height: 100%;
     min-height: 250px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: center; /* Dikey Ortalama */
+    align-items: center;     /* Yatay Ortalama - Email'i ortalar */
   }
 }
 
 /* ==================================================
-   Components & Cards (Glassmorphism)
+   Components & Cards
    ================================================== */
 .section-card {
   background: rgba(10, 10, 10, 0.5);
@@ -170,8 +169,24 @@ section {
 }
 
 /* ==================================================
-   Hero Section
+   Typography & Elements
    ================================================== */
+h2 {
+  font-size: var(--font-size-32);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: var(--line-height-tight);
+  margin-bottom: var(--space-8); /* Padding Artırıldı (Space-6 -> Space-8) */
+  color: var(--fg);
+}
+
+p {
+  color: var(--accents-5);
+  font-size: var(--font-size-16);
+  line-height: var(--line-height-relaxed);
+}
+
+/* Hero Section Specifics */
 .avatar-container {
   width: 120px;
   height: 120px;
@@ -356,5 +371,5 @@ footer a:hover { color: var(--fg); }
 @media (max-width: 768px) {
   .neon-text { font-size: var(--font-size-32); }
   .section-card { padding: var(--space-6); }
-  .main-content { padding-top: var(--space-6); } /* Mobilde üst boşluk daha az */
+  .main-content { padding-top: var(--space-6); }
 }
