@@ -1,196 +1,309 @@
-/* ==================================================
-   Geist Design System - Dark Mode
-   ================================================== */
+/* -------------------------------------------------------------------------- */
+/* Icarus Murqin - Personal Vibe Site                                        */
+/* Theme: Geist Design System (Dark Mode)                                    */
+/* -------------------------------------------------------------------------- */
+
 :root {
-  --bg: #000000;
-  --bg-2: #111111;
-  --fg: #ffffff;
-  --accents-1: #111;
-  --accents-2: #333;
-  --accents-4: #666;
-  --accents-5: #888;
-  --accents-6: #999;
-  --geist-blue: #0070f3;
-  --geist-success: #0070f3;
+  /* Core Palette */
+  --bg-primary: #000000;
+  --bg-secondary: #111111;
+  --fg-primary: #ffffff;
+  
+  /* Accents */
+  --accent-1: #111;
+  --accent-2: #333;
+  --accent-4: #666;
+  --accent-5: #888;
+  --accent-6: #999;
+  
+  /* Brand Colors */
+  --brand-blue: #0070f3;
+  --brand-success: #0070f3;
+  
+  /* Dimensions & Spacing */
   --radius-lg: 12px;
   --radius-full: 9999px;
-  --space-2: 8px;
-  --space-3: 12px;
-  --space-4: 16px;
-  --space-6: 24px;
-  --space-8: 32px;
-  --space-12: 48px;
-  --space-16: 64px;
+  --max-width: 1000px;
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
+/* -------------------------------------------------------------------------- */
+/* Reset & Global Styles                                                     */
+/* -------------------------------------------------------------------------- */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
 body {
-  font-family: 'Inter', sans-serif;
-  background-color: var(--bg);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: var(--bg-primary);
+  /* Cyber Grid Background Pattern */
   background-image:
     radial-gradient(circle at 50% 0%, rgba(0, 112, 243, 0.15) 0%, transparent 60%),
     linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
   background-size: 100% 100%, 40px 40px, 40px 40px;
   background-attachment: fixed;
-  color: var(--fg);
+  color: var(--fg-primary);
   line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Layout */
+/* -------------------------------------------------------------------------- */
+/* Layout Structure (Bento Grid)                                             */
+/* -------------------------------------------------------------------------- */
+
 .main-content {
-  padding-top: var(--space-16);
-  padding-bottom: var(--space-12);
+  padding: 64px 24px 48px 24px;
   min-height: 100vh;
   width: 100%;
-  max-width: 1000px;
+  max-width: var(--max-width);
   margin: 0 auto;
+  
+  /* Mobile First: Stack Vertically */
   display: flex;
   flex-direction: column;
-  gap: var(--space-6);
-  padding-left: var(--space-6);
-  padding-right: var(--space-6);
+  gap: 24px;
 }
 
+/* Desktop View: Grid System */
 @media (min-width: 769px) {
   .main-content {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-areas: "hero hero" "about contact";
-    align-items: start;
-    justify-content: center;
+    grid-template-rows: auto 1fr; /* Hero takes auto height, others fill */
+    grid-template-areas: 
+      "hero hero" 
+      "about contact";
+    align-items: stretch;
+    gap: 24px;
   }
+  
   #home { grid-area: hero; }
   #about { grid-area: about; }
   #contact { grid-area: contact; }
-  
-  .about .section-card, .contact .section-card {
-    height: 100%;
-    min-height: 250px;
-    justify-content: center; /* Dikey ortalama */
-  }
 }
 
-/* Cards */
+/* -------------------------------------------------------------------------- */
+/* Component: Section Card (Glassmorphism)                                   */
+/* -------------------------------------------------------------------------- */
+
 .section-card {
-  background: rgba(10, 10, 10, 0.5);
+  background: rgba(10, 10, 10, 0.6);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: var(--radius-lg);
-  padding: var(--space-12);
-  width: 100%;
-  text-align: center;
+  padding: 48px;
+  
+  /* Layout Internals - CRITICAL FOR SPACING */
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  
+  /* Creates space between H2 and Content (Email/P) */
+  gap: 32px; 
+  
+  height: 100%;
+  text-align: center;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.section-card:hover {
+  border-color: var(--accent-4);
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.6);
+  transform: translateY(-2px);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Typography & Elements                                                     */
+/* -------------------------------------------------------------------------- */
+
+h2 {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--fg-primary);
+  margin: 0; /* Gap handles the spacing now */
+  letter-spacing: -0.02em;
+}
+
+p {
+  color: var(--accent-5);
+  font-size: 16px;
+  max-width: 420px;
+  line-height: 1.6;
+}
+
+/* Hero Specifics */
+.avatar-container {
+  width: 120px;
+  height: 120px;
+  /* Extra margin for visual balance in Hero */
+  margin-bottom: 8px; 
+}
+
+.avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--accent-2);
+}
+
+.neon-text {
+  font-size: 40px;
+  font-weight: 800;
+  background: linear-gradient(180deg, #fff, #888);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 8px;
+  letter-spacing: -0.03em;
+}
+
+.subtitle {
+  font-size: 16px;
+  color: var(--accent-5);
+}
+
+.small-neon {
+  font-size: 24px;
+  font-weight: 600;
+  color: #fff;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Social Links                                                              */
+/* -------------------------------------------------------------------------- */
+
+.social-section {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-top: 16px;
+}
+
+.social-links {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+}
+
+.social-links a {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.2s ease;
 }
 
-.section-card:hover {
-  border-color: var(--accents-4);
-  box-shadow: 0 0 40px rgba(0, 0, 0, 0.6);
-  transform: translateY(-2px);
+.social-links .icon {
+  width: 20px;
+  height: 20px;
+  fill: var(--accent-5);
+  transition: fill 0.2s ease;
 }
 
-/* Typography & Spacing Fixes */
-h2 {
-  font-size: 32px;
-  font-weight: 700;
-  color: var(--fg);
-  margin-bottom: 24px; /* GAP yerine garanti MARGIN */
-  line-height: 1.1;
+.social-links a:hover {
+  border-color: var(--brand-blue);
+  background: rgba(0, 112, 243, 0.1);
 }
 
-p {
-  color: var(--accents-5);
-  font-size: 16px;
-  max-width: 400px;
+.social-links a:hover .icon {
+  fill: var(--brand-blue);
 }
 
-/* Hero Elements */
-.avatar-container {
-  width: 120px; height: 120px;
-  margin-bottom: 24px; /* Margin eklendi */
-}
-.avatar {
-  width: 100%; height: 100%; border-radius: 50%; object-fit: cover;
-  border: 2px solid var(--accents-2);
-}
-.neon-text {
-  font-size: 40px; font-weight: 800;
-  background: linear-gradient(180deg, #fff, #999);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  margin-bottom: 8px;
-}
-.subtitle { font-size: 16px; color: var(--accents-5); margin-bottom: 0; }
-.small-neon { font-size: 24px; font-weight: 600; color: #fff; margin-bottom: 24px; } /* Margin eklendi */
+/* -------------------------------------------------------------------------- */
+/* Interactive Email Component                                               */
+/* -------------------------------------------------------------------------- */
 
-.social-section { margin-top: 32px; } /* Hero içi boşluk */
-
-.social-links { display: flex; justify-content: center; gap: 24px; }
-.social-links a {
-  width: 44px; height: 44px; border-radius: 50%;
-  background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
-  display: flex; align-items: center; justify-content: center;
-  transition: all 0.2s;
-}
-.social-links .icon { width: 20px; height: 20px; fill: var(--accents-5); }
-.social-links a:hover { border-color: var(--geist-blue); background: rgba(0,112,243,0.1); }
-.social-links a:hover .icon { fill: var(--geist-blue); }
-
-/* Email Button Fix */
 .copy-email-wrapper {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 12px;
-  padding: 12px 24px;
+  padding: 0 24px;
+  height: 48px;
   background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--accents-2);
+  border: 1px solid var(--accent-2);
   border-radius: var(--radius-full);
   cursor: pointer;
   transition: all 0.2s ease;
   user-select: none;
-  min-width: 240px;
-  height: 48px; /* Yükseklik sabitlendi, patlamasın diye */
+  min-width: 260px;
 }
 
 .copy-email-wrapper:hover {
   background: rgba(255, 255, 255, 0.05);
-  border-color: var(--accents-4);
+  border-color: var(--accent-4);
 }
-.copy-email-wrapper:active { transform: scale(0.98); }
+
+.copy-email-wrapper:active {
+  transform: scale(0.98);
+}
 
 .copy-email-text {
   font-family: 'Inter', sans-serif;
   font-size: 14px;
   font-weight: 500;
-  color: var(--accents-6);
+  color: var(--accent-6);
 }
 
-.copy-icon-box { display: flex; align-items: center; }
-
-/* Copied State */
+/* Success State (Copied) */
 .copy-email-wrapper.copied {
-  border-color: var(--geist-success);
+  border-color: var(--brand-success);
   background: rgba(0, 112, 243, 0.1);
 }
-.copy-email-wrapper.copied .copy-email-text { color: #fff; }
-.copy-email-wrapper.copied svg { stroke: var(--geist-success); }
+
+.copy-email-wrapper.copied .copy-email-text {
+  color: #fff;
+}
+
+.copy-email-wrapper.copied svg {
+  stroke: var(--brand-success);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Footer                                                                    */
+/* -------------------------------------------------------------------------- */
 
 footer {
-  padding: 24px 0; border-top: 1px solid var(--accents-2);
-  background: rgba(0,0,0,0.8); backdrop-filter: blur(10px);
-  display: flex; justify-content: center; margin-top: auto;
+  padding: 32px 0;
+  border-top: 1px solid var(--accent-2);
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: center;
+  margin-top: auto;
 }
-.footer-content { text-align: center; color: var(--accents-4); font-size: 14px; }
-footer a { color: var(--accents-5); text-decoration: none; }
-footer a:hover { color: #fff; }
+
+.footer-content p {
+  font-size: 14px;
+  color: var(--accent-4);
+}
+
+footer a {
+  color: var(--accent-5);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+footer a:hover {
+  color: var(--fg-primary);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Responsive Adjustments                                                    */
+/* -------------------------------------------------------------------------- */
 
 @media (max-width: 768px) {
   .neon-text { font-size: 32px; }
-  .section-card { padding: 24px; }
+  .section-card { padding: 32px 24px; gap: 24px; }
+  .main-content { padding-top: 32px; }
 }
