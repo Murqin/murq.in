@@ -1,32 +1,19 @@
 /* ==================================================
-   Geist Design System - Dark Mode (Blue Accent)
+   Geist Design System - Dark Mode
    ================================================== */
 :root {
-  /* Core Colors */
   --bg: #000000;
   --bg-2: #111111;
   --fg: #ffffff;
-
-  /* Accents */
   --accents-1: #111;
   --accents-2: #333;
-  --accents-3: #444;
   --accents-4: #666;
   --accents-5: #888;
   --accents-6: #999;
-  --accents-7: #eaeaea;
-
-  /* Brand Colors */
   --geist-blue: #0070f3;
-  --geist-success: #0070f3; /* Mavi Success */
-
-  /* Layout */
-  --page-width: 1000px;
+  --geist-success: #0070f3;
   --radius-lg: 12px;
   --radius-full: 9999px;
-
-  /* Spacing */
-  --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
   --space-4: 16px;
@@ -34,16 +21,6 @@
   --space-8: 32px;
   --space-12: 48px;
   --space-16: 64px;
-
-  /* Typography */
-  --font-size-14: 14px;
-  --font-size-16: 16px;
-  --font-size-24: 24px;
-  --font-size-32: 32px;
-  --font-size-40: 40px;
-
-  --line-height-normal: 1.5;
-  --transition-fast: 150ms;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -58,21 +35,17 @@ body {
   background-size: 100% 100%, 40px 40px, 40px 40px;
   background-attachment: fixed;
   color: var(--fg);
-  line-height: var(--line-height-normal);
+  line-height: 1.5;
 }
 
-/* ==================================================
-   Main Layout & Bento Grid
-   ================================================== */
+/* Layout */
 .main-content {
   padding-top: var(--space-16);
   padding-bottom: var(--space-12);
   min-height: 100vh;
   width: 100%;
-  max-width: var(--page-width);
+  max-width: 1000px;
   margin: 0 auto;
-  
-  /* Mobile Default */
   display: flex;
   flex-direction: column;
   gap: var(--space-6);
@@ -80,12 +53,10 @@ body {
   padding-right: var(--space-6);
 }
 
-/* Desktop Grid */
 @media (min-width: 769px) {
   .main-content {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto 1fr;
     grid-template-areas: "hero hero" "about contact";
     align-items: start;
     justify-content: center;
@@ -93,7 +64,7 @@ body {
   #home { grid-area: hero; }
   #about { grid-area: about; }
   #contact { grid-area: contact; }
-
+  
   .about .section-card, .contact .section-card {
     height: 100%;
     min-height: 250px;
@@ -101,26 +72,21 @@ body {
   }
 }
 
-/* ==================================================
-   Card System (Fixed Alignment & Gap)
-   ================================================== */
+/* Cards */
 .section-card {
   background: rgba(10, 10, 10, 0.5);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: var(--radius-lg);
-  padding: var(--space-12); /* İç boşluk */
+  padding: var(--space-12);
   width: 100%;
   text-align: center;
-  
-  /* FLEXBOX MAGIC: Hizalama ve Boşluk Garantisi */
   display: flex;
   flex-direction: column;
-  align-items: center; /* Yatayda tam orta */
-  gap: var(--space-8); /* Başlık ve İçerik arası NET boşluk (32px) */
-  
-  transition: all var(--transition-fast) ease;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
 }
 
 .section-card:hover {
@@ -129,90 +95,85 @@ body {
   transform: translateY(-2px);
 }
 
-/* ==================================================
-   Typography
-   ================================================== */
+/* Typography & Spacing Fixes */
 h2 {
-  font-size: var(--font-size-32);
+  font-size: 32px;
   font-weight: 700;
   color: var(--fg);
-  margin: 0; /* Margin'i sıfırladık, GAP kullanıyoruz */
+  margin-bottom: 24px; /* GAP yerine garanti MARGIN */
   line-height: 1.1;
 }
 
 p {
   color: var(--accents-5);
-  font-size: var(--font-size-16);
-  max-width: 400px; /* Okunabilirliği artırır */
+  font-size: 16px;
+  max-width: 400px;
 }
 
 /* Hero Elements */
 .avatar-container {
-  width: 120px;
-  height: 120px;
-  margin-bottom: var(--space-4); /* Avatar altı boşluk */
+  width: 120px; height: 120px;
+  margin-bottom: 24px; /* Margin eklendi */
 }
 .avatar {
   width: 100%; height: 100%; border-radius: 50%; object-fit: cover;
   border: 2px solid var(--accents-2);
 }
 .neon-text {
-  font-size: var(--font-size-40); font-weight: 800;
+  font-size: 40px; font-weight: 800;
   background: linear-gradient(180deg, #fff, #999);
   -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  margin-bottom: var(--space-2);
+  margin-bottom: 8px;
 }
-.subtitle { font-size: var(--font-size-16); color: var(--accents-5); }
-.small-neon { font-size: var(--font-size-24); font-weight: 600; color: #fff; margin: 0;}
+.subtitle { font-size: 16px; color: var(--accents-5); margin-bottom: 0; }
+.small-neon { font-size: 24px; font-weight: 600; color: #fff; margin-bottom: 24px; } /* Margin eklendi */
 
-/* Social Links */
-.social-links { display: flex; gap: var(--space-6); margin-top: var(--space-2); }
+.social-section { margin-top: 32px; } /* Hero içi boşluk */
+
+.social-links { display: flex; justify-content: center; gap: 24px; }
 .social-links a {
   width: 44px; height: 44px; border-radius: 50%;
   background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
   display: flex; align-items: center; justify-content: center;
-  transition: all var(--transition-fast);
+  transition: all 0.2s;
 }
 .social-links .icon { width: 20px; height: 20px; fill: var(--accents-5); }
 .social-links a:hover { border-color: var(--geist-blue); background: rgba(0,112,243,0.1); }
 .social-links a:hover .icon { fill: var(--geist-blue); }
 
-/* ==================================================
-   New Interaction: Email Button
-   ================================================== */
+/* Email Button Fix */
 .copy-email-wrapper {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-3);
-  padding: var(--space-3) var(--space-6);
+  gap: 12px;
+  padding: 12px 24px;
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid var(--accents-2);
   border-radius: var(--radius-full);
   cursor: pointer;
-  transition: all var(--transition-fast) ease;
+  transition: all 0.2s ease;
   user-select: none;
-  min-width: 240px; /* Sabit genişlik: Yazı değişince titremesin */
+  min-width: 240px;
+  height: 48px; /* Yükseklik sabitlendi, patlamasın diye */
 }
 
 .copy-email-wrapper:hover {
   background: rgba(255, 255, 255, 0.05);
   border-color: var(--accents-4);
 }
-
 .copy-email-wrapper:active { transform: scale(0.98); }
 
 .copy-email-text {
-  font-family: 'Inter', sans-serif; /* Mono yerine Inter daha temiz durur */
-  font-size: var(--font-size-14);
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
   font-weight: 500;
   color: var(--accents-6);
-  transition: color 0.2s;
 }
 
 .copy-icon-box { display: flex; align-items: center; }
 
-/* Copied State Styling */
+/* Copied State */
 .copy-email-wrapper.copied {
   border-color: var(--geist-success);
   background: rgba(0, 112, 243, 0.1);
@@ -220,9 +181,8 @@ p {
 .copy-email-wrapper.copied .copy-email-text { color: #fff; }
 .copy-email-wrapper.copied svg { stroke: var(--geist-success); }
 
-/* Footer */
 footer {
-  padding: var(--space-6) 0; border-top: 1px solid var(--accents-2);
+  padding: 24px 0; border-top: 1px solid var(--accents-2);
   background: rgba(0,0,0,0.8); backdrop-filter: blur(10px);
   display: flex; justify-content: center; margin-top: auto;
 }
@@ -232,5 +192,5 @@ footer a:hover { color: #fff; }
 
 @media (max-width: 768px) {
   .neon-text { font-size: 32px; }
-  .section-card { padding: var(--space-6); gap: var(--space-6); }
+  .section-card { padding: 24px; }
 }
