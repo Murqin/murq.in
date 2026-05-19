@@ -1,306 +1,199 @@
-/* -------------------------------------------------------------------------- */
-/* Icarus Murqin - Personal Vibe Site                                        */
-/* Theme: Geist Design System (Dark Mode)                                    */
-/* -------------------------------------------------------------------------- */
-
 :root {
-  /* Core Palette */
-  --bg-primary: #000000;
-  --bg-secondary: #111111;
-  --fg-primary: #ffffff;
-  
-  /* Accents */
-  --accent-1: #111;
-  --accent-2: #333;
-  --accent-4: #666;
-  --accent-5: #888;
-  --accent-6: #999;
-  
-  /* Brand Colors */
-  --brand-blue: #0070f3;
-  --brand-success: #0070f3;
-  
-  /* Dimensions & Spacing */
-  --radius-lg: 12px;
-  --radius-full: 9999px;
-  --max-width: 1000px;
+    --bg: #0B0E1A;
+    --card: rgba(20, 24, 48, 0.65);
+    --text: #E8E9F3;
+    --text-dim: #A4A9D6;
+    --accent: #8B7EFF;
+    --accent-2: #5A7FFF;
+    --border: rgba(139, 126, 255, 0.15);
 }
 
-/* -------------------------------------------------------------------------- */
-/* Reset & Global Styles                                                     */
-/* -------------------------------------------------------------------------- */
-
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  background-color: var(--bg-primary);
-  /* Cyber Grid Background Pattern */
-  background-image:
-    radial-gradient(circle at 50% 0%, rgba(0, 112, 243, 0.15) 0%, transparent 60%),
-    linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-  background-size: 100% 100%, 40px 40px, 40px 40px;
-  background-attachment: fixed;
-  color: var(--fg-primary);
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    min-height: 100vh;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    background-image: 
+        radial-gradient(at 15% 15%, #1A2040 0px, transparent 50%),
+        radial-gradient(at 85% 85%, #2A1A40 0px, transparent 50%),
+        radial-gradient(circle at 50% 0%, rgba(139, 126, 255, 0.08) 0px, transparent 40%);
 }
 
-/* -------------------------------------------------------------------------- */
-/* Layout Structure (Bento Grid)                                             */
-/* -------------------------------------------------------------------------- */
-
-.main-content {
-  padding: 64px 24px 48px 24px;
-  min-height: 100vh;
-  width: 100%;
-  max-width: var(--max-width);
-  margin: 0 auto;
-  
-  /* Mobile First: Stack Vertically */
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+.container {
+    max-width: 720px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
 }
 
-/* Desktop View: Grid System */
-@media (min-width: 769px) {
-  .main-content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto 1fr; /* Hero takes auto height, others fill */
-    grid-template-areas: 
-      "hero hero" 
-      "about contact";
-    align-items: stretch;
-    gap: 24px;
-  }
-  
-  #home { grid-area: hero; }
-  #about { grid-area: about; }
-  #contact { grid-area: contact; }
+.card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 32px;
+    backdrop-filter: blur(20px);
+    animation: fadeIn 0.8s ease-out;
+    transition: transform 0.3s ease, border 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* -------------------------------------------------------------------------- */
-/* Component: Section Card (Glassmorphism)                                   */
-/* -------------------------------------------------------------------------- */
-
-.section-card {
-  background: rgba(10, 10, 10, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: var(--radius-lg);
-  padding: 48px;
-  
-  /* Layout Internals - CRITICAL FOR SPACING */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  
-  /* Creates space between H2 and Content (Email/P) */
-  gap: 32px; 
-  
-  height: 100%;
-  text-align: center;
-  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+.card:hover {
+    transform: translateY(-2px);
+    border: 1px solid rgba(139, 126, 255, 0.3);
+    box-shadow: 0 8px 32px rgba(139, 126, 255, 0.1);
 }
 
-.section-card:hover {
-  border-color: var(--accent-4);
-  box-shadow: 0 0 40px rgba(0, 0, 0, 0.6);
-  transform: translateY(-2px);
+.hero {
+    position: relative;
 }
 
-/* -------------------------------------------------------------------------- */
-/* Typography & Elements                                                     */
-/* -------------------------------------------------------------------------- */
-
-h2 {
-  font-size: 32px;
-  font-weight: 700;
-  color: var(--fg-primary);
-  margin: 0; /* Gap handles the spacing now */
-  letter-spacing: -0.02em;
-}
-
-p {
-  color: var(--accent-5);
-  font-size: 16px;
-  max-width: 420px;
-  line-height: 1.6;
-}
-
-/* Hero Specifics */
-.avatar-container {
-  width: 120px;
-  height: 120px;
-  /* Extra margin for visual balance in Hero */
-  margin-bottom: 8px; 
+.hero::before {
+    content: '★';
+    position: absolute;
+    top: 20px;
+    right: 24px;
+    color: var(--accent);
+    font-size: 20px;
+    opacity: 0.6;
+    animation: twinkle 3s ease-in-out infinite;
 }
 
 .avatar {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid var(--accent-2);
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin: 0 auto 24px auto;
+    display: block;
+    box-shadow: 0 0 40px rgba(139, 126, 255, 0.25);
+    border: 2px solid var(--border);
 }
 
-.neon-text {
-  font-size: 40px;
-  font-weight: 800;
-  background: linear-gradient(180deg, #fff, #888);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  margin-bottom: 8px;
-  letter-spacing: -0.03em;
+h1 {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    font-size: 24px;
+    letter-spacing: -0.5px;
+    margin-bottom: 8px;
 }
 
-.subtitle {
-  font-size: 16px;
-  color: var(--accent-5);
+.tagline {
+    color: var(--text-dim);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    margin-bottom: 32px;
 }
 
-.small-neon {
-  font-size: 24px;
-  font-weight: 600;
-  color: #fff;
+.section-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+    opacity: 0.9;
 }
 
-/* -------------------------------------------------------------------------- */
-/* Social Links                                                              */
-/* -------------------------------------------------------------------------- */
-
-.social-section {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  margin-top: 16px;
+.socials {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
-.social-links {
-  display: flex;
-  justify-content: center;
-  gap: 24px;
+.social-icon {
+    color: var(--text-dim);
+    text-decoration: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    transition: all 0.2s ease;
 }
 
-.social-links a {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
+.social-icon:hover {
+    color: var(--accent-2);
+    text-shadow: 0 0 12px rgba(90, 127, 255, 0.5);
 }
 
-.social-links .icon {
-  width: 20px;
-  height: 20px;
-  fill: var(--accent-5);
-  transition: fill 0.2s ease;
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
 }
 
-.social-links a:hover {
-  border-color: var(--brand-blue);
-  background: rgba(0, 112, 243, 0.1);
+p {
+    color: var(--text-dim);
+    font-size: 15px;
+    max-width: 45ch;
+    margin: 0 auto;
 }
 
-.social-links a:hover .icon {
-  fill: var(--brand-blue);
+.mail-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 12px 20px;
+    border-radius: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 100%;
 }
 
-/* -------------------------------------------------------------------------- */
-/* Interactive Email Component                                               */
-/* -------------------------------------------------------------------------- */
-
-.copy-email-wrapper {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  padding: 0 24px;
-  height: 48px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--accent-2);
-  border-radius: var(--radius-full);
-  cursor: pointer;
-  transition: all 0.2s ease;
-  user-select: none;
-  min-width: 260px;
+.mail-btn:hover {
+    border-color: var(--accent);
+    background: rgba(139, 126, 255, 0.08);
+    box-shadow: 0 0 20px rgba(139, 126, 255, 0.15);
 }
 
-.copy-email-wrapper:hover {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: var(--accent-4);
+.source-link {
+    display: inline-block;
+    margin-top: 12px;
+    color: var(--accent);
+    text-decoration: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    transition: all 0.2s ease;
 }
 
-.copy-email-wrapper:active {
-  transform: scale(0.98);
+.source-link:hover {
+    color: var(--accent-2);
+    text-shadow: 0 0 12px rgba(90, 127, 255, 0.5);
 }
-
-.copy-email-text {
-  font-family: 'Inter', sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--accent-6);
-}
-
-/* Success State (Copied) */
-.copy-email-wrapper.copied {
-  border-color: var(--brand-success);
-  background: rgba(0, 112, 243, 0.1);
-}
-
-.copy-email-wrapper.copied .copy-email-text {
-  color: #fff;
-}
-
-.copy-email-wrapper.copied svg {
-  stroke: var(--brand-success);
-}
-
-/* -------------------------------------------------------------------------- */
-/* Footer                                                                    */
-/* -------------------------------------------------------------------------- */
 
 footer {
-  padding: 32px 0;
-  border-top: 1px solid var(--accent-2);
-  background: rgba(0, 0, 0, 0.8);
-  display: flex;
-  justify-content: center;
-  margin-top: auto;
+    margin-top: 24px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--text-dim);
+    opacity: 0.5;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
 }
 
-.footer-content p {
-  font-size: 14px;
-  color: var(--accent-4);
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-footer a {
-  color: var(--accent-5);
-  text-decoration: none;
-  transition: color 0.2s ease;
+@keyframes twinkle {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.2); }
 }
 
-footer a:hover {
-  color: var(--fg-primary);
-}
-
-/* -------------------------------------------------------------------------- */
-/* Responsive Adjustments                                                    */
-/* -------------------------------------------------------------------------- */
-
-@media (max-width: 768px) {
-  .neon-text { font-size: 32px; }
-  .section-card { padding: 32px 24px; gap: 24px; }
-  .main-content { padding-top: 32px; }
+@media (max-width: 700px) {
+    .grid { grid-template-columns: 1fr; }
+    body { padding: 20px 16px; }
 }
