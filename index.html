@@ -22,7 +22,7 @@
 <body>
     <main class="container">
         <section class="card hero">
-            <span class="seed-star" aria-hidden="true">★</span>
+            <span class="seed-star" aria-hidden="true" onclick="copySeed()">★</span>
             <img src="./assets/avatar.png" alt="Icarus Murqin" class="avatar">
             <h1>Icarus Murqin</h1>
             <p class="tagline">I'm just randomly surfing the web.</p>
@@ -101,10 +101,21 @@
             ].join(', ');
 
             // Stamp seed on the star — visible only on hover
-            document.querySelector('.seed-star').dataset.seed = seed.toString(16);
+            const star = document.querySelector('.seed-star');
+            star.dataset.seed = seed.toString(16);
+            star.dataset.hex = seed.toString(16);
         }
 
         applyGradient(resolveSeed());
+
+        // --- Copy seed link ---
+        function copySeed() {
+            const star = document.querySelector('.seed-star');
+            const hex = star.dataset.hex;
+            navigator.clipboard.writeText(window.location.origin + '/' + hex);
+            star.dataset.seed = 'seed copied!';
+            setTimeout(() => { star.dataset.seed = hex; }, 1800);
+        }
 
         // --- Copy mail ---
         function copyMail() {

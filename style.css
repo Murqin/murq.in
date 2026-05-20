@@ -65,7 +65,7 @@ body {
     font-size: 20px;
     opacity: 0.6;
     animation: twinkle 3s ease-in-out infinite;
-    cursor: default;
+    cursor: pointer;
     user-select: none;
 }
 
