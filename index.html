@@ -72,14 +72,12 @@
             };
         }
 
-        // --- Resolve seed: hash (set by 404.html) → random ---
+        // --- Resolve seed: /[hex] path → random ---
         function resolveSeed() {
-            const hash = window.location.hash.slice(1);
-            const fromPath = parseInt(hash, 16);
-            if (!isNaN(fromPath) && fromPath > 0) {
-                // Clean the hash without triggering a scroll or leaving a trace
-                history.replaceState(null, '', window.location.pathname);
-                return fromPath;
+            const segment = window.location.pathname.slice(1);
+            const seed = parseInt(segment, 16);
+            if (!isNaN(seed) && seed > 0 && /^[0-9a-f]+$/i.test(segment)) {
+                return seed;
             }
             return Math.floor(Math.random() * 0xFFFFFF) + 1;
         }
