@@ -26,10 +26,7 @@ body {
     align-items: center;
     justify-content: center;
     padding: 40px 20px;
-    background-image: 
-        radial-gradient(at 15% 15%, #1A2040 0px, transparent 50%),
-        radial-gradient(at 85% 85%, #2A1A40 0px, transparent 50%),
-        radial-gradient(circle at 50% 0%, rgba(139, 126, 255, 0.08) 0px, transparent 40%);
+    transition: background-image 0.6s ease;
 }
 
 .container {
@@ -158,7 +155,7 @@ p {
 }
 
 .source-link {
-    display: inline-block;
+    display: block;
     margin-top: 12px;
     color: var(--accent);
     text-decoration: none;
@@ -172,6 +169,21 @@ p {
     text-shadow: 0 0 12px rgba(90, 127, 255, 0.5);
 }
 
+.source-licenses-link {
+    display: block;
+    margin-top: 12px;
+    color: var(--accent);
+    text-decoration: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.source-licenses-link:hover {
+    color: var(--accent-2);
+    text-shadow: 0 0 12px rgba(90, 127, 255, 0.5);
+}
+
 footer {
     margin-top: 24px;
     font-family: 'JetBrains Mono', monospace;
@@ -180,11 +192,6 @@ footer {
     display: flex;
     flex-direction: column;
     gap: 4px;
-}
-
-.footer-legal {
-    font-size: 10px;
-    opacity: 0.5;
 }
 
 footer a {
