@@ -22,5 +22,5 @@
 - **Copyright**: © Aka Akasaka x Mengo Yokoyari / Shueisha, Doga Kobo
 - **Source**: Screenshot from anime episode
 - **Usage**: Personal avatar for non-commercial website
-- **Disclaimer**: This is fan content. No copyright infringement intended. 
+- **Disclaimer**: This is a non-profit, personal project. Intellectual property of the avatar belongs to the creators and publishers of the original series.
   Not covered by this repository's MIT License.
