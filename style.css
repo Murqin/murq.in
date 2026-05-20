@@ -57,8 +57,7 @@ body {
     position: relative;
 }
 
-.hero::before {
-    content: '★';
+.seed-star {
     position: absolute;
     top: 20px;
     right: 24px;
@@ -66,6 +65,35 @@ body {
     font-size: 20px;
     opacity: 0.6;
     animation: twinkle 3s ease-in-out infinite;
+    cursor: default;
+    user-select: none;
+}
+
+.seed-star::after {
+    content: attr(data-seed);
+    position: absolute;
+    top: calc(100% + 6px);
+    right: 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 10px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+    backdrop-filter: blur(12px);
+}
+
+.seed-star:hover {
+    opacity: 1;
+}
+
+.seed-star:hover::after {
+    opacity: 1;
 }
 
 .avatar {

@@ -22,6 +22,7 @@
 <body>
     <main class="container">
         <section class="card hero">
+            <span class="seed-star" aria-hidden="true">★</span>
             <img src="./assets/avatar.png" alt="Icarus Murqin" class="avatar">
             <h1>Icarus Murqin</h1>
             <p class="tagline">I'm just randomly surfing the web.</p>
@@ -71,9 +72,20 @@
             };
         }
 
-        // --- Apply gradient from random seed ---
-        function applyGradient() {
-            const seed = Math.floor(Math.random() * 0xFFFFFF) + 1;
+        // --- Resolve seed: hash (set by 404.html) → random ---
+        function resolveSeed() {
+            const hash = window.location.hash.slice(1);
+            const fromPath = parseInt(hash, 16);
+            if (!isNaN(fromPath) && fromPath > 0) {
+                // Clean the hash without triggering a scroll or leaving a trace
+                history.replaceState(null, '', window.location.pathname);
+                return fromPath;
+            }
+            return Math.floor(Math.random() * 0xFFFFFF) + 1;
+        }
+
+        // --- Apply gradient and stamp seed on the star ---
+        function applyGradient(seed) {
             const rand = mulberry32(seed);
 
             const x1 = Math.floor(rand() * 30) + 5;
@@ -89,9 +101,12 @@
                 `radial-gradient(at ${x2}% ${y2}%, hsl(${hue2}, 38%, 16%) 0px, transparent 50%)`,
                 `radial-gradient(circle at ${x3}% 0%, rgba(139, 126, 255, 0.08) 0px, transparent 40%)`
             ].join(', ');
+
+            // Stamp seed on the star — visible only on hover
+            document.querySelector('.seed-star').dataset.seed = seed.toString(16);
         }
 
-        applyGradient();
+        applyGradient(resolveSeed());
 
         // --- Copy mail ---
         function copyMail() {
