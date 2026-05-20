@@ -177,10 +177,26 @@ footer {
     font-family: 'JetBrains Mono', monospace;
     font-size: 12px;
     color: var(--text-dim);
-    opacity: 0.5;
     display: flex;
     flex-direction: column;
     gap: 4px;
+}
+
+.footer-legal {
+    font-size: 10px;
+    opacity: 0.5;
+}
+
+footer a {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px solid currentColor;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+}
+
+footer a:hover {
+    opacity: 1;
 }
 
 @keyframes fadeIn {
