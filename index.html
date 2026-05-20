@@ -71,45 +71,27 @@
             };
         }
 
-        // --- Seed: from URL hash if present, otherwise random ---
-        function getSeed() {
-            const hash = window.location.hash.slice(1);
-            const parsed = parseInt(hash, 16);
-            if (!isNaN(parsed) && parsed > 0) return parsed;
-            return Math.floor(Math.random() * 0xFFFFFF) + 1;
-        }
-
-        // --- Apply gradient from seed ---
-        function applyGradient(seed) {
+        // --- Apply gradient from random seed ---
+        function applyGradient() {
+            const seed = Math.floor(Math.random() * 0xFFFFFF) + 1;
             const rand = mulberry32(seed);
 
-            // Blob 1: top-left quadrant
-            const x1 = Math.floor(rand() * 30) + 5;    // 5–35%
-            const y1 = Math.floor(rand() * 30) + 5;    // 5–35%
-
-            // Blob 2: bottom-right quadrant
-            const x2 = Math.floor(rand() * 30) + 65;   // 65–95%
-            const y2 = Math.floor(rand() * 30) + 65;   // 65–95%
-
-            // Accent blob: top center, variable x
-            const x3 = Math.floor(rand() * 60) + 20;   // 20–80%
-
-            // Hues: keep in blue/purple/violet range (200–310)
-            const hue1 = Math.floor(rand() * 60) + 210; // 210–270
-            const hue2 = Math.floor(rand() * 60) + 260; // 260–320
+            const x1 = Math.floor(rand() * 30) + 5;
+            const y1 = Math.floor(rand() * 30) + 5;
+            const x2 = Math.floor(rand() * 30) + 65;
+            const y2 = Math.floor(rand() * 30) + 65;
+            const x3 = Math.floor(rand() * 60) + 20;
+            const hue1 = Math.floor(rand() * 60) + 210;
+            const hue2 = Math.floor(rand() * 60) + 260;
 
             document.body.style.backgroundImage = [
                 `radial-gradient(at ${x1}% ${y1}%, hsl(${hue1}, 38%, 16%) 0px, transparent 50%)`,
                 `radial-gradient(at ${x2}% ${y2}%, hsl(${hue2}, 38%, 16%) 0px, transparent 50%)`,
                 `radial-gradient(circle at ${x3}% 0%, rgba(139, 126, 255, 0.08) 0px, transparent 40%)`
             ].join(', ');
-
-            // Write seed to URL hash so it can be shared/refreshed
-            history.replaceState(null, '', '#' + seed.toString(16));
         }
 
-        const seed = getSeed();
-        applyGradient(seed);
+        applyGradient();
 
         // --- Copy mail ---
         function copyMail() {
