@@ -60,6 +60,58 @@
     </main>
 
     <script>
+        // --- Seeded PRNG (Mulberry32) ---
+        function mulberry32(seed) {
+            return function () {
+                seed |= 0;
+                seed = (seed + 0x6D2B79F5) | 0;
+                let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+                t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+                return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+            };
+        }
+
+        // --- Seed: from URL hash if present, otherwise random ---
+        function getSeed() {
+            const hash = window.location.hash.slice(1);
+            const parsed = parseInt(hash, 16);
+            if (!isNaN(parsed) && parsed > 0) return parsed;
+            return Math.floor(Math.random() * 0xFFFFFF) + 1;
+        }
+
+        // --- Apply gradient from seed ---
+        function applyGradient(seed) {
+            const rand = mulberry32(seed);
+
+            // Blob 1: top-left quadrant
+            const x1 = Math.floor(rand() * 30) + 5;    // 5–35%
+            const y1 = Math.floor(rand() * 30) + 5;    // 5–35%
+
+            // Blob 2: bottom-right quadrant
+            const x2 = Math.floor(rand() * 30) + 65;   // 65–95%
+            const y2 = Math.floor(rand() * 30) + 65;   // 65–95%
+
+            // Accent blob: top center, variable x
+            const x3 = Math.floor(rand() * 60) + 20;   // 20–80%
+
+            // Hues: keep in blue/purple/violet range (200–310)
+            const hue1 = Math.floor(rand() * 60) + 210; // 210–270
+            const hue2 = Math.floor(rand() * 60) + 260; // 260–320
+
+            document.body.style.backgroundImage = [
+                `radial-gradient(at ${x1}% ${y1}%, hsl(${hue1}, 38%, 16%) 0px, transparent 50%)`,
+                `radial-gradient(at ${x2}% ${y2}%, hsl(${hue2}, 38%, 16%) 0px, transparent 50%)`,
+                `radial-gradient(circle at ${x3}% 0%, rgba(139, 126, 255, 0.08) 0px, transparent 40%)`
+            ].join(', ');
+
+            // Write seed to URL hash so it can be shared/refreshed
+            history.replaceState(null, '', '#' + seed.toString(16));
+        }
+
+        const seed = getSeed();
+        applyGradient(seed);
+
+        // --- Copy mail ---
         function copyMail() {
             navigator.clipboard.writeText('murqin@proton.me');
             const btn = document.querySelector('.mail-btn');
