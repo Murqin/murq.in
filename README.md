@@ -2,7 +2,7 @@
 
 # murq.in
 
-> Icarus Murqin's personal minimalist space. Randomly surfing the web.
+**Icarus Murqin's personal minimalist space. Randomly surfing the web.**
 
 [![Live Site](https://img.shields.io/badge/Live-murq.in-%238B7EFF?style=for-the-badge)](https://murq.in)
 [![License](https://img.shields.io/badge/License-MIT-%235A7FFF?style=for-the-badge)](./LICENSE)
