@@ -5,24 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Icarus Murqin</title>
     <meta name="description" content="Icarus Murqin's personal site">
-    
-    <!-- 
-    Favicon: "Wing" icon by Kim Sun Young from Noun Project
-    License: CC BY 3.0 https://creativecommons.org/licenses/by/3.0/
-    Source: https://thenounproject.com/browse/icons/term/wing/
-    Modifications: Text/watermark removed, traced to SVG, recolored to #8B7EFF, cropped
-    -->
     <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
-    
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div id="stars" aria-hidden="true"></div>
+
     <main class="container">
         <section class="card hero">
-            <span class="seed-star" aria-hidden="true" onclick="copySeed()">★</span>
+            <span class="seed-star" aria-hidden="true" onclick="copySeed()">✦</span>
             <img src="./assets/avatar.png" alt="Icarus Murqin" class="avatar">
             <h1>Icarus Murqin</h1>
             <p class="tagline">I'm just randomly surfing the web.</p>
@@ -41,7 +35,6 @@
                 <div class="section-title">About Me</div>
                 <p>I'm into tech; I spend most of my time listening to music, playing video games, and watching YouTube.</p>
             </section>
-
             <section class="card">
                 <div class="section-title">Contact Me</div>
                 <button class="mail-btn" onclick="copyMail()">murqin@proton.me</button>
@@ -50,80 +43,18 @@
 
         <section class="card">
             <div class="section-title">Source Code</div>
-            <p>Code is MIT licensed. Third-party assets are © their respective owners.</p>
-	    <a href="https://github.com/murqin/murq.in/blob/main/LICENSES.md" class="source-licenses-link" target="_blank">third-party notices</a>
-            <a href="https://github.com/murqin/murq.in" class="source-link" target="_blank">view on github →</a>
+            <p>Code is MIT licensed. Third-party assets are their respective owners.</p>
+            <a href="https://github.com/murqin/murq.in/blob/main/LICENSES.md" class="source-licenses-link" target="_blank">third-party notices</a>
+            <a href="https://github.com/murqin/murq.in" class="source-link" target="_blank">view on github</a>
         </section>
 
         <footer>
-            <p>© 2026 Icarus Murqin</p>
+            <div class="footer-box">
+                © 2026 Icarus Murqin
+            </div>
         </footer>
     </main>
 
-    <script>
-        // --- Seeded PRNG (Mulberry32) ---
-        function mulberry32(seed) {
-            return function () {
-                seed |= 0;
-                seed = (seed + 0x6D2B79F5) | 0;
-                let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
-                t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-                return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-            };
-        }
-
-        // --- Resolve seed: /[hex] path → random ---
-        function resolveSeed() {
-            const segment = window.location.pathname.slice(1);
-            const seed = parseInt(segment, 16);
-            if (!isNaN(seed) && seed > 0 && /^[0-9a-f]+$/i.test(segment)) {
-                return seed;
-            }
-            return Math.floor(Math.random() * 0xFFFFFF) + 1;
-        }
-
-        // --- Apply gradient and stamp seed on the star ---
-        function applyGradient(seed) {
-            const rand = mulberry32(seed);
-
-            const x1 = Math.floor(rand() * 30) + 5;
-            const y1 = Math.floor(rand() * 30) + 5;
-            const x2 = Math.floor(rand() * 30) + 65;
-            const y2 = Math.floor(rand() * 30) + 65;
-            const x3 = Math.floor(rand() * 60) + 20;
-            const hue1 = Math.floor(rand() * 60) + 210;
-            const hue2 = Math.floor(rand() * 60) + 260;
-
-            document.body.style.backgroundImage = [
-                `radial-gradient(at ${x1}% ${y1}%, hsl(${hue1}, 38%, 16%) 0px, transparent 50%)`,
-                `radial-gradient(at ${x2}% ${y2}%, hsl(${hue2}, 38%, 16%) 0px, transparent 50%)`,
-                `radial-gradient(circle at ${x3}% 0%, rgba(139, 126, 255, 0.08) 0px, transparent 40%)`
-            ].join(', ');
-
-            // Stamp seed on the star — visible only on hover
-            const star = document.querySelector('.seed-star');
-            star.dataset.seed = seed.toString(16);
-            star.dataset.hex = seed.toString(16);
-        }
-
-        applyGradient(resolveSeed());
-
-        // --- Copy seed link ---
-        function copySeed() {
-            const star = document.querySelector('.seed-star');
-            const hex = star.dataset.hex;
-            navigator.clipboard.writeText(window.location.origin + '/' + hex);
-            star.dataset.seed = 'seed copied!';
-            setTimeout(() => { star.dataset.seed = hex; }, 1800);
-        }
-
-        // --- Copy mail ---
-        function copyMail() {
-            navigator.clipboard.writeText('murqin@proton.me');
-            const btn = document.querySelector('.mail-btn');
-            btn.textContent = 'copied!';
-            setTimeout(() => { btn.textContent = 'murqin@proton.me'; }, 1500);
-        }
-    </script>
+    <script src="script.js" defer></script>
 </body>
 </html>
