@@ -22,7 +22,7 @@
 
 * **Frontend:** HTML5, CSS3, Vanilla JavaScript
 * **Typography:** [JetBrains Mono](https://www.jetbrains.com/lp/mono/) & [Inter](https://rsms.me/inter/)
-* **Infrastructure:** GitHub Pages
+* **Infrastructure:** Cloudflare Pages
 
 ## 📂 Structure
 
