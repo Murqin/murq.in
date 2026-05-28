@@ -1,60 +1,195 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Icarus Murqin</title>
-    <meta name="description" content="Icarus Murqin's personal site">
-    <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
-    <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-</head>
-<body>
-    <div id="stars" aria-hidden="true"></div>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Icarus Murqin</title>
+        <meta name="description" content="Icarus Murqin's personal site" />
+        <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg" />
+        <link rel="stylesheet" href="style.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&family=JetBrains+Mono:wght@400;600&display=swap"
+            rel="stylesheet"
+        />
+    </head>
+    <body>
+        <div id="stars" aria-hidden="true"></div>
+        <main class="container">
+            <section class="card hero">
+                <span class="seed-star" aria-hidden="true" onclick="copySeed()">
+                </span>
+                <img
+                    src="./assets/avatar.png"
+                    alt="Icarus Murqin"
+                    class="avatar"
+                />
+                <h1>Icarus Murqin</h1>
+                <p class="tagline">I'm just randomly surfing the web.</p>
 
-    <main class="container">
-        <section class="card hero">
-            <span class="seed-star" aria-hidden="true" onclick="copySeed()">✦</span>
-            <img src="./assets/avatar.png" alt="Icarus Murqin" class="avatar">
-            <h1>Icarus Murqin</h1>
-            <p class="tagline">I'm just randomly surfing the web.</p>
-            
-            <div class="section-title">Social Media</div>
-            <div class="socials">
-                <a href="https://www.instagram.com/murqin/" class="social-icon">Instagram</a>
-                <a href="https://steamcommunity.com/id/murqin/" class="social-icon">Steam</a>
-                <a href="https://www.youtube.com/@Murqin" class="social-icon">YouTube</a>
-                <a href="https://github.com/Murqin" class="social-icon">GitHub</a>
-            </div>
-        </section>
-
-        <div class="grid">
-            <section class="card">
-                <div class="section-title">About Me</div>
-                <p>Just a tech hobbyist who spends most of his time playing video games, listening to music, watching videos, and casually tinkering with random projects.</p>
+                <div class="section-title">Social Media</div>
+                <div class="socials">
+                    <a
+                        href="https://www.instagram.com/murqin/"
+                        class="social-icon"
+                        >Instagram</a
+                    >
+                    <a
+                        href="https://steamcommunity.com/id/murqin/"
+                        class="social-icon"
+                        >Steam</a
+                    >
+                    <a
+                        href="https://www.youtube.com/@Murqin"
+                        class="social-icon"
+                        >YouTube</a
+                    >
+                    <a href="https://github.com/Murqin" class="social-icon"
+                        >GitHub</a
+                    >
+                </div>
             </section>
-            <section class="card">
-                <div class="section-title">Contact Me</div>
-                <button class="mail-btn" onclick="copyMail()">murqin@proton.me</button>
-            </section>
-        </div>
 
-        <section class="card">
-            <div class="section-title">Source Code</div>
-            <p>Code is MIT licensed. Third-party assets are their respective owners.</p>
-            <a href="https://github.com/murqin/murq.in/blob/main/LICENSES.md" class="source-licenses-link" target="_blank">third-party notices</a>
-            <a href="https://github.com/murqin/murq.in" class="source-link" target="_blank">view on github</a>
-        </section>
-
-        <footer>
-            <div class="footer-box">
-                © 2026 Icarus Murqin
+            <div class="grid">
+                <section class="card">
+                    <div class="section-title">About Me</div>
+                    <p>
+                        Just a tech hobbyist who spends most of his time playing
+                        video games, listening to music, watching videos, and
+                        casually tinkering with random projects.
+                    </p>
+                </section>
+                <section class="card">
+                    <div class="section-title">Contact Me</div>
+                    <button class="mail-btn" onclick="copyMail()">
+                        murqin@proton.me
+                    </button>
+                </section>
             </div>
-        </footer>
-    </main>
 
-    <script src="script.js" defer></script>
-</body>
+            <section class="card">
+                <div class="section-title">My Projects</div>
+                <div class="projects-list">
+                    <div class="project-item">
+                        <div class="project-header">
+                            <span class="project-name">murq.in</span>
+                            <div class="project-links">
+                                <a
+                                    href="https://github.com/murqin/murq.in"
+                                    target="_blank"
+                                    class="project-link-btn"
+                                    >GitHub</a
+                                >
+                            </div>
+                        </div>
+                        <p class="project-desc">
+                            A minimalist and modern personal website featuring a
+                            PRNG theme engine and a dynamic star field.
+                        </p>
+                    </div>
+
+                    <div class="project-item">
+                        <div class="project-header">
+                            <span class="project-name">Rep Counter</span>
+                            <div class="project-links">
+                                <a
+                                    href="https://rep-counter-sapphire.vercel.app/"
+                                    target="_blank"
+                                    class="project-link-btn"
+                                    >Try</a
+                                >
+                                <a
+                                    href="https://github.com/Murqin/rep-counter"
+                                    target="_blank"
+                                    class="project-link-btn"
+                                    >GitHub</a
+                                >
+                            </div>
+                        </div>
+                        <p class="project-desc">
+                            For now, this is a simple counter that uses the
+                            classic method.
+                        </p>
+                    </div>
+
+                    <div class="project-item">
+                        <div class="project-header">
+                            <span class="project-name">Whitelist Managers</span>
+                            <div class="project-links">
+                                <a
+                                    href="https://modrinth.com/plugin/whitelist-managers"
+                                    target="_blank"
+                                    class="project-link-btn"
+                                    >Modrinth</a
+                                >
+                                <a
+                                    href="https://github.com/Murqin/whitelist-managers/"
+                                    target="_blank"
+                                    class="project-link-btn"
+                                    >GitHub</a
+                                >
+                            </div>
+                        </div>
+                        <p class="project-desc">
+                            An ultra-lightweight, high-performance, and secure
+                            whitelist management utility built explicitly for
+                            modern Minecraft servers (Paper & Purpur).
+                        </p>
+                    </div>
+
+                    <div class="project-item">
+                        <div class="project-header">
+                            <span class="project-name"
+                                >Global Villager Discounts</span
+                            >
+                            <div class="project-links">
+                                <a
+                                    href="https://modrinth.com/plugin/globalvillagerdiscounts"
+                                    target="_blank"
+                                    class="project-link-btn"
+                                    >Modrinth</a
+                                >
+                                <a
+                                    href="https://github.com/Murqin/GlobalVillagerDiscounts"
+                                    target="_blank"
+                                    class="project-link-btn"
+                                    >GitHub</a
+                                >
+                            </div>
+                        </div>
+                        <p class="project-desc">
+                            Synchronize villager curing discounts across all
+                            players.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card">
+                <div class="section-title">Source Code</div>
+                <p>
+                    Code is MIT licensed. Third-party assets are their
+                    respective owners.
+                </p>
+                <a
+                    href="https://github.com/murqin/murq.in/blob/main/LICENSES.md"
+                    class="source-licenses-link"
+                    target="_blank"
+                    >third-party notices</a
+                >
+                <a
+                    href="https://github.com/murqin/murq.in"
+                    class="source-link"
+                    target="_blank"
+                    >view on github</a
+                >
+            </section>
+
+            <footer>
+                <div class="footer-box">&copy; 2026 Icarus Murqin</div>
+            </footer>
+        </main>
+        <script src="script.js" defer></script>
+    </body>
 </html>
