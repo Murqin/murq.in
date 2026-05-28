@@ -1,42 +1,50 @@
 <div align="center">
 
-# murq.in
+# murq.in 🪐
 
 **Icarus Murqin's personal minimalist space. Randomly surfing the web.**
 
 [![Live Site](https://img.shields.io/badge/Live-murq.in-%238B7EFF?style=for-the-badge)](https://murq.in)
-[![License](https://img.shields.io/badge/License-MIT-%235A7FFF?style=for-the-badge)](./LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-%235A7FFF?style=for-the-badge)](./LICENSE)
 
-<img src="./assets/preview.png" alt="Preview" width="600" style="border-radius: 12px; border: 1px solid rgba(139, 126, 255, 0.2); box-shadow: 0 12px 40px rgba(0,0,0,0.5);"/>
+<img src="./assets/preview.png" alt="murq.in website preview" width="600" style="border-radius: 12px; border: 1px solid rgba(139, 126, 255, 0.2); box-shadow: 0 12px 40px rgba(0,0,0,0.5);"/>
 
 </div>
 
+---
+
 ## ✨ Features
 
-* **Seeded PRNG System:** Utilizes `mulberry32` algorithm to resolve unique themes via 12-character hexadecimal path hashes (`6-char gradient + 6-char starfield`).
-* **Dynamic Starfield:** Creates synchronized twinkling stardust configurations mapped strictly to the active seed value.
-* **Glassmorphic UI:** Smooth, animated container grid designed around modern transparency effects and Akane-inspired color variables (`#8B7EFF`).
-* **Zero Build Step:** Built with native web technologies for high performance and clean architecture.
+- **🌀 Seeded PRNG System:** Utilizes the custom `mulberry32` algorithm to resolve unique themes dynamically via 12-character hexadecimal path hashes (`6-char gradient + 6-char starfield`).
+- **🌌 Dynamic Starfield Twinkling:** Renders synchronized, canvas-based twinkling stardust configurations mapped strictly to active seed values.
+- **🔮 Glassmorphic UI Aesthetics:** Beautiful, CSS-animated container grid designed around modern glassmorphism transparency, backdrop filters, and Akane-inspired color variables (`#8B7EFF`).
+- **🚀 Zero Build Step:** Handcrafted utilizing purely native web technologies (pure HTML5, CSS3, and Vanilla JavaScript) for optimal browser rendering performance.
 
-## 🛠️ Tech Stack
+---
 
-* **Frontend:** HTML5, CSS3, Vanilla JavaScript
-* **Typography:** [JetBrains Mono](https://www.jetbrains.com/lp/mono/) & [Inter](https://rsms.me/inter/)
-* **Infrastructure:** Cloudflare Pages
+## 🛠️ Technology Stack
 
-## 📂 Structure
+- **Frontend Core:** HTML5, CSS3 Custom Properties, Vanilla ES6 JavaScript
+- **Typography:** [JetBrains Mono](https://www.jetbrains.com/lp/mono/) & [Inter](https://rsms.me/inter/)
+- **Infrastructure:** Cloudflare Pages (Continuous Integration pipeline)
+
+---
+
+## 📂 File Architecture
 
 ```text
 murq.in/
 ├── assets/
-│   ├── avatar.png          # Profile avatar
-│   └── favicon.svg         # Star/Wing icon
-├── index.html              # Main page markup
-├── script.js               # Seed logic & starfield generator
-├── style.css               # Refined UI layout & animations
-├── LICENSE                 # MIT License for code
-└── LICENSES.md             # Third-party notices
+│   ├── avatar.png          # Profile avatar asset
+│   └── favicon.svg         # Star/Wing SVG branding
+├── index.html              # Main page markup & semantic metadata
+├── script.js               # Seed parsing logic & dynamic starfield renderer
+├── style.css               # Geist-inspired translucent variables & layouts
+├── LICENSE                 # MIT License details
+└── LICENSES.md             # Third-party attribution notices
 ```
+
+---
 
 ## 🚀 Running Locally
 
@@ -45,12 +53,17 @@ murq.in/
    git clone https://github.com/murqin/murq.in.git
    cd murq.in
    ```
-2. Simply open `index.html` in any modern web browser.
+2. Simply open `index.html` inside any modern web browser or serve it locally using a lightweight server:
+   ```bash
+   python -m http.server 8000
+   ```
 
-## 📄 License
+---
 
-* **Code:** MIT License — see [LICENSE](./LICENSE)
-* **Assets:** Third-party notices are detailed in [LICENSES.md](./LICENSES.md)
+## 📄 Licensing
+
+- **Codebase:** Distributed under the terms of the MIT License — see [LICENSE](./LICENSE).
+- **Media & Fonts:** Third-party notices and asset licensing are detailed in [LICENSES.md](./LICENSES.md).
 
 ---
 
