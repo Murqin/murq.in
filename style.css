@@ -87,6 +87,9 @@ body {
         border-color 0.4s ease,
         box-shadow 0.4s ease;
     text-align: center;
+    /* Hardware acceleration to prevent layer redraws on scroll */
+    transform: translateZ(0);
+    backface-visibility: hidden;
 }
 
 .card:hover {
@@ -530,6 +533,10 @@ footer:hover .footer-box {
     }
     .card {
         padding: 24px;
+        /* Reduce blur from 16px to 6px on mobile to achieve buttery-smooth 60fps scrolling */
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+        background: rgba(16, 20, 39, 0.78); /* Slightly higher opacity to retain perfect glass contrast */
     }
     .star {
         /* Remove heavy box-shadow on mobile to optimize GPU render speed */
