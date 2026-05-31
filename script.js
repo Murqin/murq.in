@@ -61,7 +61,10 @@ function applyCombinedSystem(seeds) {
     const starsContainer = document.getElementById('stars');
     if (starsContainer) {
         starsContainer.innerHTML = '';
-        const starCount = 40 + Math.floor(randStars() * 30); // İkinci seed ile bağımsız yıldız sayısı
+        const isMobile = window.innerWidth < 600;
+        const starCount = isMobile 
+            ? 15 + Math.floor(randStars() * 15) // Reduce count on mobile to optimize performance
+            : 40 + Math.floor(randStars() * 30); 
 
         for (let i = 0; i < starCount; i++) {
             const starDiv = document.createElement('div');

@@ -44,7 +44,10 @@ body {
     position: absolute;
     background: #fff;
     border-radius: 50%;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+    /* Promote to GPU compositor layer for hardware-accelerated transform & opacity twinkling */
+    will-change: transform, opacity;
+    backface-visibility: hidden;
 }
 
 /* Özel Kaydırma Çubuğu */
@@ -527,6 +530,10 @@ footer:hover .footer-box {
     }
     .card {
         padding: 24px;
+    }
+    .star {
+        /* Remove heavy box-shadow on mobile to optimize GPU render speed */
+        box-shadow: none;
     }
 }
 
