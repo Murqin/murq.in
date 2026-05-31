@@ -18,6 +18,8 @@
 - **🌀 Seeded PRNG System:** Utilizes the custom `mulberry32` algorithm to resolve unique themes dynamically via 12-character hexadecimal path hashes (`6-char gradient + 6-char starfield`).
 - **🌌 Dynamic Starfield Twinkling:** Renders synchronized, canvas-based twinkling stardust configurations mapped strictly to active seed values.
 - **🔮 Glassmorphic UI Aesthetics:** Beautiful, CSS-animated container grid designed around modern glassmorphism transparency, backdrop filters, and Akane-inspired color variables (`#8B7EFF`).
+- **🎵 Autoplay-Proof Background Music:** Plays `assets/Before_the_City_Wakes.mp3` with a beautiful custom glassmorphic equalizer bar, featuring state persistence via `localStorage` and dynamic autoplay recovery.
+- **👁️ Serverless Edge Visitor Counter:** Powered by Cloudflare Pages Functions and Cloudflare KV store, tracking session-safe unique page visits instantly.
 - **🚀 Zero Build Step:** Handcrafted utilizing purely native web technologies (pure HTML5, CSS3, and Vanilla JavaScript) for optimal browser rendering performance.
 
 ---
@@ -25,8 +27,23 @@
 ## 🛠️ Technology Stack
 
 - **Frontend Core:** HTML5, CSS3 Custom Properties, Vanilla ES6 JavaScript
+- **Backend API:** Cloudflare Pages Functions (Serverless Edge Workers)
+- **Database:** Cloudflare KV Namespace (Edge Storage)
 - **Typography:** [JetBrains Mono](https://www.jetbrains.com/lp/mono/) & [Inter](https://rsms.me/inter/)
 - **Infrastructure:** Cloudflare Pages (Continuous Integration pipeline)
+
+---
+
+## ⚙️ Cloudflare KV Binding Configuration
+
+To enable the visitor counter in your live environment, configure the KV binding in your Cloudflare dashboard:
+
+1. **Create a KV Namespace:** Go to **Cloudflare Dashboard** -> **Workers & Pages** -> **KV** and create a namespace named `murqin-kv`.
+2. **Bind to Pages:** Go to **Workers & Pages** -> **Pages** -> **murq.in** -> **Settings** -> **Functions**.
+3. Under **KV namespace bindings**, add a new binding:
+   - **Variable name:** `KV`
+   - **KV namespace:** Select `murqin-kv`
+4. Redeploy your site.
 
 ---
 
