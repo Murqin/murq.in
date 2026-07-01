@@ -27,7 +27,8 @@ export async function onRequestGet(context) {
     if (!kv) return kvMissingResponse();
 
     try {
-        const count = parseInt((await kv.get('visitor_count')) || '0');
+        const stored = parseInt((await kv.get('visitor_count')) || '0');
+        const count = Number.isFinite(stored) ? stored : 0;
         return jsonResponse({ count });
     } catch (err) {
         return jsonResponse({ error: err.message }, 500);
@@ -49,7 +50,8 @@ export async function onRequestPost(context) {
     try {
         // Not: KV get/put atomik değildir; eşzamanlı ziyaretlerde nadiren
         // bir sayım kaybolabilir. Kişisel site ölçeğinde kabul edilebilir.
-        const count = parseInt((await kv.get('visitor_count')) || '0') + 1;
+        const stored = parseInt((await kv.get('visitor_count')) || '0');
+        const count = (Number.isFinite(stored) ? stored : 0) + 1;
         await kv.put('visitor_count', count.toString());
         return jsonResponse({ count });
     } catch (err) {
