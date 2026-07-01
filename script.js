@@ -127,21 +127,19 @@ async function fetchVisitorCount() {
     const countEl = document.querySelector('#visitor-count .count-value');
     if (!countEl) return;
 
-    // Tarayıcı oturumu boyunca yalnızca 1 kez artırma gönder
+    // İlk oturum yüklemesinde POST ile artır, sonrakilerde GET ile yalnızca oku
     const hasVisited = sessionStorage.getItem('murqin-visited');
-    let apiEndpoint = '/api/visitors';
-
-    if (!hasVisited) {
-        apiEndpoint += '?inc=true';
-        sessionStorage.setItem('murqin-visited', 'true');
-    }
 
     try {
-        const res = await fetch(apiEndpoint);
+        const res = await fetch(
+            '/api/visitors',
+            hasVisited ? undefined : { method: 'POST' }
+        );
         if (!res.ok) throw new Error('API request failed');
         const data = await res.json();
         if (data && typeof data.count !== 'undefined') {
             countEl.textContent = data.count.toLocaleString();
+            sessionStorage.setItem('murqin-visited', 'true');
         } else {
             countEl.textContent = '---';
         }
