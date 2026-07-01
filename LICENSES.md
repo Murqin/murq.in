@@ -28,3 +28,21 @@ This file contains notices and licensing information for third-party assets used
 - **Source**: Screenshot from anime episode
 - **Usage**: Personal avatar for non-commercial website
 - **Disclaimer**: This is a non-profit, personal project. Intellectual property of the avatar belongs to the creators and publishers of the original series. It is not covered by this repository's MIT License.
+
+---
+
+## Fonts
+
+### 3. Inter
+
+- **File Path**: `assets/fonts/inter-*.woff2`
+- **Author**: Rasmus Andersson
+- **Source**: [rsms.me/inter](https://rsms.me/inter/) — files obtained via [Fontsource](https://fontsource.org/)
+- **License**: [SIL Open Font License 1.1](https://openfontlicense.org/)
+
+### 4. JetBrains Mono
+
+- **File Path**: `assets/fonts/jetbrains-mono-*.woff2`
+- **Author**: JetBrains
+- **Source**: [jetbrains.com/lp/mono](https://www.jetbrains.com/lp/mono/) — files obtained via [Fontsource](https://fontsource.org/)
+- **License**: [SIL Open Font License 1.1](https://openfontlicense.org/)
