@@ -150,6 +150,27 @@ body {
     opacity: 1;
 }
 
+.dice-btn {
+    position: absolute;
+    top: 25px;
+    right: 56px;
+    background: none;
+    border: none;
+    padding: 0;
+    line-height: 1;
+    color: var(--accent);
+    opacity: 0.5;
+    cursor: pointer;
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease;
+}
+
+.dice-btn:hover {
+    opacity: 1;
+    transform: rotate(18deg) scale(1.1);
+}
+
 .avatar {
     width: 96px;
     height: 96px;

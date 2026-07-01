@@ -24,6 +24,16 @@
         <div id="stars" aria-hidden="true"></div>
         <main class="container">
             <section class="card hero">
+                <button type="button" class="dice-btn" aria-label="Generate a new random theme" onclick="rerollTheme()">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <rect x="3" y="3" width="18" height="18" rx="4"/>
+                        <circle cx="8.5" cy="8.5" r="1" fill="currentColor"/>
+                        <circle cx="15.5" cy="8.5" r="1" fill="currentColor"/>
+                        <circle cx="12" cy="12" r="1" fill="currentColor"/>
+                        <circle cx="8.5" cy="15.5" r="1" fill="currentColor"/>
+                        <circle cx="15.5" cy="15.5" r="1" fill="currentColor"/>
+                    </svg>
+                </button>
                 <button type="button" class="seed-star" aria-label="Copy theme seed link" onclick="copySeed()">✦</button>
                 <img
                     src="./assets/avatar.png"

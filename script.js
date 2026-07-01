@@ -94,6 +94,15 @@ function applyCombinedSystem(seeds) {
 const currentSeeds = resolveSeeds();
 applyCombinedSystem(currentSeeds);
 
+// --- Zar Butonu: Yeni Rastgele Tema ---
+function rerollTheme() {
+    const gradSeed = Math.floor(Math.random() * 0xFFFFFF) + 1;
+    const starSeed = Math.floor(Math.random() * 0xFFFFFF) + 1;
+    const hex = gradSeed.toString(16).padStart(6, '0') + starSeed.toString(16).padStart(6, '0');
+    applyCombinedSystem({ gradSeed, starSeed, hex });
+    history.replaceState(null, '', '/' + hex);
+}
+
 // --- Kombine Seed Linkini Kopyalama ---
 function copySeed() {
     const star = document.querySelector('.seed-star');
