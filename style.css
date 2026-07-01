@@ -103,6 +103,11 @@ body {
 }
 
 .seed-star {
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    line-height: 1;
     position: absolute;
     top: 24px;
     right: 24px;
@@ -429,6 +434,19 @@ footer:hover .footer-box {
     50% {
         opacity: calc(var(--base-opacity, 0.5) * 0.3);
         transform: scale(0.8);
+    }
+}
+
+:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .star,
+    .seed-star,
+    .card {
+        animation: none;
     }
 }
 
