@@ -18,7 +18,6 @@
 - **🌀 Seeded PRNG System:** Utilizes the custom `mulberry32` algorithm to resolve unique themes dynamically via 12-character hexadecimal path hashes (`6-char gradient + 6-char starfield`).
 - **🌌 Dynamic Starfield Twinkling:** Renders synchronized, canvas-based twinkling stardust configurations mapped strictly to active seed values.
 - **🔮 Glassmorphic UI Aesthetics:** Beautiful, CSS-animated container grid designed around modern glassmorphism transparency, backdrop filters, and Akane-inspired color variables (`#8B7EFF`).
-- **🎵 Autoplay-Proof Background Music:** Plays `assets/Before_the_City_Wakes.mp3` with a beautiful custom glassmorphic equalizer bar, featuring state persistence via `localStorage` and dynamic autoplay recovery.
 - **👁️ Serverless Edge Visitor Counter:** Powered by Cloudflare Pages Functions and Cloudflare KV store, tracking session-safe unique page visits instantly.
 - **🚀 Zero Build Step:** Handcrafted utilizing purely native web technologies (pure HTML5, CSS3, and Vanilla JavaScript) for optimal browser rendering performance.
 

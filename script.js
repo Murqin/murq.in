@@ -142,76 +142,7 @@ async function fetchVisitorCount() {
     }
 }
 
-// --- Arka Plan Müzik Kontrolcüsü ---
-function initBackgroundMusic() {
-    const audio = document.getElementById('bg-music');
-    const toggleBtn = document.getElementById('music-toggle');
-    const playerContainer = document.querySelector('.music-player-container');
-    const playIcon = document.querySelector('.play-icon');
-    const pauseIcon = document.querySelector('.pause-icon');
-
-    if (!audio || !toggleBtn || !playerContainer) return;
-
-    // Ses düzeyini arka plana uygun şekilde hafifçe kıs (%35)
-    audio.volume = 0.35;
-
-    const playMusic = () => {
-        audio.play().then(() => {
-            playerContainer.classList.add('playing');
-            playIcon.style.display = 'none';
-            pauseIcon.style.display = 'block';
-            localStorage.setItem('music-enabled', 'true');
-        }).catch(err => {
-            console.log("Autoplay was blocked by browser. Awaiting user interaction.");
-            // Autoplay engeli aşmak için genel etkileşim dinleyicisi kur
-            setupAutoplayRecovery();
-        });
-    };
-
-    const pauseMusic = () => {
-        audio.pause();
-        playerContainer.classList.remove('playing');
-        playIcon.style.display = 'block';
-        pauseIcon.style.display = 'none';
-        localStorage.setItem('music-enabled', 'false');
-    };
-
-    // Autoplay engelini aşmak için geçici dinleyici fonksiyonu
-    const setupAutoplayRecovery = () => {
-        const handleFirstClick = () => {
-            if (localStorage.getItem('music-enabled') === 'true') {
-                audio.play().then(() => {
-                    playerContainer.classList.add('playing');
-                    playIcon.style.display = 'none';
-                    pauseIcon.style.display = 'block';
-                }).catch(e => console.log("Playback retry failed", e));
-            }
-            document.removeEventListener('click', handleFirstClick);
-            document.removeEventListener('touchstart', handleFirstClick);
-        };
-        document.addEventListener('click', handleFirstClick);
-        document.addEventListener('touchstart', handleFirstClick);
-    };
-
-    // Tıklama Olayı (Toggle)
-    toggleBtn.addEventListener('click', (e) => {
-        e.stopPropagation(); // global tıklamaları tetiklememesi için
-        if (audio.paused) {
-            playMusic();
-        } else {
-            pauseMusic();
-        }
-    });
-
-    // İlk yüklemede kullanıcının tercihini kontrol et
-    const musicPreference = localStorage.getItem('music-enabled');
-    if (musicPreference === 'true') {
-        playMusic();
-    }
-}
-
 // Sayfa yüklendiğinde çalıştır
 document.addEventListener('DOMContentLoaded', () => {
     fetchVisitorCount();
-    initBackgroundMusic();
 });
