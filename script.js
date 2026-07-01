@@ -131,10 +131,14 @@ async function fetchVisitorCount() {
     const hasVisited = sessionStorage.getItem('murqin-visited');
 
     try {
-        const res = await fetch(
+        let res = await fetch(
             '/api/visitors',
             hasVisited ? undefined : { method: 'POST' }
         );
+        if (!res.ok && !hasVisited) {
+            // Artırma reddedildiyse (ör. izinli olmayan önizleme ortamı) sayacı yine de göster
+            res = await fetch('/api/visitors');
+        }
         if (!res.ok) throw new Error('API request failed');
         const data = await res.json();
         if (data && typeof data.count !== 'undefined') {

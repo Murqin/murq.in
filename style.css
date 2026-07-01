@@ -169,6 +169,8 @@ body {
 }
 
 .seed-star {
+    appearance: none;
+    -webkit-appearance: none;
     background: none;
     border: none;
     padding: 0;
@@ -217,6 +219,8 @@ body {
 }
 
 .dice-btn {
+    appearance: none;
+    -webkit-appearance: none;
     position: absolute;
     top: 25px;
     right: 56px;
@@ -533,7 +537,7 @@ footer:hover .footer-box {
     .star,
     .seed-star,
     .card {
-        animation: none;
+        animation: none !important;
     }
 }
 
