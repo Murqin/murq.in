@@ -573,6 +573,27 @@ footer:hover .footer-box {
     }
 }
 
+/* Seed kopyalama parıltısı (Faz 2.4) */
+@keyframes seedPulse {
+    0% {
+        transform: scale(1);
+        text-shadow: 0 0 0 rgba(139, 126, 255, 0);
+    }
+    40% {
+        transform: scale(1.35);
+        text-shadow: 0 0 12px rgba(139, 126, 255, 0.8);
+    }
+    100% {
+        transform: scale(1);
+        text-shadow: 0 0 0 rgba(139, 126, 255, 0);
+    }
+}
+
+.seed-star.copied {
+    animation: seedPulse 0.45s var(--ease-spring);
+    opacity: 1;
+}
+
 @keyframes starTwinkle {
     0%,
     100% {
@@ -627,6 +648,23 @@ footer:hover .footer-box {
 ::selection {
     background: rgba(139, 126, 255, 0.35);
     color: #fff;
+}
+
+/* Basılma geri bildirimi (Faz 2.4) */
+.mail-btn:active,
+.social-icon:active,
+.project-link-btn:active,
+.source-link:active,
+.source-licenses-link:active {
+    transform: scale(0.97);
+}
+
+.dice-btn:active {
+    transform: rotate(18deg) scale(0.94);
+}
+
+.seed-star:active {
+    transform: scale(0.94);
 }
 
 :focus-visible {

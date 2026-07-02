@@ -217,6 +217,23 @@ function scheduleShootingStar() {
     }, delay);
 }
 
+// --- Ziyaretçi Sayacı Count-Up (Faz 2.4) ---
+function animateCount(el, target) {
+    if (reduceMotion.matches || !Number.isFinite(target) || target <= 0) {
+        el.textContent = Number.isFinite(target) ? target.toLocaleString() : '---';
+        return;
+    }
+    const duration = 800;
+    const start = performance.now();
+    function frame(now) {
+        const t = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - t, 3); // ease-out cubic
+        el.textContent = Math.round(target * eased).toLocaleString();
+        if (t < 1) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+}
+
 // --- Kombine Seed Linkini Kopyalama ---
 function copySeed() {
     const star = document.querySelector('.seed-star');
@@ -224,6 +241,11 @@ function copySeed() {
     const hex = star.dataset.hex;
     navigator.clipboard.writeText(window.location.origin + '/' + hex);
     star.dataset.seed = 'seed copied!';
+    // Pulse'ı yeniden tetiklenebilir kıl: sınıfı kaldır, reflow zorla, tekrar ekle
+    star.classList.remove('copied');
+    void star.offsetWidth;
+    star.classList.add('copied');
+    setTimeout(() => { star.classList.remove('copied'); }, 500);
     setTimeout(() => { star.dataset.seed = hex; }, 1800);
 }
 
@@ -256,7 +278,7 @@ async function fetchVisitorCount() {
         if (!res.ok) throw new Error('API request failed');
         const data = await res.json();
         if (data && typeof data.count !== 'undefined') {
-            countEl.textContent = data.count.toLocaleString();
+            animateCount(countEl, Number(data.count));
             sessionStorage.setItem('murqin-visited', 'true');
         } else {
             countEl.textContent = '---';
