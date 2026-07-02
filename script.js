@@ -135,6 +135,7 @@ applyCombinedSystem(currentSeeds);
 let starsRebuildTimer = null;
 
 function rerollTheme() {
+    clearTimeout(starsRebuildTimer);
     const gradSeed = Math.floor(Math.random() * 0xFFFFFF) + 1;
     const starSeed = Math.floor(Math.random() * 0xFFFFFF) + 1;
     const hex = gradSeed.toString(16).padStart(6, '0') + starSeed.toString(16).padStart(6, '0');
@@ -153,7 +154,6 @@ function rerollTheme() {
     const starsContainer = document.getElementById('stars');
     if (starsContainer) {
         starsContainer.style.opacity = '0';
-        clearTimeout(starsRebuildTimer);
         starsRebuildTimer = setTimeout(() => {
             buildStars(starSeed, starsContainer);
             starsContainer.style.opacity = '1';
@@ -235,6 +235,8 @@ function animateCount(el, target) {
 }
 
 // --- Kombine Seed Linkini Kopyalama ---
+let copiedPulseTimer = null;
+
 function copySeed() {
     const star = document.querySelector('.seed-star');
     if (!star) return;
@@ -245,7 +247,8 @@ function copySeed() {
     star.classList.remove('copied');
     void star.offsetWidth;
     star.classList.add('copied');
-    setTimeout(() => { star.classList.remove('copied'); }, 500);
+    clearTimeout(copiedPulseTimer);
+    copiedPulseTimer = setTimeout(() => { star.classList.remove('copied'); }, 500);
     setTimeout(() => { star.dataset.seed = hex; }, 1800);
 }
 
