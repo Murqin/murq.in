@@ -161,6 +161,29 @@ function rerollTheme() {
     }
 }
 
+// --- Mouse Parallax (Faz 2.3, yalnızca masaüstü) ---
+function initParallax() {
+    // Yalnızca hassas imleçli (mouse/trackpad) cihazlarda ve hareket kısıtı yokken
+    if (!window.matchMedia('(pointer: fine)').matches || reduceMotion.matches) return;
+    const stars = document.getElementById('stars');
+    if (!stars) return;
+
+    let offsetX = 0;
+    let offsetY = 0;
+    let pendingFrame = null;
+
+    window.addEventListener('mousemove', (e) => {
+        // İmleç merkezden uzaklaştıkça yıldız alanı ters yönde en fazla ±4px kayar
+        offsetX = (e.clientX / window.innerWidth - 0.5) * -8;
+        offsetY = (e.clientY / window.innerHeight - 0.5) * -8;
+        if (pendingFrame) return;
+        pendingFrame = requestAnimationFrame(() => {
+            stars.style.transform = `translate3d(${offsetX.toFixed(2)}px, ${offsetY.toFixed(2)}px, 0)`;
+            pendingFrame = null;
+        });
+    });
+}
+
 // --- Kombine Seed Linkini Kopyalama ---
 function copySeed() {
     const star = document.querySelector('.seed-star');
@@ -214,4 +237,5 @@ async function fetchVisitorCount() {
 // Sayfa yüklendiğinde çalıştır
 document.addEventListener('DOMContentLoaded', () => {
     fetchVisitorCount();
+    initParallax();
 });

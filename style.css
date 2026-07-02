@@ -122,10 +122,10 @@ body {
 /* Dinamik Yıldız Arka Plan Stilleri */
 #stars {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
+    top: -12px;
+    left: -12px;
+    width: calc(100vw + 24px);
+    height: calc(100vh + 24px);
     pointer-events: none;
     z-index: -1;
     overflow: hidden;
