@@ -585,6 +585,45 @@ footer:hover .footer-box {
     }
 }
 
+/* --- Kayan Yıldız (Faz 2.3) --- */
+.shooting-star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 0 6px 1px rgba(255, 255, 255, 0.5);
+    opacity: 0;
+    pointer-events: none;
+    animation: shoot 1.4s ease-out forwards;
+}
+
+/* Kuyruk: hareket yönünün tersine uzanır (element yörünge açısıyla döndürülür) */
+.shooting-star::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 1px;
+    width: 80px;
+    height: 1px;
+    transform: translateY(-50%);
+    background: linear-gradient(to left, rgba(255, 255, 255, 0.6), transparent);
+}
+
+@keyframes shoot {
+    0% {
+        opacity: 0;
+        transform: translate3d(0, 0, 0) rotate(var(--angle, 30deg));
+    }
+    15% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: translate3d(var(--travel-x, 200px), var(--travel-y, 120px), 0) rotate(var(--angle, 30deg));
+    }
+}
+
 ::selection {
     background: rgba(139, 126, 255, 0.35);
     color: #fff;
@@ -593,6 +632,20 @@ footer:hover .footer-box {
 :focus-visible {
     outline: 2px solid var(--accent);
     outline-offset: 3px;
+}
+
+/* --- Film Grain (Faz 2.3): statik SVG noise, yalnızca masaüstü --- */
+@media (min-width: 601px) {
+    body::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: 10;
+        pointer-events: none;
+        opacity: 0.025;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='128' height='128'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='128' height='128' filter='url(%23n)'/%3E%3C/svg%3E");
+        background-size: 128px 128px;
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -604,8 +657,12 @@ footer:hover .footer-box {
     .hero .tagline,
     .hero .section-title,
     .hero .socials,
-    .footer-box {
+    .footer-box,
+    .shooting-star {
         animation: none !important;
+    }
+    body::after {
+        content: none;
     }
 }
 

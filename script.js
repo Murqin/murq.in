@@ -184,6 +184,39 @@ function initParallax() {
     });
 }
 
+// --- Kayan Yıldız (Faz 2.3): ~15-25 sn'de bir rastgele yörünge ---
+function spawnShootingStar() {
+    if (reduceMotion.matches || document.hidden) return;
+    const container = document.getElementById('stars');
+    if (!container) return;
+
+    const star = document.createElement('div');
+    star.className = 'shooting-star';
+
+    const angleDeg = 20 + Math.random() * 40;          // aşağı-sağa eğik yörünge
+    const angleRad = angleDeg * (Math.PI / 180);
+    const distance = 150 + Math.random() * 250;
+
+    star.style.left = (5 + Math.random() * 70) + '%';
+    star.style.top = (Math.random() * 40) + '%';
+    star.style.setProperty('--angle', angleDeg.toFixed(1) + 'deg');
+    star.style.setProperty('--travel-x', (Math.cos(angleRad) * distance).toFixed(0) + 'px');
+    star.style.setProperty('--travel-y', (Math.sin(angleRad) * distance).toFixed(0) + 'px');
+
+    container.appendChild(star);
+    star.addEventListener('animationend', () => star.remove(), { once: true });
+    // Emniyet: animationend kaçarsa (ör. reroll sırasında) elementi yine de temizle
+    setTimeout(() => star.remove(), 3000);
+}
+
+function scheduleShootingStar() {
+    const delay = 15000 + Math.random() * 10000;
+    setTimeout(() => {
+        spawnShootingStar();
+        scheduleShootingStar();
+    }, delay);
+}
+
 // --- Kombine Seed Linkini Kopyalama ---
 function copySeed() {
     const star = document.querySelector('.seed-star');
@@ -238,4 +271,5 @@ async function fetchVisitorCount() {
 document.addEventListener('DOMContentLoaded', () => {
     fetchVisitorCount();
     initParallax();
+    scheduleShootingStar();
 });
