@@ -127,9 +127,73 @@ function applyCombinedSystem(seeds) {
     }
 }
 
+// --- Projeler: projects.js veri modülünden render edilir ---
+function renderProjects() {
+    const list = document.querySelector('.projects-list');
+    // Veri modülü yüklenmediyse (eski önbellekli HTML) mevcut içeriğe dokunma
+    if (!list || typeof PROJECTS === 'undefined') return;
+
+    list.replaceChildren();
+    for (const project of PROJECTS) {
+        const item = document.createElement('div');
+        item.className = 'project-item';
+
+        const header = document.createElement('div');
+        header.className = 'project-header';
+
+        const titleGroup = document.createElement('div');
+        titleGroup.className = 'project-title-group';
+        const name = document.createElement('span');
+        name.className = 'project-name';
+        name.textContent = project.name;
+        titleGroup.appendChild(name);
+        if (project.status) {
+            const status = document.createElement('span');
+            status.className = 'project-status ' + project.status;
+            status.textContent = project.status;
+            titleGroup.appendChild(status);
+        }
+
+        const links = document.createElement('div');
+        links.className = 'project-links';
+        for (const link of project.links || []) {
+            const a = document.createElement('a');
+            a.className = 'project-link-btn';
+            a.href = link.url;
+            a.target = '_blank';
+            a.rel = 'noopener noreferrer';
+            a.textContent = link.label;
+            links.appendChild(a);
+        }
+
+        header.append(titleGroup, links);
+
+        const desc = document.createElement('p');
+        desc.className = 'project-desc';
+        desc.textContent = project.description;
+
+        item.append(header, desc);
+
+        if (project.tags && project.tags.length) {
+            const tags = document.createElement('div');
+            tags.className = 'project-tags';
+            for (const tagName of project.tags) {
+                const tag = document.createElement('span');
+                tag.className = 'project-tag';
+                tag.textContent = tagName;
+                tags.appendChild(tag);
+            }
+            item.appendChild(tags);
+        }
+
+        list.appendChild(item);
+    }
+}
+
 // Sistemi yükle
 const currentSeeds = resolveSeeds();
 applyCombinedSystem(currentSeeds);
+renderProjects();
 
 // --- Zar Butonu: Yeni Rastgele Tema (crossfade ile) ---
 let starsRebuildTimer = null;
