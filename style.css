@@ -105,6 +105,20 @@ body {
     overflow-x: hidden;
 }
 
+/* Gradyan katmanları (Faz 2.2 crossfade) */
+#gradient {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    pointer-events: none;
+}
+
+.gradient-layer {
+    position: absolute;
+    inset: 0;
+    transition: opacity 0.7s ease;
+}
+
 /* Dinamik Yıldız Arka Plan Stilleri */
 #stars {
     position: fixed;
@@ -115,6 +129,7 @@ body {
     pointer-events: none;
     z-index: -1;
     overflow: hidden;
+    transition: opacity 0.3s ease;
 }
 
 .star {

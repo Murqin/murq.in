@@ -30,12 +30,11 @@ function resolveSeeds() {
     return { gradSeed, starSeed, hex };
 }
 
-// --- Kombine Sistemi Uygulama ---
-function applyCombinedSystem(seeds) {
-    const randGrad = mulberry32(seeds.gradSeed);
-    const randStars = mulberry32(seeds.starSeed);
-    
-    // 1. Gradyan Arka Plan Hesaplaması
+// Reduced-motion tercihi — crossfade, parallax, kayan yıldız ve count-up bunu kontrol eder
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+function gradientCSS(gradSeed) {
+    const randGrad = mulberry32(gradSeed);
     const x1 = Math.floor(randGrad() * 30) + 5;
     const y1 = Math.floor(randGrad() * 30) + 5;
     const x2 = Math.floor(randGrad() * 30) + 65;
@@ -43,50 +42,88 @@ function applyCombinedSystem(seeds) {
     const x3 = Math.floor(randGrad() * 60) + 20;
     const hue1 = Math.floor(randGrad() * 60) + 210;
     const hue2 = Math.floor(randGrad() * 60) + 260;
-    
-    document.body.style.backgroundImage = [
+    return [
         `radial-gradient(at ${x1}% ${y1}%, hsl(${hue1}, 38%, 16%) 0px, transparent 50%)`,
         `radial-gradient(at ${x2}% ${y2}%, hsl(${hue2}, 38%, 16%) 0px, transparent 50%)`,
         `radial-gradient(circle at ${x3}% 0%, rgba(139, 126, 255, 0.08) 0px, transparent 40%)`
     ].join(', ');
-    
-    // HTML elementine kombine hex kodunu bağlama
+}
+
+function applyGradient(gradSeed, animate) {
+    const container = document.getElementById('gradient');
+    if (!container) {
+        // Konteyner yoksa (eski önbellekli HTML) eski davranışa düş
+        document.body.style.backgroundImage = gradientCSS(gradSeed);
+        return;
+    }
+    const layer = document.createElement('div');
+    layer.className = 'gradient-layer';
+    layer.style.backgroundImage = gradientCSS(gradSeed);
+    if (!animate) {
+        container.replaceChildren(layer);
+        return;
+    }
+    layer.style.opacity = '0';
+    container.appendChild(layer);
+    // İki rAF: tarayıcının 0 opaklığı boyamasını garantiler, sonra geçiş başlar
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => { layer.style.opacity = '1'; });
+    });
+    // Geçiş bitince eski katmanları temizle (transitionend yerine zamanlayıcı: sekme
+    // arka plandayken transitionend gecikebilir/kaçabilir)
+    setTimeout(() => {
+        while (container.firstChild && container.firstChild !== layer) {
+            container.firstChild.remove();
+        }
+    }, 800);
+}
+
+function buildStars(starSeed, container) {
+    container.innerHTML = '';
+    const randStars = mulberry32(starSeed);
+    const isMobile = window.innerWidth < 600;
+    const starCount = isMobile
+        ? 15 + Math.floor(randStars() * 15) // Reduce count on mobile to optimize performance
+        : 40 + Math.floor(randStars() * 30);
+
+    for (let i = 0; i < starCount; i++) {
+        const starDiv = document.createElement('div');
+        starDiv.className = 'star';
+
+        const x = randStars() * 100;
+        const y = randStars() * 100;
+        const size = 1 + randStars() * 2.5;
+        const baseOpacity = 0.1 + randStars() * 0.5;
+        const duration = 2 + randStars() * 4;
+        const delay = randStars() * -5;
+
+        starDiv.style.left = `${x}%`;
+        starDiv.style.top = `${y}%`;
+        starDiv.style.width = `${size}px`;
+        starDiv.style.height = `${size}px`;
+        starDiv.style.setProperty('--base-opacity', baseOpacity);
+        starDiv.style.opacity = baseOpacity;
+        starDiv.style.animation = `starTwinkle ${duration}s infinite ease-in-out ${delay}s`;
+
+        container.appendChild(starDiv);
+    }
+}
+
+function updateSeedStar(hex) {
     const starElement = document.querySelector('.seed-star');
     if (starElement) {
-        starElement.dataset.seed = seeds.hex;
-        starElement.dataset.hex = seeds.hex;
+        starElement.dataset.seed = hex;
+        starElement.dataset.hex = hex;
     }
+}
 
-    // 2. Yıldız Tarlası Hesaplaması
+// --- Kombine Sistemi Uygulama ---
+function applyCombinedSystem(seeds) {
+    applyGradient(seeds.gradSeed, false);
+    updateSeedStar(seeds.hex);
     const starsContainer = document.getElementById('stars');
     if (starsContainer) {
-        starsContainer.innerHTML = '';
-        const isMobile = window.innerWidth < 600;
-        const starCount = isMobile 
-            ? 15 + Math.floor(randStars() * 15) // Reduce count on mobile to optimize performance
-            : 40 + Math.floor(randStars() * 30); 
-
-        for (let i = 0; i < starCount; i++) {
-            const starDiv = document.createElement('div');
-            starDiv.className = 'star';
-            
-            const x = randStars() * 100;
-            const y = randStars() * 100;
-            const size = 1 + randStars() * 2.5;
-            const baseOpacity = 0.1 + randStars() * 0.5;
-            const duration = 2 + randStars() * 4;
-            const delay = randStars() * -5;
-
-            starDiv.style.left = `${x}%`;
-            starDiv.style.top = `${y}%`;
-            starDiv.style.width = `${size}px`;
-            starDiv.style.height = `${size}px`;
-            starDiv.style.setProperty('--base-opacity', baseOpacity);
-            starDiv.style.opacity = baseOpacity;
-            starDiv.style.animation = `starTwinkle ${duration}s infinite ease-in-out ${delay}s`;
-            
-            starsContainer.appendChild(starDiv);
-        }
+        buildStars(seeds.starSeed, starsContainer);
     }
 }
 
@@ -94,13 +131,34 @@ function applyCombinedSystem(seeds) {
 const currentSeeds = resolveSeeds();
 applyCombinedSystem(currentSeeds);
 
-// --- Zar Butonu: Yeni Rastgele Tema ---
+// --- Zar Butonu: Yeni Rastgele Tema (crossfade ile) ---
+let starsRebuildTimer = null;
+
 function rerollTheme() {
     const gradSeed = Math.floor(Math.random() * 0xFFFFFF) + 1;
     const starSeed = Math.floor(Math.random() * 0xFFFFFF) + 1;
     const hex = gradSeed.toString(16).padStart(6, '0') + starSeed.toString(16).padStart(6, '0');
-    applyCombinedSystem({ gradSeed, starSeed, hex });
     history.replaceState(null, '', '/' + hex);
+
+    if (reduceMotion.matches) {
+        applyCombinedSystem({ gradSeed, starSeed, hex });
+        return;
+    }
+
+    // Gradyan: yeni katman üstte yumuşakça belirir (~700ms)
+    applyGradient(gradSeed, true);
+    updateSeedStar(hex);
+
+    // Yıldızlar: mevcutlar söner (~300ms), yenileri yeni konumlarında yanar
+    const starsContainer = document.getElementById('stars');
+    if (starsContainer) {
+        starsContainer.style.opacity = '0';
+        clearTimeout(starsRebuildTimer);
+        starsRebuildTimer = setTimeout(() => {
+            buildStars(starSeed, starsContainer);
+            starsContainer.style.opacity = '1';
+        }, 320);
+    }
 }
 
 // --- Kombine Seed Linkini Kopyalama ---
