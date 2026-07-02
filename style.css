@@ -78,6 +78,17 @@
     --accent: #8b7eff;
     --accent-2: #5a7fff;
     --border: rgba(139, 126, 255, 0.12);
+
+    /* Easing eğrileri (Faz 2) — tüm animasyon/transition'lar bunları kullanır */
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+    /* Tipografik skala (Faz 2) — mevcut boyutlar merkezileştirildi */
+    --text-2xs: 11px;
+    --text-xs: 13px;
+    --text-sm: 14px;
+    --text-md: 16px;
+    --text-xl: 26px;
 }
 
 body {
@@ -94,16 +105,31 @@ body {
     overflow-x: hidden;
 }
 
+/* Gradyan katmanları (Faz 2.2 crossfade) */
+#gradient {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    pointer-events: none;
+}
+
+.gradient-layer {
+    position: absolute;
+    inset: 0;
+    transition: opacity 0.7s ease;
+}
+
 /* Dinamik Yıldız Arka Plan Stilleri */
 #stars {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
+    top: -12px;
+    left: -12px;
+    width: calc(100vw + 24px);
+    height: calc(100vh + 24px);
     pointer-events: none;
     z-index: -1;
     overflow: hidden;
+    transition: opacity 0.3s ease;
 }
 
 .star {
@@ -147,9 +173,10 @@ body {
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
-    animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    animation: fadeIn 0.7s var(--ease-out-expo) backwards;
+    animation-delay: var(--enter-delay, 0ms);
     transition:
-        transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.4s var(--ease-out-expo),
         border-color 0.4s ease,
         box-shadow 0.4s ease;
     text-align: center;
@@ -251,7 +278,7 @@ body {
     border: 2px solid var(--border);
     object-fit: cover;
     transition:
-        transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.5s var(--ease-out-expo),
         border-color 0.3s ease;
 }
 
@@ -263,24 +290,26 @@ body {
 h1 {
     font-family: "JetBrains Mono", monospace;
     font-weight: 600;
-    font-size: 26px;
-    letter-spacing: -0.5px;
+    font-size: var(--text-xl);
+    letter-spacing: -0.02em;
     margin-bottom: 8px;
     color: var(--text);
+    text-wrap: balance;
 }
 
 .tagline {
     color: var(--text-dim);
     font-family: "JetBrains Mono", monospace;
-    font-size: 14px;
+    font-size: var(--text-sm);
     margin-bottom: 28px;
+    text-wrap: balance;
 }
 
 .section-title {
     font-family: "JetBrains Mono", monospace;
-    font-size: 11px;
+    font-size: var(--text-2xs);
     color: var(--accent);
-    letter-spacing: 2px;
+    letter-spacing: 0.18em;
     margin-bottom: 16px;
     text-transform: uppercase;
     font-weight: 600;
@@ -301,8 +330,8 @@ h1 {
     border-radius: 14px;
     text-decoration: none;
     font-family: "JetBrains Mono", monospace;
-    font-size: 13px;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    font-size: var(--text-xs);
+    transition: all 0.3s var(--ease-out-expo);
 }
 
 .social-icon:hover {
@@ -327,9 +356,9 @@ h1 {
     padding: 14px 24px;
     border-radius: 14px;
     font-family: "JetBrains Mono", monospace;
-    font-size: 14px;
+    font-size: var(--text-sm);
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 0.3s var(--ease-out-expo);
     width: max-content;
     max-width: 100%;
     display: inline-block;
@@ -351,7 +380,7 @@ h1 {
     color: var(--accent);
     text-decoration: none;
     font-family: "JetBrains Mono", monospace;
-    font-size: 13px;
+    font-size: var(--text-xs);
     transition: color 0.2s ease;
 }
 
@@ -363,7 +392,7 @@ h1 {
 footer {
     margin-top: 24px;
     font-family: "JetBrains Mono", monospace;
-    font-size: 11px;
+    font-size: var(--text-2xs);
     color: var(--text-dim);
     text-align: center;
     opacity: 0.6;
@@ -437,7 +466,7 @@ footer:hover .footer-box {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 0.3s var(--ease-out-expo);
 }
 
 .project-item:hover {
@@ -459,7 +488,7 @@ footer:hover .footer-box {
 .project-name {
     font-family: "JetBrains Mono", monospace;
     font-weight: 600;
-    font-size: 16px;
+    font-size: var(--text-md);
     color: var(--text);
 }
 
@@ -476,7 +505,7 @@ footer:hover .footer-box {
     border-radius: 10px;
     text-decoration: none;
     font-family: "JetBrains Mono", monospace;
-    font-size: 11px;
+    font-size: var(--text-2xs);
     transition: all 0.3s ease;
 }
 
@@ -488,9 +517,37 @@ footer:hover .footer-box {
 
 .project-desc {
     color: var(--text-dim);
-    font-size: 13px;
+    font-size: var(--text-xs);
     line-height: 1.5;
     margin: 0;
+}
+
+/* --- Giriş Koreografisi (Faz 2.1): hero → grid → projeler → kaynak → footer --- */
+.container > :nth-child(1) { --enter-delay: 0ms; }
+.container > :nth-child(2) { --enter-delay: 70ms; }
+.container > :nth-child(3) { --enter-delay: 140ms; }
+.container > :nth-child(4) { --enter-delay: 210ms; }
+.container > :nth-child(5) { --enter-delay: 280ms; }
+/* grid içindeki ikinci kart, ilkinden 60ms sonra gelir */
+.grid > .card:nth-child(2) { --enter-delay: 130ms; }
+
+/* Hero içi sahneleme: avatar → başlık → tagline → section-title → sosyaller */
+.hero .avatar,
+.hero h1,
+.hero .tagline,
+.hero .section-title,
+.hero .socials {
+    animation: fadeIn 0.6s var(--ease-out-expo) backwards;
+}
+.hero .avatar { animation-delay: 60ms; }
+.hero h1 { animation-delay: 130ms; }
+.hero .tagline { animation-delay: 200ms; }
+.hero .section-title { animation-delay: 260ms; }
+.hero .socials { animation-delay: 320ms; }
+
+.footer-box {
+    animation: fadeIn 0.7s var(--ease-out-expo) backwards;
+    animation-delay: var(--enter-delay, 0ms);
 }
 
 @keyframes fadeIn {
@@ -500,7 +557,7 @@ footer:hover .footer-box {
     }
     to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(0) translateZ(0);
     }
 }
 
@@ -516,6 +573,27 @@ footer:hover .footer-box {
     }
 }
 
+/* Seed kopyalama parıltısı (Faz 2.4) */
+@keyframes seedPulse {
+    0% {
+        transform: scale(1);
+        text-shadow: 0 0 0 rgba(139, 126, 255, 0);
+    }
+    40% {
+        transform: scale(1.35);
+        text-shadow: 0 0 12px rgba(139, 126, 255, 0.8);
+    }
+    100% {
+        transform: scale(1);
+        text-shadow: 0 0 0 rgba(139, 126, 255, 0);
+    }
+}
+
+.seed-star.copied {
+    animation: seedPulse 0.45s var(--ease-spring);
+    opacity: 1;
+}
+
 @keyframes starTwinkle {
     0%,
     100% {
@@ -528,16 +606,101 @@ footer:hover .footer-box {
     }
 }
 
+/* --- Kayan Yıldız (Faz 2.3) --- */
+.shooting-star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 0 6px 1px rgba(255, 255, 255, 0.5);
+    opacity: 0;
+    pointer-events: none;
+    animation: shoot 1.4s ease-out forwards;
+}
+
+/* Kuyruk: hareket yönünün tersine uzanır (element yörünge açısıyla döndürülür) */
+.shooting-star::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 1px;
+    width: 80px;
+    height: 1px;
+    transform: translateY(-50%);
+    background: linear-gradient(to left, rgba(255, 255, 255, 0.6), transparent);
+}
+
+@keyframes shoot {
+    0% {
+        opacity: 0;
+        transform: translate3d(0, 0, 0) rotate(var(--angle, 30deg));
+    }
+    15% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: translate3d(var(--travel-x, 200px), var(--travel-y, 120px), 0) rotate(var(--angle, 30deg));
+    }
+}
+
+::selection {
+    background: rgba(139, 126, 255, 0.35);
+    color: #fff;
+}
+
+/* Basılma geri bildirimi (Faz 2.4) */
+.mail-btn:active,
+.social-icon:active,
+.project-link-btn:active,
+.source-link:active,
+.source-licenses-link:active {
+    transform: scale(0.97);
+}
+
+.dice-btn:active {
+    transform: rotate(18deg) scale(0.94);
+}
+
+.seed-star:active {
+    transform: scale(0.94);
+}
+
 :focus-visible {
     outline: 2px solid var(--accent);
     outline-offset: 3px;
 }
 
+/* --- Film Grain (Faz 2.3): statik SVG noise, yalnızca masaüstü --- */
+@media (min-width: 601px) {
+    body::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: 10;
+        pointer-events: none;
+        opacity: 0.025;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='128' height='128'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='128' height='128' filter='url(%23n)'/%3E%3C/svg%3E");
+        background-size: 128px 128px;
+    }
+}
+
 @media (prefers-reduced-motion: reduce) {
     .star,
     .seed-star,
-    .card {
+    .card,
+    .hero .avatar,
+    .hero h1,
+    .hero .tagline,
+    .hero .section-title,
+    .hero .socials,
+    .footer-box,
+    .shooting-star {
         animation: none !important;
+    }
+    body::after {
+        content: none;
     }
 }
 
