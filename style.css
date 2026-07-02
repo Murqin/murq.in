@@ -78,6 +78,17 @@
     --accent: #8b7eff;
     --accent-2: #5a7fff;
     --border: rgba(139, 126, 255, 0.12);
+
+    /* Easing eğrileri (Faz 2) — tüm animasyon/transition'lar bunları kullanır */
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+    /* Tipografik skala (Faz 2) — mevcut boyutlar merkezileştirildi */
+    --text-2xs: 11px;
+    --text-xs: 13px;
+    --text-sm: 14px;
+    --text-md: 16px;
+    --text-xl: 26px;
 }
 
 body {
@@ -147,9 +158,9 @@ body {
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
-    animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    animation: fadeIn 0.6s var(--ease-out-expo);
     transition:
-        transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.4s var(--ease-out-expo),
         border-color 0.4s ease,
         box-shadow 0.4s ease;
     text-align: center;
@@ -251,7 +262,7 @@ body {
     border: 2px solid var(--border);
     object-fit: cover;
     transition:
-        transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.5s var(--ease-out-expo),
         border-color 0.3s ease;
 }
 
@@ -263,24 +274,26 @@ body {
 h1 {
     font-family: "JetBrains Mono", monospace;
     font-weight: 600;
-    font-size: 26px;
-    letter-spacing: -0.5px;
+    font-size: var(--text-xl);
+    letter-spacing: -0.02em;
     margin-bottom: 8px;
     color: var(--text);
+    text-wrap: balance;
 }
 
 .tagline {
     color: var(--text-dim);
     font-family: "JetBrains Mono", monospace;
-    font-size: 14px;
+    font-size: var(--text-sm);
     margin-bottom: 28px;
+    text-wrap: balance;
 }
 
 .section-title {
     font-family: "JetBrains Mono", monospace;
-    font-size: 11px;
+    font-size: var(--text-2xs);
     color: var(--accent);
-    letter-spacing: 2px;
+    letter-spacing: 0.18em;
     margin-bottom: 16px;
     text-transform: uppercase;
     font-weight: 600;
@@ -301,8 +314,8 @@ h1 {
     border-radius: 14px;
     text-decoration: none;
     font-family: "JetBrains Mono", monospace;
-    font-size: 13px;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    font-size: var(--text-xs);
+    transition: all 0.3s var(--ease-out-expo);
 }
 
 .social-icon:hover {
@@ -327,9 +340,9 @@ h1 {
     padding: 14px 24px;
     border-radius: 14px;
     font-family: "JetBrains Mono", monospace;
-    font-size: 14px;
+    font-size: var(--text-sm);
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 0.3s var(--ease-out-expo);
     width: max-content;
     max-width: 100%;
     display: inline-block;
@@ -351,7 +364,7 @@ h1 {
     color: var(--accent);
     text-decoration: none;
     font-family: "JetBrains Mono", monospace;
-    font-size: 13px;
+    font-size: var(--text-xs);
     transition: color 0.2s ease;
 }
 
@@ -363,7 +376,7 @@ h1 {
 footer {
     margin-top: 24px;
     font-family: "JetBrains Mono", monospace;
-    font-size: 11px;
+    font-size: var(--text-2xs);
     color: var(--text-dim);
     text-align: center;
     opacity: 0.6;
@@ -437,7 +450,7 @@ footer:hover .footer-box {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 0.3s var(--ease-out-expo);
 }
 
 .project-item:hover {
@@ -459,7 +472,7 @@ footer:hover .footer-box {
 .project-name {
     font-family: "JetBrains Mono", monospace;
     font-weight: 600;
-    font-size: 16px;
+    font-size: var(--text-md);
     color: var(--text);
 }
 
@@ -476,7 +489,7 @@ footer:hover .footer-box {
     border-radius: 10px;
     text-decoration: none;
     font-family: "JetBrains Mono", monospace;
-    font-size: 11px;
+    font-size: var(--text-2xs);
     transition: all 0.3s ease;
 }
 
@@ -488,7 +501,7 @@ footer:hover .footer-box {
 
 .project-desc {
     color: var(--text-dim);
-    font-size: 13px;
+    font-size: var(--text-xs);
     line-height: 1.5;
     margin: 0;
 }
@@ -526,6 +539,11 @@ footer:hover .footer-box {
         opacity: calc(var(--base-opacity, 0.5) * 0.3);
         transform: scale(0.8);
     }
+}
+
+::selection {
+    background: rgba(139, 126, 255, 0.35);
+    color: #fff;
 }
 
 :focus-visible {
