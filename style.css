@@ -158,7 +158,8 @@ body {
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
-    animation: fadeIn 0.6s var(--ease-out-expo);
+    animation: fadeIn 0.7s var(--ease-out-expo) both;
+    animation-delay: var(--enter-delay, 0ms);
     transition:
         transform 0.4s var(--ease-out-expo),
         border-color 0.4s ease,
@@ -506,6 +507,34 @@ footer:hover .footer-box {
     margin: 0;
 }
 
+/* --- Giriş Koreografisi (Faz 2.1): hero → grid → projeler → kaynak → footer --- */
+.container > :nth-child(1) { --enter-delay: 0ms; }
+.container > :nth-child(2) { --enter-delay: 70ms; }
+.container > :nth-child(3) { --enter-delay: 140ms; }
+.container > :nth-child(4) { --enter-delay: 210ms; }
+.container > :nth-child(5) { --enter-delay: 280ms; }
+/* grid içindeki ikinci kart, ilkinden 60ms sonra gelir */
+.grid > .card:nth-child(2) { --enter-delay: 130ms; }
+
+/* Hero içi sahneleme: avatar → başlık → tagline → section-title → sosyaller */
+.hero .avatar,
+.hero h1,
+.hero .tagline,
+.hero .section-title,
+.hero .socials {
+    animation: fadeIn 0.6s var(--ease-out-expo) both;
+}
+.hero .avatar { animation-delay: 60ms; }
+.hero h1 { animation-delay: 130ms; }
+.hero .tagline { animation-delay: 200ms; }
+.hero .section-title { animation-delay: 260ms; }
+.hero .socials { animation-delay: 320ms; }
+
+.footer-box {
+    animation: fadeIn 0.7s var(--ease-out-expo) both;
+    animation-delay: var(--enter-delay, 0ms);
+}
+
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -554,7 +583,13 @@ footer:hover .footer-box {
 @media (prefers-reduced-motion: reduce) {
     .star,
     .seed-star,
-    .card {
+    .card,
+    .hero .avatar,
+    .hero h1,
+    .hero .tagline,
+    .hero .section-title,
+    .hero .socials,
+    .footer-box {
         animation: none !important;
     }
 }
