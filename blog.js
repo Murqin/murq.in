@@ -8,12 +8,13 @@ function blogMessage(root, message) {
     root.replaceChildren(p);
 }
 
-function backToListLink() {
-    const back = document.createElement('a');
-    back.className = 'post-back';
-    back.href = '/blog';
-    back.textContent = '← all posts';
-    return back;
+// Yazı görünümünde üst bar "← murq.in" yerine listeye döner; böylece
+// sayfada tek bir geri yolu bulunur
+function pointNavBackToList() {
+    const nav = document.getElementById('blog-nav-back');
+    if (!nav) return;
+    nav.href = '/blog';
+    nav.textContent = '← all posts';
 }
 
 function formatPostDate(isoDate) {
@@ -24,6 +25,23 @@ function formatPostDate(isoDate) {
         day: 'numeric',
         timeZone: 'UTC'
     });
+}
+
+// Yazının ham markdown'ını (posts.js'teki başlıkla birlikte) panoya kopyalar
+let copyMdTimer = null;
+
+function copyMarkdownButton(post, md) {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'copy-md-btn';
+    btn.textContent = 'copy md';
+    btn.addEventListener('click', () => {
+        navigator.clipboard.writeText('# ' + post.title + '\n\n' + md);
+        btn.textContent = 'copied!';
+        clearTimeout(copyMdTimer);
+        copyMdTimer = setTimeout(() => { btn.textContent = 'copy md'; }, 1500);
+    });
+    return btn;
 }
 
 function renderPostList(root, posts) {
@@ -77,21 +95,25 @@ async function renderPost(root, post) {
         const title = document.createElement('h1');
         title.className = 'post-title';
         title.textContent = post.title;
+
+        const actions = document.createElement('div');
+        actions.className = 'post-actions';
         const meta = document.createElement('p');
         meta.className = 'post-meta';
         meta.textContent = formatPostDate(post.date);
+        actions.append(meta, copyMarkdownButton(post, md));
+
         const body = document.createElement('div');
         body.className = 'post-body';
         // Güvenli: markdownToHtml tüm girdiyi escape eder, yalnızca kendi
         // ürettiği etiketleri ve beyaz listeli URL'leri çıktıya koyar
         body.innerHTML = markdownToHtml(md);
-        article.append(title, meta, body);
+        article.append(title, actions, body);
 
-        root.replaceChildren(backToListLink(), article);
+        root.replaceChildren(article);
     } catch (err) {
         console.warn('Post could not be loaded:', err);
         blogMessage(root, 'This post could not be loaded.');
-        root.prepend(backToListLink());
     }
 }
 
@@ -113,9 +135,9 @@ async function renderPost(root, post) {
     }
 
     const post = posts.find((p) => p.slug === slug);
+    pointNavBackToList();
     if (!post) {
         blogMessage(root, 'Post not found.');
-        root.prepend(backToListLink());
         return;
     }
     renderPost(root, post);

@@ -696,30 +696,45 @@ footer:hover .footer-box {
 }
 
 /* Tek yazı görünümü */
-.post-back {
-    display: inline-block;
-    margin-bottom: 18px;
-    color: var(--text-dim);
-    text-decoration: none;
-    font-family: "JetBrains Mono", monospace;
-    font-size: var(--text-xs);
-    transition: color 0.2s ease;
-}
-
-.post-back:hover {
-    color: var(--accent);
-}
-
 .post-title {
     font-size: 22px;
     margin-bottom: 6px;
+}
+
+/* Tarih solda, "copy md" butonu sağda */
+.post-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 22px;
 }
 
 .post-meta {
     font-family: "JetBrains Mono", monospace;
     font-size: var(--text-2xs);
     color: var(--text-dim);
-    margin-bottom: 22px;
+    margin: 0;
+}
+
+.copy-md-btn {
+    appearance: none;
+    -webkit-appearance: none;
+    background: rgba(139, 126, 255, 0.03);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    font-family: "JetBrains Mono", monospace;
+    font-size: var(--text-2xs);
+    padding: 5px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.copy-md-btn:hover {
+    color: #fff;
+    background: rgba(139, 126, 255, 0.15);
+    border-color: var(--accent);
 }
 
 .post-body p {
