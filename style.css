@@ -549,12 +549,16 @@ footer:hover .footer-box {
 .project-status.wip { color: #e5c07b; }
 .project-status.archived { color: var(--text-dim); }
 
+/* Eşit yükseklikli grid hücrelerinde son öğe (etiketler ya da etiket yoksa
+   açıklama) kart tabanına hizalanır */
+.project-item > :last-child {
+    margin-top: auto;
+}
+
 .project-tags {
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
-    /* Eşit yükseklikli grid hücrelerinde etiketler kart tabanına hizalanır */
-    margin-top: auto;
     padding-top: 14px;
 }
 

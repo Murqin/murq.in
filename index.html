@@ -86,9 +86,13 @@
                 <!-- İçerik projects.js veri modülünden render edilir -->
                 <div class="projects-list"></div>
                 <noscript>
+                    <!-- JS kapalıyken asgari statik liste (projects.js ile eşzamanlı tut) -->
                     <p class="project-desc">
-                        Projects are rendered with JavaScript — see them on
-                        <a href="https://github.com/Murqin">GitHub</a>.
+                        <a href="https://github.com/murqin/murq.in">murq.in</a> ·
+                        <a href="https://rep-counter-sapphire.vercel.app/">Rep Counter</a> ·
+                        <a href="https://modrinth.com/plugin/whitelist-managers">Whitelist Managers</a> ·
+                        <a href="https://modrinth.com/plugin/globalvillagerdiscounts">Global Villager Discounts</a>
+                        — full list on <a href="https://github.com/Murqin">GitHub</a>.
                     </p>
                 </noscript>
             </section>
@@ -129,6 +133,8 @@
                 </div>
             </footer>
         </main>
+        <!-- projects.js, script.js'ten ÖNCE ve her ikisi de defer (async değil) kalmalı:
+             render, PROJECTS'in belge sırasıyla önce yüklenmesine dayanır -->
         <script src="projects.js" defer></script>
         <script src="script.js" defer></script>
     </body>

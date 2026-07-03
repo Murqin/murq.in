@@ -130,8 +130,20 @@ function applyCombinedSystem(seeds) {
 // --- Projeler: projects.js veri modülünden render edilir ---
 function renderProjects() {
     const list = document.querySelector('.projects-list');
-    // Veri modülü yüklenmediyse (eski önbellekli HTML) mevcut içeriğe dokunma
-    if (!list || typeof PROJECTS === 'undefined') return;
+    if (!list) return;
+
+    // Veri modülü yüklenemediyse (404, ağ hatası) kartı boş bırakma
+    if (typeof PROJECTS === 'undefined') {
+        const fallback = document.createElement('p');
+        fallback.className = 'project-desc';
+        fallback.append('Projects failed to load — see them on ');
+        const a = document.createElement('a');
+        a.href = 'https://github.com/Murqin';
+        a.textContent = 'GitHub';
+        fallback.append(a, '.');
+        list.replaceChildren(fallback);
+        return;
+    }
 
     list.replaceChildren();
     for (const project of PROJECTS) {
@@ -149,7 +161,7 @@ function renderProjects() {
         titleGroup.appendChild(name);
         if (project.status) {
             const status = document.createElement('span');
-            status.className = 'project-status ' + project.status;
+            status.className = 'project-status ' + String(project.status).toLowerCase();
             status.textContent = project.status;
             titleGroup.appendChild(status);
         }
