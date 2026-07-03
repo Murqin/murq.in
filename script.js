@@ -9,7 +9,7 @@ function mulberry32(seed) {
     };
 }
 
-// --- Kombine Seed Çözümleme (6 Karakter Gradyan + 6 Karakter Yıldız) ---
+// --- Combined seed resolution (6-char gradient + 6-char stars) ---
 function parseSeedHex(hex) {
     return {
         gradSeed: parseInt(hex.slice(0, 6), 16),
@@ -21,19 +21,17 @@ function parseSeedHex(hex) {
 function resolveSeeds() {
     const segment = window.location.pathname.slice(1);
 
-    // 12 karakterlik geçerli bir hex var mı kontrolü
     if (/^[0-9a-f]{12}$/i.test(segment)) {
         return parseSeedHex(segment);
     }
 
-    // Yol segmenti yoksa ?s= parametresine bak — blog gibi sabit yollu
-    // sayfalar seed'i query ile taşır, tema geçişlerde korunur
+    // No path segment: fall back to ?s= — fixed-path pages like the blog
+    // carry the seed in the query so the theme survives navigation
     const qs = new URLSearchParams(window.location.search).get('s');
     if (qs && /^[0-9a-f]{12}$/i.test(qs)) {
         return parseSeedHex(qs);
     }
 
-    // Yoksa veya geçersizse iki adet bağımsız seed üret ve birleştir
     const gradSeed = Math.floor(Math.random() * 0xFFFFFF) + 1;
     const starSeed = Math.floor(Math.random() * 0xFFFFFF) + 1;
     const hex = gradSeed.toString(16).padStart(6, '0') + starSeed.toString(16).padStart(6, '0');
@@ -41,7 +39,7 @@ function resolveSeeds() {
     return { gradSeed, starSeed, hex };
 }
 
-// Reduced-motion tercihi — crossfade, parallax, kayan yıldız ve count-up bunu kontrol eder
+// Reduced-motion preference — gates crossfade, parallax, shooting stars and count-up
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 function gradientCSS(gradSeed) {
@@ -63,7 +61,7 @@ function gradientCSS(gradSeed) {
 function applyGradient(gradSeed, animate) {
     const container = document.getElementById('gradient');
     if (!container) {
-        // Konteyner yoksa (eski önbellekli HTML) eski davranışa düş
+        // No container (stale cached HTML) — fall back to the old behaviour
         document.body.style.backgroundImage = gradientCSS(gradSeed);
         return;
     }
@@ -76,12 +74,12 @@ function applyGradient(gradSeed, animate) {
     }
     layer.style.opacity = '0';
     container.appendChild(layer);
-    // İki rAF: tarayıcının 0 opaklığı boyamasını garantiler, sonra geçiş başlar
+    // Double rAF guarantees the browser paints opacity 0 before the transition starts
     requestAnimationFrame(() => {
         requestAnimationFrame(() => { layer.style.opacity = '1'; });
     });
-    // Geçiş bitince eski katmanları temizle (transitionend yerine zamanlayıcı: sekme
-    // arka plandayken transitionend gecikebilir/kaçabilir)
+    // Clean up old layers once the transition ends (a timer instead of
+    // transitionend, which can be delayed or lost in background tabs)
     setTimeout(() => {
         while (container.firstChild && container.firstChild !== layer) {
             container.firstChild.remove();
@@ -128,8 +126,8 @@ function updateSeedStar(hex) {
     }
 }
 
-// Sayfalar arası geçişte tema korunsun: data-seed-nav="<hedef>" taşıyan
-// linklere geçerli seed eklenir ("/" -> /hex, "/blog" -> /blog?s=hex)
+// Keep the theme across pages: links marked data-seed-nav get the current
+// seed appended ("/" -> /hex, "/blog" -> /blog?s=hex)
 function updateSeedLinks(hex) {
     for (const a of document.querySelectorAll('a[data-seed-nav]')) {
         const base = a.getAttribute('data-seed-nav');
@@ -137,7 +135,7 @@ function updateSeedLinks(hex) {
     }
 }
 
-// --- Kombine Sistemi Uygulama ---
+// --- Apply the combined system ---
 function applyCombinedSystem(seeds) {
     applyGradient(seeds.gradSeed, false);
     updateSeedStar(seeds.hex);
@@ -148,12 +146,12 @@ function applyCombinedSystem(seeds) {
     }
 }
 
-// --- Projeler: projects.js veri modülünden render edilir ---
+// --- Projects: rendered from the projects.js data module ---
 function renderProjects() {
     const list = document.querySelector('.projects-list');
     if (!list) return;
 
-    // Veri modülü yüklenemediyse (404, ağ hatası) kartı boş bırakma
+    // Don't leave the card empty if the data module failed to load (404, network)
     if (typeof PROJECTS === 'undefined') {
         const fallback = document.createElement('p');
         fallback.className = 'project-desc';
@@ -188,8 +186,8 @@ function renderProjects() {
         desc.className = 'project-desc';
         desc.textContent = project.description;
 
-        // Taban satırı: solda etiketler, sağda linkler — konumları karttan
-        // karta değişmesin diye başlıktan bağımsız sabit bir bölge
+        // Bottom row: tags left, links right — a fixed zone independent of
+        // the header so button positions don't vary from card to card
         const footer = document.createElement('div');
         footer.className = 'project-footer';
 
@@ -229,12 +227,11 @@ function renderProjects() {
     }
 }
 
-// Sistemi yükle
 const currentSeeds = resolveSeeds();
 applyCombinedSystem(currentSeeds);
 renderProjects();
 
-// --- Zar Butonu: Yeni Rastgele Tema (crossfade ile) ---
+// --- Dice button: new random theme (with crossfade) ---
 let starsRebuildTimer = null;
 
 function rerollTheme() {
@@ -249,12 +246,12 @@ function rerollTheme() {
         return;
     }
 
-    // Gradyan: yeni katman üstte yumuşakça belirir (~700ms)
+    // Gradient: the new layer fades in on top (~700ms)
     applyGradient(gradSeed, true);
     updateSeedStar(hex);
     updateSeedLinks(hex);
 
-    // Yıldızlar: mevcutlar söner (~300ms), yenileri yeni konumlarında yanar
+    // Stars: current ones fade out (~300ms), new ones light up in new positions
     const starsContainer = document.getElementById('stars');
     if (starsContainer) {
         starsContainer.style.opacity = '0';
@@ -265,9 +262,9 @@ function rerollTheme() {
     }
 }
 
-// --- Mouse Parallax (Faz 2.3, yalnızca masaüstü) ---
+// --- Mouse parallax (desktop only) ---
 function initParallax() {
-    // Yalnızca hassas imleçli (mouse/trackpad) cihazlarda ve hareket kısıtı yokken
+    // Only on fine-pointer devices and only when motion isn't reduced
     if (!window.matchMedia('(pointer: fine)').matches || reduceMotion.matches) return;
     const stars = document.getElementById('stars');
     if (!stars) return;
@@ -277,7 +274,7 @@ function initParallax() {
     let pendingFrame = null;
 
     window.addEventListener('mousemove', (e) => {
-        // İmleç merkezden uzaklaştıkça yıldız alanı ters yönde en fazla ±4px kayar
+        // The star field shifts up to ±4px opposite the cursor's offset from center
         offsetX = (e.clientX / window.innerWidth - 0.5) * -8;
         offsetY = (e.clientY / window.innerHeight - 0.5) * -8;
         if (pendingFrame) return;
@@ -288,7 +285,7 @@ function initParallax() {
     });
 }
 
-// --- Kayan Yıldız (Faz 2.3): ~15-25 sn'de bir rastgele yörünge ---
+// --- Shooting star: a random trajectory every ~15-25s ---
 function spawnShootingStar() {
     if (reduceMotion.matches || document.hidden) return;
     const container = document.getElementById('stars');
@@ -297,7 +294,7 @@ function spawnShootingStar() {
     const star = document.createElement('div');
     star.className = 'shooting-star';
 
-    const angleDeg = 20 + Math.random() * 40;          // aşağı-sağa eğik yörünge
+    const angleDeg = 20 + Math.random() * 40;          // tilted downward-right trajectory
     const angleRad = angleDeg * (Math.PI / 180);
     const distance = 150 + Math.random() * 250;
 
@@ -309,7 +306,7 @@ function spawnShootingStar() {
 
     container.appendChild(star);
     star.addEventListener('animationend', () => star.remove(), { once: true });
-    // Emniyet: animationend kaçarsa (ör. reroll sırasında) elementi yine de temizle
+    // Safety net: remove the element even if animationend never fires (e.g. mid-reroll)
     setTimeout(() => star.remove(), 3000);
 }
 
@@ -321,7 +318,7 @@ function scheduleShootingStar() {
     }, delay);
 }
 
-// --- Ziyaretçi Sayacı Count-Up (Faz 2.4) ---
+// --- Visitor counter count-up ---
 function animateCount(el, target) {
     if (reduceMotion.matches || !Number.isFinite(target) || target <= 0) {
         el.textContent = Number.isFinite(target) ? target.toLocaleString() : '---';
@@ -338,7 +335,7 @@ function animateCount(el, target) {
     requestAnimationFrame(frame);
 }
 
-// --- Kombine Seed Linkini Kopyalama ---
+// --- Copy the combined seed link ---
 let copiedPulseTimer = null;
 
 function copySeed() {
@@ -347,7 +344,7 @@ function copySeed() {
     const hex = star.dataset.hex;
     navigator.clipboard.writeText(window.location.origin + '/' + hex);
     star.dataset.seed = 'seed copied!';
-    // Pulse'ı yeniden tetiklenebilir kıl: sınıfı kaldır, reflow zorla, tekrar ekle
+    // Make the pulse retriggerable: drop the class, force a reflow, re-add it
     star.classList.remove('copied');
     void star.offsetWidth;
     star.classList.add('copied');
@@ -356,7 +353,7 @@ function copySeed() {
     setTimeout(() => { star.dataset.seed = hex; }, 1800);
 }
 
-// --- E-posta Kopyalama ---
+// --- Copy e-mail ---
 function copyMail() {
     navigator.clipboard.writeText('murqin@proton.me');
     const btn = document.querySelector('.mail-btn');
@@ -365,12 +362,12 @@ function copyMail() {
     setTimeout(() => { btn.textContent = 'murqin@proton.me'; }, 1500);
 }
 
-// --- Ziyaretçi Sayacı (Cloudflare KV) Entegrasyonu ---
+// --- Visitor counter (Cloudflare KV) ---
 async function fetchVisitorCount() {
     const countEl = document.querySelector('#visitor-count .count-value');
     if (!countEl) return;
 
-    // İlk oturum yüklemesinde POST ile artır, sonrakilerde GET ile yalnızca oku
+    // First load in a session increments via POST; later loads only read
     const hasVisited = sessionStorage.getItem('murqin-visited');
 
     try {
@@ -379,7 +376,7 @@ async function fetchVisitorCount() {
             hasVisited ? undefined : { method: 'POST' }
         );
         if (!res.ok && !hasVisited) {
-            // Artırma reddedildiyse (ör. izinli olmayan önizleme ortamı) sayacı yine de göster
+            // If the increment was rejected (e.g. an unauthorised preview origin), still show the count
             res = await fetch('/api/visitors');
         }
         if (!res.ok) throw new Error('API request failed');
@@ -396,7 +393,6 @@ async function fetchVisitorCount() {
     }
 }
 
-// Sayfa yüklendiğinde çalıştır
 document.addEventListener('DOMContentLoaded', () => {
     fetchVisitorCount();
     initParallax();

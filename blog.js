@@ -1,6 +1,6 @@
-// Blog sayfası: parametresiz açılışta yazı listesi, ?post=<slug> ile tek yazı.
-// Dizin posts.json'dan fetch edilir, içerik posts/<slug>.md'den gelir;
-// markdown.js çevirir.
+// Blog page: the post list by default, a single post via ?post=<slug>.
+// The index is fetched from posts.json, content from posts/<slug>.md;
+// markdown.js renders it.
 
 function blogMessage(root, message) {
     const p = document.createElement('p');
@@ -9,19 +9,19 @@ function blogMessage(root, message) {
     root.replaceChildren(p);
 }
 
-// Mevcut tema seed'ini linke ekler ki sayfa geçişinde tema korunsun
-// (currentSeeds script.js'te tanımlanır; o yüklenmediyse link sade kalır)
+// Append the current theme seed so the theme survives navigation
+// (currentSeeds comes from script.js; without it the link stays plain)
 function withSeed(url) {
     if (typeof currentSeeds === 'undefined') return url;
     return url + (url.includes('?') ? '&' : '?') + 's=' + currentSeeds.hex;
 }
 
-// Yazı görünümünde üst bar "← murq.in" yerine listeye döner; böylece
-// sayfada tek bir geri yolu bulunur
+// On the post view the top bar points back to the list instead of
+// "← murq.in", so each view has exactly one way back
 function pointNavBackToList() {
     const nav = document.getElementById('blog-nav-back');
     if (!nav) return;
-    // script.js'in seed-link güncellemesi bu linki artık ele almasın
+    // Stop script.js's seed-link pass from reclaiming this link
     nav.removeAttribute('data-seed-nav');
     nav.href = withSeed('/blog');
     nav.textContent = '← all posts';
@@ -37,7 +37,7 @@ function formatPostDate(isoDate) {
     });
 }
 
-// Yazının ham markdown'ını (dizindeki başlıkla birlikte) panoya kopyalar
+// Copies the post's raw markdown (prefixed with the title from the index)
 let copyMdTimer = null;
 
 function copyMarkdownButton(post, md) {
@@ -63,7 +63,7 @@ function renderPostList(root, posts) {
     for (const post of posts) {
         const item = document.createElement('a');
         item.className = 'post-list-item';
-        // Kanonik yol /blog: Pages, blog.html'i 308 ile /blog'a yönlendirir
+        // Canonical path is /blog: Pages 308-redirects blog.html there
         item.href = withSeed('/blog?post=' + encodeURIComponent(post.slug));
 
         const header = document.createElement('div');
@@ -93,8 +93,8 @@ async function renderPost(root, post) {
     try {
         const res = await fetch('posts/' + encodeURIComponent(post.slug) + '.md');
         const type = res.headers.get('Content-Type') || '';
-        // _redirects catch-all eksik dosyada index.html'i 200 ile döndürür;
-        // markdown yerine HTML gelirse dosya yok demektir
+        // The _redirects catch-all serves index.html with 200 for missing
+        // files; an HTML content type means the file doesn't exist
         if (!res.ok || type.includes('text/html')) {
             throw new Error('post file missing');
         }
@@ -115,8 +115,8 @@ async function renderPost(root, post) {
 
         const body = document.createElement('div');
         body.className = 'post-body';
-        // Güvenli: markdownToHtml tüm girdiyi escape eder, yalnızca kendi
-        // ürettiği etiketleri ve beyaz listeli URL'leri çıktıya koyar
+        // Safe: markdownToHtml escapes all input and only emits its own
+        // tags and allow-listed URLs
         body.innerHTML = markdownToHtml(md);
         article.append(title, actions, body);
 
@@ -139,8 +139,8 @@ async function renderPost(root, post) {
     let posts;
     try {
         const res = await fetch('/posts.json');
-        // _redirects catch-all eksik dosyada index.html'i 200 ile döndürür;
-        // JSON parse edilemiyorsa dizin yok demektir
+        // The _redirects catch-all serves index.html with 200 for missing
+        // files; if JSON parsing fails, the index doesn't exist
         if (!res.ok) throw new Error('http ' + res.status);
         posts = await res.json();
         if (!Array.isArray(posts)) throw new Error('unexpected payload');

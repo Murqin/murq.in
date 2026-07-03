@@ -1,27 +1,27 @@
 #!/usr/bin/env bash
-# Tek komutla yazı akışı:
+# One-command post flow:
 #
 #   tools/new-post.sh
 #
-# 1. tools/new-post.js  — soruları sorar, iskeleti kurar
-# 2. Editör             — $EDITOR ayarlıysa o; değilse VS Code (code --wait),
-#                         o da yoksa nano. --wait şart: code normalde hemen
-#                         döner, script de dosya boşken doğrulamaya geçerdi
-# 3. tools/update-rss.js — doğrular, lintler, rss.xml'i üretip stage'ler
+# 1. tools/new-post.js  — asks the questions, scaffolds the post
+# 2. Editor             — $EDITOR if set; otherwise VS Code (code --wait),
+#                         falling back to nano. --wait matters: code returns
+#                         immediately without it and validation would run
+#                         against the still-empty file
+# 3. tools/update-rss.js — validates, lints, regenerates and stages rss.xml
 #
-# Dosyayı boş bırakıp çıkarsan 3. adım hata verir — yazılmamış yazı
-# beslemeye giremez; yazıyı tamamlayıp `node tools/update-rss.js` ile
-# devam edersin.
+# Leaving the file empty makes step 3 fail — an unwritten post can't reach
+# the feed; finish writing and continue with `node tools/update-rss.js`.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
 node tools/new-post.js
 
-# new-post.js'in az önce oluşturduğu dosya: posts/ altındaki en yenisi
+# The file new-post.js just created: the newest one under posts/
 newest="$(ls -t posts/*.md | head -n 1)"
 
 if [ -n "${EDITOR:-}" ]; then
-    # $EDITOR argüman içerebilir (ör. "code --wait") — bilerek tırnaksız
+    # $EDITOR may carry arguments (e.g. "code --wait") — unquoted on purpose
     ${EDITOR} "$newest"
 elif command -v code >/dev/null 2>&1; then
     code --wait "$newest"

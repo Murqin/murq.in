@@ -1,8 +1,7 @@
-// /blog rotası: ?post=<slug> isteklerinde blog.html'in genel meta
-// etiketlerini yazıya özel olanlarla değiştirir. Link önizleme botları
-// (Discord, Slack, X vb.) JS çalıştırmadığından bu iş sunucuda yapılmak
-// zorunda. Yazı verisi posts.json'dan gelir (yazı dizininin tek kaynağı;
-// blog.js ve araçlar da aynı dosyayı okur).
+// /blog route: for ?post=<slug> requests, swaps blog.html's generic meta
+// tags for the post's own. Link-preview bots (Discord, Slack, X, …) don't
+// run JS, so this has to happen server-side. Post data comes from
+// posts.json (the single source of the post index).
 
 function escapeHtml(s) {
     return String(s)
@@ -21,7 +20,7 @@ export async function onRequestGet(context) {
     const { request, env } = context;
     const url = new URL(request.url);
 
-    // Statik sayfayı asset katmanından al (pretty-URL farkları için iki yol)
+    // Fetch the static page from the asset layer (two paths to cover pretty-URL differences)
     const asset =
         (await fetchAsset(env, url.origin, '/blog')) ||
         (await fetchAsset(env, url.origin, '/blog.html'));
@@ -32,8 +31,8 @@ export async function onRequestGet(context) {
         const res = await fetchAsset(env, url.origin, '/posts.json');
         if (res) posts = await res.json();
     } catch (err) {
-        // posts.json okunamazsa sayfa dokunulmadan döner; istemci tarafı
-        // render zaten çalışır, noscript de statik yedeğine düşer
+        // If posts.json can't be read the page goes out untouched; client-side
+        // rendering still works and noscript falls back to its static copy
     }
     if (!Array.isArray(posts)) return asset;
 
@@ -41,8 +40,8 @@ export async function onRequestGet(context) {
     const post = slug ? posts.find((p) => p.slug === slug) || null : null;
     let html = await asset.text();
 
-    // JS kapalı ziyaretçiler için noscript'i gerçek içerik linkleriyle doldur:
-    // ham .md dosyaları düz metin olarak tarayıcıda okunabilir
+    // Fill the noscript with real content links for no-JS visitors:
+    // raw .md files read fine as plain text in the browser
     const mdLink = (p) =>
         `<a href="/posts/${encodeURIComponent(p.slug)}.md">${escapeHtml(p.title)}</a>`;
     let noscript = null;

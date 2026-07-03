@@ -1,12 +1,12 @@
 #!/usr/bin/env node
-// Yazı silme aracı:
+// Post deletion tool:
 //
-//   node tools/delete-post.js <slug>        # onay sorar
-//   node tools/delete-post.js <slug> --yes  # onaysız (script kullanımı)
+//   node tools/delete-post.js <slug>        # asks for confirmation
+//   node tools/delete-post.js <slug> --yes  # no confirmation (for scripts)
 //
-// Yapar: kaydı posts.json'dan çıkarır, posts/<slug>.md'yi siler,
-// rss.xml'i tazelemek için update-rss.js'i çalıştırır ve değişiklikleri
-// stage'ler. Slug verilmezse mevcut yazıları listeler.
+// Removes the posts.json record, deletes posts/<slug>.md, reruns
+// update-rss.js to refresh rss.xml, and stages the changes. Lists the
+// existing posts when no slug is given.
 'use strict';
 
 const fs = require('fs');
@@ -23,8 +23,8 @@ function loadPosts() {
     return posts;
 }
 
-// Tek soru, arayüz kurulur kurulmaz sorulur; new-post.js'teki tamponlama
-// tuzağı burada oluşmaz (araya başka async iş girmiyor)
+// A single question asked right after the interface is created; the
+// buffering trap from new-post.js can't occur (no async gap in between)
 function confirm(prompt) {
     return new Promise((resolve) => {
         const rl = readline.createInterface({
@@ -44,7 +44,7 @@ function stage(paths) {
             stdio: 'ignore'
         });
     } catch (err) {
-        // git kurulu değilse ya da repo değilse stage adımı atlanır
+        // Skip staging when git is missing or this isn't a repo
     }
 }
 
@@ -103,9 +103,10 @@ async function main() {
         console.log(`deleted posts/${slug}.md`);
     }
 
-    // Beslemeyi tazele (kalan kayıtları da doğrular) ve silinenleri stage'le.
-    // Kalan bir yazı geçersizse (ör. yazılmamış taslak) silme yine tamamlanır,
-    // besleme sonraki başarılı update-rss çalışmasında tazelenir
+    // Refresh the feed (this also validates the remaining posts) and stage
+    // the deletions. If a remaining post is invalid (e.g. an unwritten
+    // draft) the deletion still completes; the feed catches up on the next
+    // successful update-rss run
     try {
         execFileSync('node', [path.join(__dirname, 'update-rss.js')], {
             stdio: 'inherit'

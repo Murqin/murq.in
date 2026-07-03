@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-# new-post.sh'ın simetriği — yazı silme:
+# Counterpart of new-post.sh — post deletion:
 #
-#   tools/delete-post.sh <slug>        # onay sorar
-#   tools/delete-post.sh <slug> --yes  # onaysız
-#   tools/delete-post.sh               # mevcut yazıları listeler
+#   tools/delete-post.sh <slug>        # asks for confirmation
+#   tools/delete-post.sh <slug> --yes  # no confirmation
+#   tools/delete-post.sh               # lists the existing posts
 #
-# Tüm iş tools/delete-post.js'te; bu sarmalayıcı yalnızca repo kökünden
-# çalışmayı garantiler ve argümanları aynen iletir.
+# All the logic lives in tools/delete-post.js; this wrapper only guarantees
+# running from the repo root and passes the arguments through.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 

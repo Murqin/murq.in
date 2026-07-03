@@ -1,10 +1,10 @@
-// Mini markdown çevirici — sitenin ihtiyacı kadar sözdizimi, sıfır bağımlılık.
-// Desteklenen: #–###### başlık, paragraf, -/* ve 1. listeleri, > alıntı,
-// ``` kod bloğu, --- çizgi, **kalın**, *italik*, `satır içi kod`,
-// [link](url), ![görsel](url)
-// Güvenlik: tüm girdi önce HTML-escape edilir; çıktıya yalnızca burada
-// üretilen etiketler girer. Link/görsel adresleri şema beyaz listesinden
-// geçer (http, https ve site içi yollar) — javascript: vb. reddedilir.
+// Mini markdown renderer — just the syntax this site needs, zero dependencies.
+// Supported: #–###### headings, paragraphs, -/* and 1. lists, > quotes,
+// ``` code fences, --- rules, **bold**, *italic*, `inline code`,
+// [link](url), ![image](url)
+// Security: all input is HTML-escaped first; only tags produced here reach
+// the output. Link/image URLs pass a scheme allow-list (http, https and
+// in-site paths) — javascript: and friends are rejected.
 
 function mdEscapeHtml(s) {
     return s
@@ -16,17 +16,17 @@ function mdEscapeHtml(s) {
 
 function mdSafeUrl(url) {
     if (/^https?:\/\//i.test(url)) return url;
-    // Protokol-göreli (//host) adresler siteden dışarı çıkarır — reddet
+    // Protocol-relative (//host) URLs lead off-site — reject
     if (/^\/\//.test(url)) return null;
-    // Şema içeren diğer her şey (javascript:, data: vb.) reddedilir;
-    // kalanlar site içi yol sayılır (/x, ./x, #x ve çıplak göreli yollar)
+    // Anything else with a scheme (javascript:, data:, …) is rejected; the
+    // rest counts as an in-site path (/x, ./x, #x and bare relative paths)
     if (/^[a-z][a-z0-9+.-]*:/i.test(url)) return null;
     return url;
 }
 
 function mdInline(text) {
-    // Üretilen HTML parçaları NUL'lu yer tutucularla ayrılır ki sonraki
-    // kurallar (özellikle vurgu) hazır etiketlerin/özniteliklerin içine girmesin
+    // Generated HTML fragments are stashed behind NUL placeholders so later
+    // rules (emphasis in particular) can't splice into finished tags/attributes
     const tokens = [];
     const stash = (html) => {
         tokens.push(html);
@@ -53,8 +53,8 @@ function mdInline(text) {
         return stash('<a href="' + safe + '"' + external + '>' + label + '</a>');
     });
 
-    // Vurgu içeriği boşlukla başlayıp bitemez; böylece "rm *.log ve *.tmp"
-    // gibi metinlerdeki serbest yıldızlar vurgu sanılmaz
+    // Emphasis content can't start or end with whitespace, so stray asterisks
+    // in text like "rm *.log and *.tmp" stay literal
     text = text.replace(/\*\*([^\s*](?:[^*]*[^\s*])?)\*\*/g, '<strong>$1</strong>');
     text = text.replace(/\*([^\s*](?:[^*]*[^\s*])?)\*/g, '<em>$1</em>');
 
@@ -62,8 +62,8 @@ function mdInline(text) {
 }
 
 function markdownToHtml(md) {
-    // Girdi bu noktada bütünüyle escape edilir; ">" artık "&gt;" olarak gelir
-    // Yer tutucu NUL'larıyla çakışmaması için kaynaktaki olası NUL baytları atılır
+    // Input is fully escaped up front — ">" arrives below as "&gt;".
+    // NUL bytes are stripped so they can't collide with the placeholders
     const cleaned = md.replace(/\u0000/g, '').replace(/\r\n?/g, '\n');
     const lines = mdEscapeHtml(cleaned).split('\n');
     const out = [];
@@ -80,8 +80,8 @@ function markdownToHtml(md) {
 
         const fence = line.match(/^(`{3,})/);
         if (fence) {
-            // Kapanış, açılıştaki kadar (veya daha çok) backtick ister;
-            // böylece ```` içinde ``` örneği gösterilebilir
+            // Closing needs at least as many backticks as the opening,
+            // so a ```` block can contain a ``` example
             const closeRe = new RegExp('^`{' + fence[1].length + ',}\\s*$');
             const buf = [];
             i++;
@@ -89,15 +89,15 @@ function markdownToHtml(md) {
                 buf.push(lines[i]);
                 i++;
             }
-            i++; // kapanış çiti
+            i++; // skip the closing fence
             out.push('<pre><code>' + buf.join('\n') + '</code></pre>');
             continue;
         }
 
         const heading = line.match(/^(#{1,6})\s+(.*)$/);
         if (heading) {
-            // Yazı başlığı posts.json'dan tek h1 olarak gelir; .md içindeki
-            // # de h2'ye indirilir ki sayfada ikinci bir h1 oluşmasın
+            // The post title from posts.json is the page's only h1; a
+            // markdown # is demoted to h2 so a second h1 can never appear
             const level = Math.max(2, heading[1].length);
             out.push('<h' + level + '>' + mdInline(heading[2]) + '</h' + level + '>');
             i++;
@@ -134,7 +134,7 @@ function markdownToHtml(md) {
             continue;
         }
 
-        // Paragraf: boş satıra ya da başka bir blok başlangıcına kadar birleştir
+        // Paragraph: merge lines until a blank line or another block start
         const buf = [line];
         i++;
         while (i < lines.length && lines[i].trim() && !isBlockStart(lines[i])) {

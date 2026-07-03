@@ -1,5 +1,3 @@
-# My Experience with Fable 5
-
 ## A quick disclaimer
 
 I want to be upfront about the timeline: I wasn't one of the people who tried Fable 5 on its actual day-one launch (June 9). What I actually got was access from around July 1st–2nd — which, as it turns out, was itself a kind of "day one," since Fable 5 had been pulled offline for everyone worldwide on June 12 due to a US export-control directive, and only came back online on July 1 after the controls were lifted. So I didn't miss some lucky-few early window — for about three weeks in between, nobody outside a small vetted group could use it at all. I just happened to jump in right as it reopened to the public.

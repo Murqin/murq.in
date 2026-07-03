@@ -1,16 +1,16 @@
 #!/usr/bin/env node
-// Yarı otomatik RSS güncelleme aracı — yeni yazı ekledikten sonra tek komut:
+// Semi-automatic RSS refresh — one command after adding a post:
 //
 //   node tools/update-rss.js
 //
-// Yaptıkları:
-// 1. posts.json kayıtlarını doğrular (slug <-> dosya eşleşmesi, tarih biçimi,
-//    zorunlu alanlar, slug tekrarı)
-// 2. posts/ altında dizinde kaydı olmayan (sahipsiz) .md dosyalarını raporlar
-// 3. Yazı içeriğini lintler: Obsidian'a özgü sözdizimi ve site parser'ının
-//    desteklemediği markdown için satır numaralı uyarı verir
-// 4. rss.xml'i yeniden üretir
-// 5. Değişiklik varsa git'e stage'ler ve beslemeye eklenen yazıları listeler
+// What it does:
+// 1. Validates posts.json (slug <-> file match, date format, required
+//    fields, duplicate slugs)
+// 2. Reports orphan .md files in posts/ that have no index entry
+// 3. Lints post content: warns (with line numbers) about Obsidian-only
+//    syntax and markdown the site renderer doesn't support
+// 4. Regenerates rss.xml
+// 5. Stages the changes and lists posts newly added to the feed
 'use strict';
 
 const fs = require('fs');
@@ -20,8 +20,8 @@ const { execFileSync } = require('child_process');
 const ROOT = path.join(__dirname, '..');
 const SITE = 'https://murq.in';
 
-// posts.json hem bu aracın hem blog sayfasının hem de functions/blog.js'in
-// okuduğu tek yazı dizinidir
+// posts.json is the single post index, read by this tool, the blog page
+// and functions/blog.js alike
 function loadPosts() {
     const raw = fs.readFileSync(path.join(ROOT, 'posts.json'), 'utf8');
     const posts = JSON.parse(raw);
@@ -31,7 +31,7 @@ function loadPosts() {
     return posts;
 }
 
-// Gerçek takvim kontrolü: 2026-13-99 gibi değerler biçime uysa da elenir
+// Real calendar check: values like 2026-13-99 match the format but are invalid
 function isValidDate(s) {
     if (!/^\d{4}-\d{2}-\d{2}$/.test(s)) return false;
     const [y, m, d] = s.split('-').map(Number);
@@ -62,7 +62,7 @@ function validate(posts) {
             if (!fs.existsSync(mdPath)) {
                 errors.push(label + ': posts/' + slug + '.md does not exist');
             } else if (!fs.readFileSync(mdPath, 'utf8').trim()) {
-                // new-post.js dosyayı boş açar; yazılmadan yayınlanmasın
+                // new-post.js scaffolds the file empty; don't let it ship unwritten
                 errors.push(label + ': posts/' + slug + '.md is empty — write it first');
             }
         }
@@ -79,17 +79,17 @@ function validate(posts) {
     return errors;
 }
 
-// Yazı içeriği linti: Obsidian'a özgü sözdizimi ve site parser'ının
-// (markdown.js) desteklemediği markdown için uyarı üretir. Bunlar hata
-// değildir — yayını engellemez, yalnızca satır numarasıyla haber verir.
+// Content lint: warns about Obsidian-only syntax and markdown the site
+// renderer (markdown.js) doesn't support. These are warnings, not errors —
+// they never block publishing, they just point at the line.
 const LINT_RULES = [
-    // Obsidian'a özgü
+    // Obsidian-only
     [/!\[\[[^\]]*\]\]/, '![[...]] embed is Obsidian-only'],
     [/\[\[[^\]]+\]\]/, '[[wikilink]] is Obsidian-only — use [text](url)'],
     [/^>\s*\[!\w+\]/, 'callout (> [!...]) is Obsidian-only — renders as a plain quote'],
     [/==[^=\s][^=]*==/, '==highlight== is Obsidian-only'],
     [/%%/, '%%...%% comment is Obsidian-only — the text will be visible'],
-    // Site parser'ının desteklemediği markdown
+    // Markdown the site renderer doesn't support
     [/^\s*\|.*\|/, 'table syntax is not supported by the site renderer'],
     [/^=+\s*$/, 'setext heading underline (===) is not supported — use # headings'],
     [/^\s+([-*]|\d+\.)\s+/, 'nested/indented list is not supported'],
@@ -111,8 +111,8 @@ function lintMarkdown(text) {
             inFence = !inFence;
             return;
         }
-        if (inFence) return; // kod bloğu içeriği serbest bölgedir
-        // Satır içi kod aralıkları da lintten muaftır
+        if (inFence) return; // fenced code content is exempt
+        // Inline code spans are exempt as well
         const line = rawLine.replace(/`[^`]*`/g, '');
         for (const [pattern, message] of LINT_RULES) {
             if (pattern.test(line)) warnings.push({ line: idx + 1, message });
@@ -121,10 +121,10 @@ function lintMarkdown(text) {
     return warnings;
 }
 
-// posts/ altında olup dizinde kaydı olmayan .md dosyaları
+// .md files in posts/ that have no index entry
 function orphanFiles(posts) {
     const postsDir = path.join(ROOT, 'posts');
-    // Hiç yazı yokken klasör repoda bulunmayabilir (git boş klasör izlemez)
+    // With zero posts the directory may not exist (git doesn't track empty dirs)
     if (!fs.existsSync(postsDir)) return [];
     const indexed = new Set(posts.map((p) => p.slug));
     return fs
@@ -144,7 +144,7 @@ function escapeXml(s) {
 function buildRss(posts) {
     const items = posts
         .map((post) => {
-            // Kanonik yol /blog: Pages, blog.html'i 308 ile /blog'a yönlendirir
+            // Canonical path is /blog: Pages 308-redirects blog.html there
             const url = `${SITE}/blog?post=${encodeURIComponent(post.slug)}`;
             return [
                 '        <item>',
@@ -158,9 +158,9 @@ function buildRss(posts) {
         })
         .join('\n');
 
-    // lastBuildDate en yeni yazıdan türetilir; yazı yokken hiç basılmaz
-    // (opsiyoneldir) — böylece çıktı deterministik kalır, araç boş beslemeyi
-    // her çalıştırmada yeniden yazmaz
+    // lastBuildDate derives from the newest post and is omitted (it's
+    // optional) when there are none — keeps the output deterministic so an
+    // empty feed isn't rewritten on every run
     const lastBuild = posts.length
         ? `\n        <lastBuildDate>${new Date(posts[0].date + 'T00:00:00Z').toUTCString()}</lastBuildDate>`
         : '';
@@ -232,11 +232,10 @@ function main() {
     }
     console.log('rss.xml regenerated');
 
-    // Yarı otomatik kısım: rss.xml'le birlikte dizini ve dizindeki yazı
-    // dosyalarını da stage'le — yalnız rss.xml commit'lenip yazının kendisi
-    // unutulursa canlıda "beslemede var, sitede yok" durumu oluşur.
-    // (Doğrulama geçtiği için dizindeki her dosya mevcut ve dolu; dizin dışı
-    // taslaklar bilerek stage'lenmez.)
+    // Semi-automatic part: stage the index and the indexed post files along
+    // with rss.xml — committing only rss.xml would announce a post in the
+    // feed that never shipped. (Validation passed, so every indexed file
+    // exists and is non-empty; unindexed drafts are deliberately skipped.)
     try {
         const files = ['rss.xml', 'posts.json'].concat(
             posts.map((p) => path.join('posts', p.slug + '.md'))
@@ -246,7 +245,7 @@ function main() {
         });
         console.log('staged: rss.xml, posts.json and post files — commit them together');
     } catch (err) {
-        // git kurulu değilse ya da repo değilse stage adımı atlanır
+        // Skip staging when git is missing or this isn't a repo
     }
 }
 

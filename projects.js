@@ -1,5 +1,5 @@
-// Proje verisi — yeni proje eklemek için bu diziye kayıt eklemek yeterli.
-// Alanlar: name, description, tags (dizi), links (sıralı {label, url} dizisi),
+// Project data — adding a record here is all it takes to add a project.
+// Fields: name, description, tags (array), links (ordered {label, url} array),
 // status: "active" | "wip" | "archived"
 const PROJECTS = [
     {

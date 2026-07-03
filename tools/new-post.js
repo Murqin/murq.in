@@ -1,11 +1,11 @@
 #!/usr/bin/env node
-// İnteraktif yazı iskeleti — tek komutla yeni yazı açar:
+// Interactive post scaffold:
 //
 //   node tools/new-post.js
 //
-// Sorar: başlık, slug (başlıktan önerilir), tarih (bugün önerilir), özet.
-// Yapar: boş posts/<slug>.md oluşturur ve kaydı posts.json dizisinin başına
-// ekler. Sonrası: yazıyı yaz, `node tools/update-rss.js` çalıştır.
+// Asks for title, slug (suggested from the title), date (defaults to
+// today) and summary. Creates an empty posts/<slug>.md and prepends the
+// record to posts.json. Then: write the post, run `node tools/update-rss.js`.
 'use strict';
 
 const fs = require('fs');
@@ -14,9 +14,9 @@ const readline = require('node:readline');
 
 const ROOT = path.join(__dirname, '..');
 
-// readline.question, soru sorulmadan önce gelen satırları tamponlamaz;
-// pipe'lanmış girdide satırlar kaybolur. Bu sarmalayıcı satırları kuyruğa
-// alır, böylece araç hem interaktif hem `printf ... | node` ile çalışır
+// readline.question drops lines that arrive before a question is pending,
+// which loses piped input. This wrapper queues incoming lines so the tool
+// works both interactively and via `printf ... | node`
 function makeAsker() {
     const rl = readline.createInterface({
         input: process.stdin,
@@ -47,14 +47,14 @@ function makeAsker() {
     };
 }
 
-// Türkçe karakterleri çevirip başlıktan URL-güvenli slug üretir
+// Builds a URL-safe slug from the title, transliterating Turkish characters
 function slugify(title) {
     const map = { ç: 'c', ğ: 'g', ı: 'i', ö: 'o', ş: 's', ü: 'u' };
     return title
         .toLowerCase()
         .replace(/[çğıöşü]/g, (ch) => map[ch])
         .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '') // aksan işaretlerini at (é -> e)
+        .replace(/[\u0300-\u036f]/g, '') // strip combining accents (é -> e)
         .replace(/[^a-z0-9]+/g, '-')
         .replace(/^-+|-+$/g, '');
 }
@@ -120,13 +120,14 @@ async function main() {
         process.exit(1);
     }
 
-    // Kayıt dizinin başına eklenir (en yeni üstte)
+    // The record goes to the top of the index (newest first)
     posts.unshift({ slug, title, date, summary });
     fs.writeFileSync(jsonPath, JSON.stringify(posts, null, 4) + '\n');
 
-    // Dosya bilerek boş bırakılır: içi boş indeksli yazıyı update-rss.js
-    // hata sayar, yani yazılmadan yayınlanamaz. Klasör de yoksa oluşturulur
-    // (git boş klasör izlemediğinden taze klonda bulunmayabilir)
+    // The file is deliberately left empty: update-rss.js treats an indexed
+    // empty post as an error, so it can't ship unwritten. The directory is
+    // created if missing (git doesn't track empty dirs, so a fresh clone
+    // may not have it)
     fs.mkdirSync(path.dirname(mdPath), { recursive: true });
     fs.writeFileSync(mdPath, '');
 
