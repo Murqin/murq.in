@@ -7,8 +7,10 @@
 // 1. posts.js kayıtlarını doğrular (slug <-> dosya eşleşmesi, tarih biçimi,
 //    zorunlu alanlar, slug tekrarı)
 // 2. posts/ altında dizinde kaydı olmayan (sahipsiz) .md dosyalarını raporlar
-// 3. rss.xml'i yeniden üretir
-// 4. rss.xml değiştiyse git'e stage'ler ve beslemeye eklenen yazıları listeler
+// 3. Yazı içeriğini lintler: Obsidian'a özgü sözdizimi ve site parser'ının
+//    desteklemediği markdown için satır numaralı uyarı verir
+// 4. rss.xml'i yeniden üretir
+// 5. rss.xml değiştiyse git'e stage'ler ve beslemeye eklenen yazıları listeler
 'use strict';
 
 const fs = require('fs');
@@ -65,6 +67,48 @@ function validate(posts) {
         }
     }
     return errors;
+}
+
+// Yazı içeriği linti: Obsidian'a özgü sözdizimi ve site parser'ının
+// (markdown.js) desteklemediği markdown için uyarı üretir. Bunlar hata
+// değildir — yayını engellemez, yalnızca satır numarasıyla haber verir.
+const LINT_RULES = [
+    // Obsidian'a özgü
+    [/!\[\[[^\]]*\]\]/, '![[...]] embed is Obsidian-only'],
+    [/\[\[[^\]]+\]\]/, '[[wikilink]] is Obsidian-only — use [text](url)'],
+    [/^>\s*\[!\w+\]/, 'callout (> [!...]) is Obsidian-only — renders as a plain quote'],
+    [/==[^=\s][^=]*==/, '==highlight== is Obsidian-only'],
+    [/%%/, '%%...%% comment is Obsidian-only — the text will be visible'],
+    // Site parser'ının desteklemediği markdown
+    [/^\s*\|.*\|/, 'table syntax is not supported by the site renderer'],
+    [/^=+\s*$/, 'setext heading underline (===) is not supported — use # headings'],
+    [/^\s+([-*]|\d+\.)\s+/, 'nested/indented list is not supported'],
+    [/^\+\s+/, "list marker '+' is not supported — use '-'"],
+    [/(^|[^\w`])_[^_\s][^_]*_(?=\W|$)/, '_underscore emphasis_ is not supported — use *asterisks*'],
+    [/~~[^~]+~~/, '~~strikethrough~~ is not supported'],
+    [/^\s*[-*]\s+\[[ xX]\]/, 'task list (- [ ]) is not supported'],
+    [/\[\^\w+\]/, 'footnote is not supported'],
+    [/^\s*\[[^\]]+\]:\s+\S+/, 'reference-style link is not supported — use inline [text](url)'],
+    [/<[a-zA-Z][^>]*>/, 'raw HTML renders as escaped literal text'],
+    [/^#{1,6}[^#\s]/, 'heading needs a space after # (or is this an Obsidian #tag?)']
+];
+
+function lintMarkdown(text) {
+    const warnings = [];
+    let inFence = false;
+    text.split('\n').forEach((rawLine, idx) => {
+        if (/^```/.test(rawLine)) {
+            inFence = !inFence;
+            return;
+        }
+        if (inFence) return; // kod bloğu içeriği serbest bölgedir
+        // Satır içi kod aralıkları da lintten muaftır
+        const line = rawLine.replace(/`[^`]*`/g, '');
+        for (const [pattern, message] of LINT_RULES) {
+            if (pattern.test(line)) warnings.push({ line: idx + 1, message });
+        }
+    });
+    return warnings;
 }
 
 // posts/ altında olup dizinde kaydı olmayan .md dosyaları
@@ -138,6 +182,16 @@ function main() {
 
     for (const orphan of orphanFiles(posts)) {
         console.log(`warning: posts/${orphan} is not listed in posts.js (draft?)`);
+    }
+
+    for (const post of posts) {
+        const md = fs.readFileSync(
+            path.join(ROOT, 'posts', post.slug + '.md'),
+            'utf8'
+        );
+        for (const w of lintMarkdown(md)) {
+            console.log(`warning: posts/${post.slug}.md:${w.line}: ${w.message}`);
+        }
     }
 
     const rssPath = path.join(ROOT, 'rss.xml');
