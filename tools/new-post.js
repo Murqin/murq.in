@@ -4,7 +4,7 @@
 //   node tools/new-post.js
 //
 // Sorar: başlık, slug (başlıktan önerilir), tarih (bugün önerilir), özet.
-// Yapar: boş posts/<slug>.md oluşturur ve kaydı posts.js dizisinin başına
+// Yapar: boş posts/<slug>.md oluşturur ve kaydı posts.json dizisinin başına
 // ekler. Sonrası: yazıyı yaz, `node tools/update-rss.js` çalıştır.
 'use strict';
 
@@ -65,11 +65,6 @@ function todayIso() {
     return `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
 }
 
-// posts.js içine JS string sabiti olarak gömülecek değerleri kaçışlar
-function jsString(s) {
-    return "'" + s.replace(/\\/g, '\\\\').replace(/'/g, "\\'") + "'";
-}
-
 async function main() {
     const rl = makeAsker();
 
@@ -105,37 +100,29 @@ async function main() {
     }
 
     const mdPath = path.join(ROOT, 'posts', slug + '.md');
-    const postsJsPath = path.join(ROOT, 'posts.js');
-    const src = fs.readFileSync(postsJsPath, 'utf8');
+    const jsonPath = path.join(ROOT, 'posts.json');
+
+    let posts;
+    try {
+        posts = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
+        if (!Array.isArray(posts)) throw new Error('not an array');
+    } catch (err) {
+        console.error('error: posts.json could not be read: ' + err.message);
+        process.exit(1);
+    }
 
     if (fs.existsSync(mdPath)) {
         console.error(`error: posts/${slug}.md already exists`);
         process.exit(1);
     }
-    if (new RegExp(`slug:\\s*'${slug}'`).test(src)) {
-        console.error(`error: slug '${slug}' is already in posts.js`);
+    if (posts.some((p) => p.slug === slug)) {
+        console.error(`error: slug '${slug}' is already in posts.json`);
         process.exit(1);
     }
 
-    // Kayıt, dizinin başına eklenir (en yeni üstte). Çapa satır başındaki
-    // gerçek bildirimdir — yorumlardaki "const POSTS = [" metniyle karışmaz
-    const anchor = /^const POSTS = \[$/m;
-    if (!anchor.test(src)) {
-        console.error('error: could not find `const POSTS = [` in posts.js');
-        process.exit(1);
-    }
-    const record = [
-        '    {',
-        `        slug: ${jsString(slug)},`,
-        `        title: ${jsString(title)},`,
-        `        date: ${jsString(date)},`,
-        `        summary: ${jsString(summary)}`,
-        '    },'
-    ].join('\n');
-    fs.writeFileSync(
-        postsJsPath,
-        src.replace(anchor, 'const POSTS = [\n' + record)
-    );
+    // Kayıt dizinin başına eklenir (en yeni üstte)
+    posts.unshift({ slug, title, date, summary });
+    fs.writeFileSync(jsonPath, JSON.stringify(posts, null, 4) + '\n');
 
     // Dosya bilerek boş bırakılır: içi boş indeksli yazıyı update-rss.js
     // hata sayar, yani yazılmadan yayınlanamaz. Klasör de yoksa oluşturulur
@@ -144,7 +131,7 @@ async function main() {
     fs.writeFileSync(mdPath, '');
 
     console.log(`created posts/${slug}.md (empty — write your post there)`);
-    console.log('added record to posts.js');
+    console.log('added record to posts.json');
     console.log('next: write the post, then run `node tools/update-rss.js`');
 }
 

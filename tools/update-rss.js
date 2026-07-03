@@ -4,14 +4,12 @@
 //   node tools/update-rss.js
 //
 // Yaptıkları:
-// 1. posts.js kayıtlarını doğrular (slug <-> dosya eşleşmesi, tarih biçimi,
+// 1. posts.json kayıtlarını doğrular (slug <-> dosya eşleşmesi, tarih biçimi,
 //    zorunlu alanlar, slug tekrarı)
 // 2. posts/ altında dizinde kaydı olmayan (sahipsiz) .md dosyalarını raporlar
 // 3. Yazı içeriğini lintler: Obsidian'a özgü sözdizimi ve site parser'ının
 //    desteklemediği markdown için satır numaralı uyarı verir
-// 4. rss.xml'i ve posts.json'ı yeniden üretir (posts.json'ı functions/blog.js
-//    yazıya özel OG meta basmak için okur — Workers eval'e izin vermediğinden
-//    posts.js'i doğrudan kullanamaz)
+// 4. rss.xml'i yeniden üretir
 // 5. Değişiklik varsa git'e stage'ler ve beslemeye eklenen yazıları listeler
 'use strict';
 
@@ -22,11 +20,15 @@ const { execFileSync } = require('child_process');
 const ROOT = path.join(__dirname, '..');
 const SITE = 'https://murq.in';
 
-// posts.js tarayıcı için yazılmış düz bir veri modülü (const POSTS = [...]);
-// export/IIFE içermediği sürece doğrudan değerlendirilebilir
+// posts.json hem bu aracın hem blog sayfasının hem de functions/blog.js'in
+// okuduğu tek yazı dizinidir
 function loadPosts() {
-    const src = fs.readFileSync(path.join(ROOT, 'posts.js'), 'utf8');
-    return eval(src + '\nPOSTS');
+    const raw = fs.readFileSync(path.join(ROOT, 'posts.json'), 'utf8');
+    const posts = JSON.parse(raw);
+    if (!Array.isArray(posts)) {
+        throw new Error('posts.json must contain an array');
+    }
+    return posts;
 }
 
 // Gerçek takvim kontrolü: 2026-13-99 gibi değerler biçime uysa da elenir
@@ -182,17 +184,23 @@ function rssTitles(xml) {
 }
 
 function main() {
-    const posts = loadPosts();
+    let posts;
+    try {
+        posts = loadPosts();
+    } catch (err) {
+        console.error('error: posts.json could not be read: ' + err.message);
+        process.exit(1);
+    }
 
     const errors = validate(posts);
     if (errors.length) {
         for (const e of errors) console.error('error: ' + e);
         process.exit(1);
     }
-    console.log(`posts.js OK (${posts.length} post${posts.length === 1 ? '' : 's'})`);
+    console.log(`posts.json OK (${posts.length} post${posts.length === 1 ? '' : 's'})`);
 
     for (const orphan of orphanFiles(posts)) {
-        console.log(`warning: posts/${orphan} is not listed in posts.js (draft?)`);
+        console.log(`warning: posts/${orphan} is not listed in posts.json (draft?)`);
     }
 
     for (const post of posts) {
@@ -206,36 +214,26 @@ function main() {
     }
 
     const rssPath = path.join(ROOT, 'rss.xml');
-    const jsonPath = path.join(ROOT, 'posts.json');
     const oldXml = fs.existsSync(rssPath) ? fs.readFileSync(rssPath, 'utf8') : '';
-    const oldJson = fs.existsSync(jsonPath) ? fs.readFileSync(jsonPath, 'utf8') : '';
     const sorted = [...posts].sort((a, b) => b.date.localeCompare(a.date));
     const newXml = buildRss(sorted);
-    const newJson = JSON.stringify(
-        sorted.map(({ slug, title, date, summary }) => ({ slug, title, date, summary })),
-        null,
-        4
-    ) + '\n';
 
-    if (newXml === oldXml && newJson === oldJson) {
-        console.log('rss.xml and posts.json already up to date — nothing to do');
+    if (newXml === oldXml) {
+        console.log('rss.xml already up to date — nothing to do');
         return;
     }
     fs.writeFileSync(rssPath, newXml);
-    fs.writeFileSync(jsonPath, newJson);
 
     const oldTitles = rssTitles(oldXml);
     for (const title of rssTitles(newXml)) {
         if (!oldTitles.includes(title)) console.log('added to feed: ' + title);
     }
-    console.log('rss.xml and posts.json regenerated');
+    console.log('rss.xml regenerated');
 
-    // Yarı otomatik kısım: değişen çıktıları stage'le (git yoksa sessizce geç)
+    // Yarı otomatik kısım: değişen rss.xml'i stage'le (git yoksa sessizce geç)
     try {
-        execFileSync('git', ['-C', ROOT, 'add', 'rss.xml', 'posts.json'], {
-            stdio: 'ignore'
-        });
-        console.log('rss.xml and posts.json staged — commit them with your post');
+        execFileSync('git', ['-C', ROOT, 'add', 'rss.xml'], { stdio: 'ignore' });
+        console.log('rss.xml staged — commit it together with your post');
     } catch (err) {
         // git kurulu değilse ya da repo değilse stage adımı atlanır
     }

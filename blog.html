@@ -31,7 +31,8 @@
                 <div class="section-title">Blog</div>
                 <div id="blog-root"></div>
                 <noscript>
-                    <!-- JS kapalıyken asgari statik liste (posts.js ile eşzamanlı tut) -->
+                    <!-- Statik yedek: functions/blog.js bu bloğu posts.json'daki
+                         gerçek yazı linkleriyle değiştirir -->
                     <p class="blog-empty">
                         Posts are rendered with JavaScript — browse the markdown
                         <a href="https://github.com/murqin/murq.in/tree/main/posts">archive</a>.
@@ -47,10 +48,10 @@
                 </div>
             </footer>
         </main>
-        <!-- posts.js ve markdown.js, blog.js'ten ÖNCE ve hepsi defer (async değil)
-             kalmalı: render, belge sırasıyla yüklenmelerine dayanır -->
+        <!-- markdown.js, blog.js'ten ÖNCE ve ikisi de defer (async değil)
+             kalmalı: render, belge sırasıyla yüklenmelerine dayanır.
+             Yazı dizini posts.json'dan fetch edilir -->
         <script src="script.js" defer></script>
-        <script src="posts.js" defer></script>
         <script src="markdown.js" defer></script>
         <script src="blog.js" defer></script>
     </body>

@@ -65,8 +65,7 @@ murq.in/
 ├── blog.html               # Blog: post list & single-post view (?post=slug)
 ├── script.js               # Seed parsing logic & dynamic starfield renderer
 ├── projects.js             # Project data module rendered into the main page
-├── posts.js                # Post index (slug, title, date, summary)
-├── posts.json              # Generated copy of the index for functions/blog.js
+├── posts.json              # Post index (slug, title, date, summary) — single source
 ├── markdown.js             # Tiny dependency-free markdown renderer
 ├── blog.js                 # Blog page rendering logic
 ├── rss.xml                 # Generated RSS feed (do not edit by hand)
@@ -79,13 +78,13 @@ murq.in/
 ### ✍️ Adding a blog post
 
 1. Run `node tools/new-post.js` — it asks for title/slug/date/summary, creates
-   an empty `posts/<slug>.md`, and adds the entry to `posts.js`.
+   an empty `posts/<slug>.md`, and adds the entry to `posts.json`.
 2. Write the post in `posts/<slug>.md` (the title comes from the index — no
    `h1` in the file).
 3. Run `node tools/update-rss.js` — it validates the post index, lints the
    content, regenerates `rss.xml`, and stages it. Then commit everything.
 
-(Steps can also be done by hand: create the file, add the `posts.js` entry,
+(Steps can also be done by hand: create the file, add the `posts.json` entry,
 run `update-rss.js`.)
 
 ---

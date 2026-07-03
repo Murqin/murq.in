@@ -1,5 +1,6 @@
 // Blog sayfası: parametresiz açılışta yazı listesi, ?post=<slug> ile tek yazı.
-// Veri posts.js'ten, içerik posts/<slug>.md'den gelir; markdown.js çevirir.
+// Dizin posts.json'dan fetch edilir, içerik posts/<slug>.md'den gelir;
+// markdown.js çevirir.
 
 function blogMessage(root, message) {
     const p = document.createElement('p');
@@ -36,7 +37,7 @@ function formatPostDate(isoDate) {
     });
 }
 
-// Yazının ham markdown'ını (posts.js'teki başlıkla birlikte) panoya kopyalar
+// Yazının ham markdown'ını (dizindeki başlıkla birlikte) panoya kopyalar
 let copyMdTimer = null;
 
 function copyMarkdownButton(post, md) {
@@ -126,16 +127,30 @@ async function renderPost(root, post) {
     }
 }
 
-(function initBlog() {
+(async function initBlog() {
     const root = document.getElementById('blog-root');
     if (!root) return;
 
-    if (typeof POSTS === 'undefined' || typeof markdownToHtml !== 'function') {
+    if (typeof markdownToHtml !== 'function') {
         blogMessage(root, 'Posts failed to load — please refresh the page.');
         return;
     }
 
-    const posts = [...POSTS].sort((a, b) => b.date.localeCompare(a.date));
+    let posts;
+    try {
+        const res = await fetch('/posts.json');
+        // _redirects catch-all eksik dosyada index.html'i 200 ile döndürür;
+        // JSON parse edilemiyorsa dizin yok demektir
+        if (!res.ok) throw new Error('http ' + res.status);
+        posts = await res.json();
+        if (!Array.isArray(posts)) throw new Error('unexpected payload');
+    } catch (err) {
+        console.warn('Post index could not be loaded:', err);
+        blogMessage(root, 'Posts failed to load — please refresh the page.');
+        return;
+    }
+
+    posts.sort((a, b) => b.date.localeCompare(a.date));
     const slug = new URLSearchParams(window.location.search).get('post');
 
     if (!slug) {

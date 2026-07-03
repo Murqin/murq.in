@@ -1,8 +1,8 @@
 // /blog rotası: ?post=<slug> isteklerinde blog.html'in genel meta
 // etiketlerini yazıya özel olanlarla değiştirir. Link önizleme botları
 // (Discord, Slack, X vb.) JS çalıştırmadığından bu iş sunucuda yapılmak
-// zorunda. Yazı verisi posts.json'dan gelir (tools/update-rss.js üretir;
-// Workers eval'e izin vermediğinden posts.js doğrudan okunamaz).
+// zorunda. Yazı verisi posts.json'dan gelir (yazı dizininin tek kaynağı;
+// blog.js ve araçlar da aynı dosyayı okur).
 
 function escapeHtml(s) {
     return String(s)

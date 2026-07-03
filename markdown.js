@@ -96,7 +96,7 @@ function markdownToHtml(md) {
 
         const heading = line.match(/^(#{1,6})\s+(.*)$/);
         if (heading) {
-            // Yazı başlığı posts.js'ten tek h1 olarak gelir; .md içindeki
+            // Yazı başlığı posts.json'dan tek h1 olarak gelir; .md içindeki
             // # de h2'ye indirilir ki sayfada ikinci bir h1 oluşmasın
             const level = Math.max(2, heading[1].length);
             out.push('<h' + level + '>' + mdInline(heading[2]) + '</h' + level + '>');
