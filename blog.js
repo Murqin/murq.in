@@ -8,12 +8,21 @@ function blogMessage(root, message) {
     root.replaceChildren(p);
 }
 
+// Mevcut tema seed'ini linke ekler ki sayfa geçişinde tema korunsun
+// (currentSeeds script.js'te tanımlanır; o yüklenmediyse link sade kalır)
+function withSeed(url) {
+    if (typeof currentSeeds === 'undefined') return url;
+    return url + (url.includes('?') ? '&' : '?') + 's=' + currentSeeds.hex;
+}
+
 // Yazı görünümünde üst bar "← murq.in" yerine listeye döner; böylece
 // sayfada tek bir geri yolu bulunur
 function pointNavBackToList() {
     const nav = document.getElementById('blog-nav-back');
     if (!nav) return;
-    nav.href = '/blog';
+    // script.js'in seed-link güncellemesi bu linki artık ele almasın
+    nav.removeAttribute('data-seed-nav');
+    nav.href = withSeed('/blog');
     nav.textContent = '← all posts';
 }
 
@@ -54,7 +63,7 @@ function renderPostList(root, posts) {
         const item = document.createElement('a');
         item.className = 'post-list-item';
         // Kanonik yol /blog: Pages, blog.html'i 308 ile /blog'a yönlendirir
-        item.href = '/blog?post=' + encodeURIComponent(post.slug);
+        item.href = withSeed('/blog?post=' + encodeURIComponent(post.slug));
 
         const header = document.createElement('div');
         header.className = 'post-list-header';

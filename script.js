@@ -10,18 +10,29 @@ function mulberry32(seed) {
 }
 
 // --- Kombine Seed Çözümleme (6 Karakter Gradyan + 6 Karakter Yıldız) ---
+function parseSeedHex(hex) {
+    return {
+        gradSeed: parseInt(hex.slice(0, 6), 16),
+        starSeed: parseInt(hex.slice(6, 12), 16),
+        hex
+    };
+}
+
 function resolveSeeds() {
     const segment = window.location.pathname.slice(1);
-    
+
     // 12 karakterlik geçerli bir hex var mı kontrolü
     if (/^[0-9a-f]{12}$/i.test(segment)) {
-        return {
-            gradSeed: parseInt(segment.slice(0, 6), 16),
-            starSeed: parseInt(segment.slice(6, 12), 16),
-            hex: segment
-        };
+        return parseSeedHex(segment);
     }
-    
+
+    // Yol segmenti yoksa ?s= parametresine bak — blog gibi sabit yollu
+    // sayfalar seed'i query ile taşır, tema geçişlerde korunur
+    const qs = new URLSearchParams(window.location.search).get('s');
+    if (qs && /^[0-9a-f]{12}$/i.test(qs)) {
+        return parseSeedHex(qs);
+    }
+
     // Yoksa veya geçersizse iki adet bağımsız seed üret ve birleştir
     const gradSeed = Math.floor(Math.random() * 0xFFFFFF) + 1;
     const starSeed = Math.floor(Math.random() * 0xFFFFFF) + 1;
@@ -117,10 +128,20 @@ function updateSeedStar(hex) {
     }
 }
 
+// Sayfalar arası geçişte tema korunsun: data-seed-nav="<hedef>" taşıyan
+// linklere geçerli seed eklenir ("/" -> /hex, "/blog" -> /blog?s=hex)
+function updateSeedLinks(hex) {
+    for (const a of document.querySelectorAll('a[data-seed-nav]')) {
+        const base = a.getAttribute('data-seed-nav');
+        a.href = base === '/' ? '/' + hex : base + '?s=' + hex;
+    }
+}
+
 // --- Kombine Sistemi Uygulama ---
 function applyCombinedSystem(seeds) {
     applyGradient(seeds.gradSeed, false);
     updateSeedStar(seeds.hex);
+    updateSeedLinks(seeds.hex);
     const starsContainer = document.getElementById('stars');
     if (starsContainer) {
         buildStars(seeds.starSeed, starsContainer);
@@ -231,6 +252,7 @@ function rerollTheme() {
     // Gradyan: yeni katman üstte yumuşakça belirir (~700ms)
     applyGradient(gradSeed, true);
     updateSeedStar(hex);
+    updateSeedLinks(hex);
 
     // Yıldızlar: mevcutlar söner (~300ms), yenileri yeni konumlarında yanar
     const starsContainer = document.getElementById('stars');

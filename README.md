@@ -55,7 +55,8 @@ murq.in/
 │   ├── favicon.svg         # Star/Wing SVG branding
 │   └── fonts/              # Self-hosted Inter & JetBrains Mono (woff2)
 ├── functions/
-│   └── api/visitors.js     # Visitor counter (Cloudflare Pages Function + KV)
+│   ├── api/visitors.js     # Visitor counter (Cloudflare Pages Function + KV)
+│   └── blog.js             # Injects per-post OG meta into /blog?post=…
 ├── posts/                  # Blog posts as plain markdown files
 ├── tools/
 │   ├── new-post.js         # Interactive scaffold: creates the .md + index entry
@@ -65,6 +66,7 @@ murq.in/
 ├── script.js               # Seed parsing logic & dynamic starfield renderer
 ├── projects.js             # Project data module rendered into the main page
 ├── posts.js                # Post index (slug, title, date, summary)
+├── posts.json              # Generated copy of the index for functions/blog.js
 ├── markdown.js             # Tiny dependency-free markdown renderer
 ├── blog.js                 # Blog page rendering logic
 ├── rss.xml                 # Generated RSS feed (do not edit by hand)
