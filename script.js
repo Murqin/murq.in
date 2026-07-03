@@ -152,39 +152,25 @@ function renderProjects() {
 
         const header = document.createElement('div');
         header.className = 'project-header';
-
-        const titleGroup = document.createElement('div');
-        titleGroup.className = 'project-title-group';
         const name = document.createElement('span');
         name.className = 'project-name';
         name.textContent = project.name;
-        titleGroup.appendChild(name);
+        header.appendChild(name);
         if (project.status) {
             const status = document.createElement('span');
             status.className = 'project-status ' + String(project.status).toLowerCase();
             status.textContent = project.status;
-            titleGroup.appendChild(status);
+            header.appendChild(status);
         }
-
-        const links = document.createElement('div');
-        links.className = 'project-links';
-        for (const link of project.links || []) {
-            const a = document.createElement('a');
-            a.className = 'project-link-btn';
-            a.href = link.url;
-            a.target = '_blank';
-            a.rel = 'noopener noreferrer';
-            a.textContent = link.label;
-            links.appendChild(a);
-        }
-
-        header.append(titleGroup, links);
 
         const desc = document.createElement('p');
         desc.className = 'project-desc';
         desc.textContent = project.description;
 
-        item.append(header, desc);
+        // Taban satırı: solda etiketler, sağda linkler — konumları karttan
+        // karta değişmesin diye başlıktan bağımsız sabit bir bölge
+        const footer = document.createElement('div');
+        footer.className = 'project-footer';
 
         if (project.tags && project.tags.length) {
             const tags = document.createElement('div');
@@ -195,7 +181,27 @@ function renderProjects() {
                 tag.textContent = tagName;
                 tags.appendChild(tag);
             }
-            item.appendChild(tags);
+            footer.appendChild(tags);
+        }
+
+        if (project.links && project.links.length) {
+            const links = document.createElement('div');
+            links.className = 'project-links';
+            for (const link of project.links) {
+                const a = document.createElement('a');
+                a.className = 'project-link-btn';
+                a.href = link.url;
+                a.target = '_blank';
+                a.rel = 'noopener noreferrer';
+                a.textContent = link.label;
+                links.appendChild(a);
+            }
+            footer.appendChild(links);
+        }
+
+        item.append(header, desc);
+        if (footer.childElementCount) {
+            item.appendChild(footer);
         }
 
         list.appendChild(item);

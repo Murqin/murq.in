@@ -477,10 +477,9 @@ footer:hover .footer-box {
 
 .project-header {
     display: flex;
-    justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    gap: 12px;
+    gap: 10px;
     margin-bottom: 10px;
 }
 
@@ -494,6 +493,8 @@ footer:hover .footer-box {
 .project-links {
     display: flex;
     gap: 8px;
+    /* Etiket olmasa da linkler taban satırında sağa yaslı kalır */
+    margin-left: auto;
 }
 
 .project-link-btn {
@@ -521,13 +522,6 @@ footer:hover .footer-box {
     margin: 0;
 }
 
-.project-title-group {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
 .project-status {
     display: inline-flex;
     align-items: center;
@@ -549,17 +543,25 @@ footer:hover .footer-box {
 .project-status.wip { color: #e5c07b; }
 .project-status.archived { color: var(--text-dim); }
 
-/* Eşit yükseklikli grid hücrelerinde son öğe (etiketler ya da etiket yoksa
+/* Eşit yükseklikli grid hücrelerinde son öğe (taban satırı, o yoksa
    açıklama) kart tabanına hizalanır */
 .project-item > :last-child {
     margin-top: auto;
+}
+
+/* Taban satırı: solda etiketler, sağda link butonları — her kartta sabit */
+.project-footer {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding-top: 14px;
 }
 
 .project-tags {
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
-    padding-top: 14px;
 }
 
 .project-tag {
@@ -776,13 +778,14 @@ footer:hover .footer-box {
 }
 
 @media (max-width: 480px) {
-    .project-header {
+    .project-footer {
         flex-direction: column;
-        align-items: flex-start;
-        gap: 8px;
+        align-items: stretch;
+        gap: 12px;
     }
     .project-links {
         width: 100%;
+        margin-left: 0;
     }
     .project-link-btn {
         flex: 1;
