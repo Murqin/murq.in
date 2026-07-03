@@ -59,6 +59,7 @@ murq.in/
 │   └── blog.js             # Injects per-post OG meta into /blog?post=…
 ├── posts/                  # Blog posts as plain markdown files
 ├── tools/
+│   ├── new-post.sh         # One-command flow: scaffold -> $EDITOR -> update-rss
 │   ├── new-post.js         # Interactive scaffold: creates the .md + index entry
 │   └── update-rss.js       # Run on new post: validates, lints, refreshes rss.xml
 ├── index.html              # Main page markup & semantic metadata
@@ -76,6 +77,11 @@ murq.in/
 ```
 
 ### ✍️ Adding a blog post
+
+One command: `tools/new-post.sh` — scaffolds the post, opens it in `$EDITOR`,
+then validates and refreshes the feed when you save and quit.
+
+Or step by step:
 
 1. Run `node tools/new-post.js` — it asks for title/slug/date/summary, creates
    an empty `posts/<slug>.md`, and adds the entry to `posts.json`.
