@@ -52,13 +52,32 @@ To enable the visitor counter in your live environment, configure the KV binding
 murq.in/
 ├── assets/
 │   ├── avatar.png          # Profile avatar asset
-│   └── favicon.svg         # Star/Wing SVG branding
+│   ├── favicon.svg         # Star/Wing SVG branding
+│   └── fonts/              # Self-hosted Inter & JetBrains Mono (woff2)
+├── functions/
+│   └── api/visitors.js     # Visitor counter (Cloudflare Pages Function + KV)
+├── posts/                  # Blog posts as plain markdown files
+├── tools/
+│   └── generate-rss.js     # Regenerates rss.xml from posts.js (run on new post)
 ├── index.html              # Main page markup & semantic metadata
+├── blog.html               # Blog: post list & single-post view (?post=slug)
 ├── script.js               # Seed parsing logic & dynamic starfield renderer
+├── projects.js             # Project data module rendered into the main page
+├── posts.js                # Post index (slug, title, date, summary)
+├── markdown.js             # Tiny dependency-free markdown renderer
+├── blog.js                 # Blog page rendering logic
+├── rss.xml                 # Generated RSS feed (do not edit by hand)
 ├── style.css               # Geist-inspired translucent variables & layouts
+├── _redirects              # SPA catch-all so seed URLs serve index.html
 ├── LICENSE                 # MIT License details
 └── LICENSES.md             # Third-party attribution notices
 ```
+
+### ✍️ Adding a blog post
+
+1. Create `posts/<slug>.md` (the title comes from the index — no `h1` in the file).
+2. Add an entry to `posts.js` (`slug`, `title`, `date`, `summary`).
+3. Run `node tools/generate-rss.js` to refresh `rss.xml`, then commit.
 
 ---
 
