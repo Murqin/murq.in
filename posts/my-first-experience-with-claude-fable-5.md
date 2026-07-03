@@ -9,13 +9,13 @@ I want to be upfront about the timeline: I wasn't one of the people who tried Fa
 
 ## Project-by-project experience
 
-**3D Art Museum**
+### **3D Art Museum**:
 
 This was a project idea I picked up from a video my YouTube algorithm recommended while I was watching Fable 5 content — I wanted to build it myself just to have it as one of my own hands-on experiences with the model. One thing worth mentioning first: I normally use [superpowers](https://github.com/obra/superpowers), but I turned it off for this project. My reasoning was that skill-injection tools like that tend to constrain the model slightly, so I went into this one without it. I might be wrong about that, but I didn't get noticeably worse results without it either.
 
 The one real problem I ran into: I ran Fable and Opus side by side to compare them, and my quota burned through before I was even halfway done. I ended up solving it 3–4 hours later by running Fable alone — it still ate through quota fast, but at least I got to see the project through to the end.
 
-**Murq.in blog section**
+### **Murq.in blog section**:
 
 I'd actually been working on this blog section for a day or two, and it reached its final form today. I have to admit I burned through a good chunk of Claude quota on this one too — honestly, most of the time went into waiting for quota to refresh rather than actual work. I'm not a "real" developer in the old sense of hand-writing everything, so these days I basically just vibe-code — I don't have the luxury of writing code without a model. Even though I know a little bit of programming, I can't get much further than a "hello world" or a basic calculator on my own.
 
