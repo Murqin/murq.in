@@ -9,8 +9,10 @@
 // 2. posts/ altında dizinde kaydı olmayan (sahipsiz) .md dosyalarını raporlar
 // 3. Yazı içeriğini lintler: Obsidian'a özgü sözdizimi ve site parser'ının
 //    desteklemediği markdown için satır numaralı uyarı verir
-// 4. rss.xml'i yeniden üretir
-// 5. rss.xml değiştiyse git'e stage'ler ve beslemeye eklenen yazıları listeler
+// 4. rss.xml'i ve posts.json'ı yeniden üretir (posts.json'ı functions/blog.js
+//    yazıya özel OG meta basmak için okur — Workers eval'e izin vermediğinden
+//    posts.js'i doğrudan kullanamaz)
+// 5. Değişiklik varsa git'e stage'ler ve beslemeye eklenen yazıları listeler
 'use strict';
 
 const fs = require('fs');
@@ -204,26 +206,36 @@ function main() {
     }
 
     const rssPath = path.join(ROOT, 'rss.xml');
+    const jsonPath = path.join(ROOT, 'posts.json');
     const oldXml = fs.existsSync(rssPath) ? fs.readFileSync(rssPath, 'utf8') : '';
+    const oldJson = fs.existsSync(jsonPath) ? fs.readFileSync(jsonPath, 'utf8') : '';
     const sorted = [...posts].sort((a, b) => b.date.localeCompare(a.date));
     const newXml = buildRss(sorted);
+    const newJson = JSON.stringify(
+        sorted.map(({ slug, title, date, summary }) => ({ slug, title, date, summary })),
+        null,
+        4
+    ) + '\n';
 
-    if (newXml === oldXml) {
-        console.log('rss.xml already up to date — nothing to do');
+    if (newXml === oldXml && newJson === oldJson) {
+        console.log('rss.xml and posts.json already up to date — nothing to do');
         return;
     }
     fs.writeFileSync(rssPath, newXml);
+    fs.writeFileSync(jsonPath, newJson);
 
     const oldTitles = rssTitles(oldXml);
     for (const title of rssTitles(newXml)) {
         if (!oldTitles.includes(title)) console.log('added to feed: ' + title);
     }
-    console.log('rss.xml regenerated');
+    console.log('rss.xml and posts.json regenerated');
 
-    // Yarı otomatik kısım: değişen rss.xml'i stage'le (git yoksa sessizce geç)
+    // Yarı otomatik kısım: değişen çıktıları stage'le (git yoksa sessizce geç)
     try {
-        execFileSync('git', ['-C', ROOT, 'add', 'rss.xml'], { stdio: 'ignore' });
-        console.log('rss.xml staged — commit it together with your post');
+        execFileSync('git', ['-C', ROOT, 'add', 'rss.xml', 'posts.json'], {
+            stdio: 'ignore'
+        });
+        console.log('rss.xml and posts.json staged — commit them with your post');
     } catch (err) {
         // git kurulu değilse ya da repo değilse stage adımı atlanır
     }
