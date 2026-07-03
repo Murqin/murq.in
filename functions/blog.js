@@ -27,34 +27,58 @@ export async function onRequestGet(context) {
         (await fetchAsset(env, url.origin, '/blog.html'));
     if (!asset) return env.ASSETS.fetch(request);
 
-    const slug = url.searchParams.get('post');
-    if (!slug) return asset;
-
-    let post = null;
+    let posts = null;
     try {
         const res = await fetchAsset(env, url.origin, '/posts.json');
-        if (res) {
-            const posts = await res.json();
-            post = posts.find((p) => p.slug === slug) || null;
-        }
+        if (res) posts = await res.json();
     } catch (err) {
-        // posts.json okunamazsa sayfa genel meta ile döner; sayfanın kendisi
-        // istemcide zaten doğru yazıyı render eder
+        // posts.json okunamazsa sayfa dokunulmadan döner; istemci tarafı
+        // render zaten çalışır, noscript de statik yedeğine düşer
     }
-    if (!post) return asset;
+    if (!Array.isArray(posts)) return asset;
 
-    const title = escapeHtml(post.title);
-    const summary = escapeHtml(post.summary);
-    const canonical = escapeHtml(
-        url.origin + '/blog?post=' + encodeURIComponent(post.slug)
-    );
+    const slug = url.searchParams.get('post');
+    const post = slug ? posts.find((p) => p.slug === slug) || null : null;
+    let html = await asset.text();
 
-    const html = (await asset.text())
-        .replace(/<title>[^<]*<\/title>/, `<title>${title} — Icarus Murqin</title>`)
-        .replace(/(name="description" content=")[^"]*(")/, `$1${summary}$2`)
-        .replace(/(property="og:title" content=")[^"]*(")/, `$1${title}$2`)
-        .replace(/(property="og:description" content=")[^"]*(")/, `$1${summary}$2`)
-        .replace(/(property="og:url" content=")[^"]*(")/, `$1${canonical}$2`);
+    // JS kapalı ziyaretçiler için noscript'i gerçek içerik linkleriyle doldur:
+    // ham .md dosyaları düz metin olarak tarayıcıda okunabilir
+    const mdLink = (p) =>
+        `<a href="/posts/${encodeURIComponent(p.slug)}.md">${escapeHtml(p.title)}</a>`;
+    let noscript = null;
+    if (post) {
+        noscript =
+            '<p class="blog-empty">JavaScript is off — read this post as plain markdown: ' +
+            mdLink(post) + '.</p>';
+    } else if (!slug && posts.length) {
+        noscript =
+            '<p class="blog-empty">JavaScript is off — read the posts as plain markdown:</p>' +
+            '<ul class="blog-empty">' +
+            posts
+                .map((p) => `<li>${mdLink(p)} — ${escapeHtml(p.date)}</li>`)
+                .join('') +
+            '</ul>';
+    }
+    if (noscript) {
+        html = html.replace(
+            /<noscript>[\s\S]*?<\/noscript>/,
+            '<noscript>' + noscript + '</noscript>'
+        );
+    }
+
+    if (post) {
+        const title = escapeHtml(post.title);
+        const summary = escapeHtml(post.summary);
+        const canonical = escapeHtml(
+            url.origin + '/blog?post=' + encodeURIComponent(post.slug)
+        );
+        html = html
+            .replace(/<title>[^<]*<\/title>/, `<title>${title} — Icarus Murqin</title>`)
+            .replace(/(name="description" content=")[^"]*(")/, `$1${summary}$2`)
+            .replace(/(property="og:title" content=")[^"]*(")/, `$1${title}$2`)
+            .replace(/(property="og:description" content=")[^"]*(")/, `$1${summary}$2`)
+            .replace(/(property="og:url" content=")[^"]*(")/, `$1${canonical}$2`);
+    }
 
     return new Response(html, {
         status: 200,
