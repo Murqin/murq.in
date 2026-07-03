@@ -944,6 +944,12 @@ footer:hover .footer-box {
     outline-offset: 3px;
 }
 
+/* Yarı saydam hero kontrolleri klavye odağında da hover gibi belirginleşir */
+.dice-btn:focus-visible,
+.seed-star:focus-visible {
+    opacity: 1;
+}
+
 /* --- Film Grain (Faz 2.3): statik SVG noise, yalnızca masaüstü --- */
 @media (min-width: 601px) {
     body::after {
