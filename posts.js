@@ -7,12 +7,4 @@
 // Not: tools/update-rss.js bu dosyayı Node'da değerlendirir — düz
 // `const POSTS = [...]` biçimini koru (export/IIFE/window ekleme).
 const POSTS = [
-    {
-        slug: 'hello-world',
-        title: 'Hello, world',
-        date: '2026-07-03',
-        summary:
-            'First notes: why this site has no build step, and how the ' +
-            'seed-driven themes work.'
-    }
 ];

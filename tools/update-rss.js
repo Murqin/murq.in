@@ -119,9 +119,12 @@ function lintMarkdown(text) {
 
 // posts/ altında olup dizinde kaydı olmayan .md dosyaları
 function orphanFiles(posts) {
+    const postsDir = path.join(ROOT, 'posts');
+    // Hiç yazı yokken klasör repoda bulunmayabilir (git boş klasör izlemez)
+    if (!fs.existsSync(postsDir)) return [];
     const indexed = new Set(posts.map((p) => p.slug));
     return fs
-        .readdirSync(path.join(ROOT, 'posts'))
+        .readdirSync(postsDir)
         .filter((f) => f.endsWith('.md') && !indexed.has(f.slice(0, -3)))
         .sort();
 }

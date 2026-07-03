@@ -138,7 +138,9 @@ async function main() {
     );
 
     // Dosya bilerek boş bırakılır: içi boş indeksli yazıyı update-rss.js
-    // hata sayar, yani yazılmadan yayınlanamaz
+    // hata sayar, yani yazılmadan yayınlanamaz. Klasör de yoksa oluşturulur
+    // (git boş klasör izlemediğinden taze klonda bulunmayabilir)
+    fs.mkdirSync(path.dirname(mdPath), { recursive: true });
     fs.writeFileSync(mdPath, '');
 
     console.log(`created posts/${slug}.md (empty — write your post there)`);
