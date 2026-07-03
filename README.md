@@ -61,6 +61,7 @@ murq.in/
 ├── tools/
 │   ├── new-post.sh         # One-command flow: scaffold -> $EDITOR -> update-rss
 │   ├── new-post.js         # Interactive scaffold: creates the .md + index entry
+│   ├── delete-post.js      # Removes a post (index entry + .md) and refreshes feed
 │   └── update-rss.js       # Run on new post: validates, lints, refreshes rss.xml
 ├── index.html              # Main page markup & semantic metadata
 ├── blog.html               # Blog: post list & single-post view (?post=slug)
