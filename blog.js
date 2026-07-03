@@ -8,6 +8,14 @@ function blogMessage(root, message) {
     root.replaceChildren(p);
 }
 
+function backToListLink() {
+    const back = document.createElement('a');
+    back.className = 'post-back';
+    back.href = 'blog.html';
+    back.textContent = '← all posts';
+    return back;
+}
+
 function formatPostDate(isoDate) {
     const d = new Date(isoDate + 'T00:00:00Z');
     return d.toLocaleDateString('en-US', {
@@ -63,11 +71,6 @@ async function renderPost(root, post) {
         }
         const md = await res.text();
 
-        const back = document.createElement('a');
-        back.className = 'post-back';
-        back.href = 'blog.html';
-        back.textContent = '← all posts';
-
         const article = document.createElement('article');
         article.className = 'post-content';
         const title = document.createElement('h1');
@@ -83,10 +86,11 @@ async function renderPost(root, post) {
         body.innerHTML = markdownToHtml(md);
         article.append(title, meta, body);
 
-        root.replaceChildren(back, article);
+        root.replaceChildren(backToListLink(), article);
     } catch (err) {
         console.warn('Post could not be loaded:', err);
         blogMessage(root, 'This post could not be loaded.');
+        root.prepend(backToListLink());
     }
 }
 
@@ -110,11 +114,7 @@ async function renderPost(root, post) {
     const post = posts.find((p) => p.slug === slug);
     if (!post) {
         blogMessage(root, 'Post not found.');
-        const back = document.createElement('a');
-        back.className = 'post-back';
-        back.href = 'blog.html';
-        back.textContent = '← all posts';
-        root.prepend(back);
+        root.prepend(backToListLink());
         return;
     }
     renderPost(root, post);
