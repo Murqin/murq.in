@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Blog — Icarus Murqin</title>
+        <meta name="description" content="Notes on projects, tools, and tinkering by Icarus Murqin" />
+        <meta property="og:title" content="Blog — Icarus Murqin" />
+        <meta property="og:description" content="Notes on projects, tools, and tinkering" />
+        <meta property="og:url" content="https://murq.in/blog.html" />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="https://murq.in/assets/og-image.png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" content="murq.in — Icarus Murqin's personal site" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg" />
+        <link rel="alternate" type="application/rss+xml" title="murq.in blog" href="/rss.xml" />
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <div id="gradient" aria-hidden="true"></div>
+        <div id="stars" aria-hidden="true"></div>
+        <main class="container">
+            <section class="card blog-card">
+                <div class="blog-topbar">
+                    <a href="/" class="blog-nav-link">← murq.in</a>
+                    <a href="/rss.xml" class="blog-nav-link">RSS</a>
+                </div>
+                <div class="section-title">Blog</div>
+                <div id="blog-root"></div>
+                <noscript>
+                    <!-- JS kapalıyken asgari statik liste (posts.js ile eşzamanlı tut) -->
+                    <p class="blog-empty">
+                        Posts are rendered with JavaScript. Read them as markdown:
+                        <a href="https://github.com/murqin/murq.in/blob/main/posts/hello-world.md">Hello, world</a>
+                        — or browse the
+                        <a href="https://github.com/murqin/murq.in/tree/main/posts">full archive</a>.
+                    </p>
+                </noscript>
+            </section>
+
+            <footer>
+                <div class="footer-box">
+                    <div class="footer-content">
+                        <span class="copyright">&copy; 2026 Icarus Murqin</span>
+                    </div>
+                </div>
+            </footer>
+        </main>
+        <!-- posts.js ve markdown.js, blog.js'ten ÖNCE ve hepsi defer (async değil)
+             kalmalı: render, belge sırasıyla yüklenmelerine dayanır -->
+        <script src="script.js" defer></script>
+        <script src="posts.js" defer></script>
+        <script src="markdown.js" defer></script>
+        <script src="blog.js" defer></script>
+    </body>
+</html>
