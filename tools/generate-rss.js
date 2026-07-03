@@ -28,7 +28,8 @@ const posts = [...POSTS].sort((a, b) => b.date.localeCompare(a.date));
 
 const items = posts
     .map((post) => {
-        const url = `${SITE}/blog.html?post=${encodeURIComponent(post.slug)}`;
+        // Kanonik yol /blog: Pages, blog.html'i 308 ile /blog'a yönlendirir
+        const url = `${SITE}/blog?post=${encodeURIComponent(post.slug)}`;
         return [
             '        <item>',
             `            <title>${escapeXml(post.title)}</title>`,
@@ -49,7 +50,7 @@ const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>murq.in — blog</title>
-        <link>${SITE}/blog.html</link>
+        <link>${SITE}/blog</link>
         <description>Notes on projects, tools, and tinkering by Icarus Murqin</description>
         <language>en</language>
         <lastBuildDate>${lastBuild}</lastBuildDate>

@@ -11,7 +11,7 @@ function blogMessage(root, message) {
 function backToListLink() {
     const back = document.createElement('a');
     back.className = 'post-back';
-    back.href = 'blog.html';
+    back.href = '/blog';
     back.textContent = '← all posts';
     return back;
 }
@@ -35,7 +35,8 @@ function renderPostList(root, posts) {
     for (const post of posts) {
         const item = document.createElement('a');
         item.className = 'post-list-item';
-        item.href = 'blog.html?post=' + encodeURIComponent(post.slug);
+        // Kanonik yol /blog: Pages, blog.html'i 308 ile /blog'a yönlendirir
+        item.href = '/blog?post=' + encodeURIComponent(post.slug);
 
         const header = document.createElement('div');
         header.className = 'post-list-header';
