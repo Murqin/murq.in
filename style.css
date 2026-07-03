@@ -574,7 +574,7 @@ footer:hover .footer-box {
     border-radius: 6px;
 }
 
-/* --- Giriş Koreografisi (Faz 2.1): hero → grid → projeler → blog → kaynak → footer --- */
+/* --- Giriş Koreografisi (Faz 2.1): hero → grid → blog → projeler → kaynak → footer --- */
 .container > :nth-child(1) { --enter-delay: 0ms; }
 .container > :nth-child(2) { --enter-delay: 70ms; }
 .container > :nth-child(3) { --enter-delay: 140ms; }
