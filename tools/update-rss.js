@@ -158,9 +158,12 @@ function buildRss(posts) {
         })
         .join('\n');
 
+    // lastBuildDate en yeni yazıdan türetilir; yazı yokken hiç basılmaz
+    // (opsiyoneldir) — böylece çıktı deterministik kalır, araç boş beslemeyi
+    // her çalıştırmada yeniden yazmaz
     const lastBuild = posts.length
-        ? new Date(posts[0].date + 'T00:00:00Z').toUTCString()
-        : new Date().toUTCString();
+        ? `\n        <lastBuildDate>${new Date(posts[0].date + 'T00:00:00Z').toUTCString()}</lastBuildDate>`
+        : '';
 
     return `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
@@ -168,8 +171,7 @@ function buildRss(posts) {
         <title>murq.in — blog</title>
         <link>${SITE}/blog</link>
         <description>Notes on projects, tools, and tinkering by Icarus Murqin</description>
-        <language>en</language>
-        <lastBuildDate>${lastBuild}</lastBuildDate>
+        <language>en</language>${lastBuild}
         <atom:link href="${SITE}/rss.xml" rel="self" type="application/rss+xml"/>
 ${items}
     </channel>
