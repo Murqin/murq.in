@@ -564,13 +564,13 @@ footer:hover .footer-box {
     gap: 6px;
 }
 
+/* Kenarlıksız düz hap: kenarlıklı link butonlarından ayrışsın diye pasif görünüm */
 .project-tag {
     font-family: "JetBrains Mono", monospace;
     font-size: var(--text-2xs);
     color: var(--text-dim);
-    background: rgba(139, 126, 255, 0.05);
-    border: 1px solid var(--border);
-    padding: 3px 9px;
+    background: rgba(139, 126, 255, 0.08);
+    padding: 4px 10px;
     border-radius: 6px;
 }
 
