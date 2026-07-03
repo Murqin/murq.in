@@ -3,6 +3,8 @@
 //   2. Bu diziye kayıt ekle
 //   3. `node tools/generate-rss.js` çalıştırıp rss.xml'i güncelle
 // Alanlar: slug (dosya adıyla birebir aynı), title, date (YYYY-AA-GG), summary
+// Not: tools/generate-rss.js bu dosyayı Node'da değerlendirir — düz
+// `const POSTS = [...]` biçimini koru (export/IIFE/window ekleme).
 const POSTS = [
     {
         slug: 'hello-world',

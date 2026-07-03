@@ -16,22 +16,31 @@ function mdEscapeHtml(s) {
 
 function mdSafeUrl(url) {
     if (/^https?:\/\//i.test(url)) return url;
-    if (/^(\.?\/|#)/.test(url)) return url; // site içi yol veya sayfa içi çapa
-    return null;
+    // Protokol-göreli (//host) adresler siteden dışarı çıkarır — reddet
+    if (/^\/\//.test(url)) return null;
+    // Şema içeren diğer her şey (javascript:, data: vb.) reddedilir;
+    // kalanlar site içi yol sayılır (/x, ./x, #x ve çıplak göreli yollar)
+    if (/^[a-z][a-z0-9+.-]*:/i.test(url)) return null;
+    return url;
 }
 
 function mdInline(text) {
-    // Kod aralıkları önce ayrılır ki içleri vurgu/link kurallarından etkilenmesin
-    const codeSpans = [];
-    text = text.replace(/`([^`]+)`/g, (m, code) => {
-        codeSpans.push('<code>' + code + '</code>');
-        return '\u0000' + (codeSpans.length - 1) + '\u0000';
-    });
+    // Üretilen HTML parçaları NUL'lu yer tutucularla ayrılır ki sonraki
+    // kurallar (özellikle vurgu) hazır etiketlerin/özniteliklerin içine girmesin
+    const tokens = [];
+    const stash = (html) => {
+        tokens.push(html);
+        return '\u0000' + (tokens.length - 1) + '\u0000';
+    };
+
+    text = text.replace(/`([^`]+)`/g, (m, code) =>
+        stash('<code>' + code + '</code>')
+    );
 
     text = text.replace(/!\[([^\]]*)\]\(([^)\s]+)\)/g, (m, alt, url) => {
         const safe = mdSafeUrl(url);
         return safe
-            ? '<img src="' + safe + '" alt="' + alt + '" loading="lazy">'
+            ? stash('<img src="' + safe + '" alt="' + alt + '" loading="lazy">')
             : m;
     });
 
@@ -41,18 +50,22 @@ function mdInline(text) {
         const external = /^https?:\/\//i.test(safe)
             ? ' target="_blank" rel="noopener noreferrer"'
             : '';
-        return '<a href="' + safe + '"' + external + '>' + label + '</a>';
+        return stash('<a href="' + safe + '"' + external + '>' + label + '</a>');
     });
 
-    text = text.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
-    text = text.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+    // Vurgu içeriği boşlukla başlayıp bitemez; böylece "rm *.log ve *.tmp"
+    // gibi metinlerdeki serbest yıldızlar vurgu sanılmaz
+    text = text.replace(/\*\*([^\s*](?:[^*]*[^\s*])?)\*\*/g, '<strong>$1</strong>');
+    text = text.replace(/\*([^\s*](?:[^*]*[^\s*])?)\*/g, '<em>$1</em>');
 
-    return text.replace(/\u0000(\d+)\u0000/g, (m, i) => codeSpans[+i]);
+    return text.replace(/\u0000(\d+)\u0000/g, (m, i) => tokens[+i]);
 }
 
 function markdownToHtml(md) {
     // Girdi bu noktada bütünüyle escape edilir; ">" artık "&gt;" olarak gelir
-    const lines = mdEscapeHtml(md.replace(/\r\n?/g, '\n')).split('\n');
+    // Yer tutucu NUL'larıyla çakışmaması için kaynaktaki olası NUL baytları atılır
+    const cleaned = md.replace(/\u0000/g, '').replace(/\r\n?/g, '\n');
+    const lines = mdEscapeHtml(cleaned).split('\n');
     const out = [];
     let i = 0;
 
@@ -65,10 +78,14 @@ function markdownToHtml(md) {
 
         if (!line.trim()) { i++; continue; }
 
-        if (/^```/.test(line)) {
+        const fence = line.match(/^(`{3,})/);
+        if (fence) {
+            // Kapanış, açılıştaki kadar (veya daha çok) backtick ister;
+            // böylece ```` içinde ``` örneği gösterilebilir
+            const closeRe = new RegExp('^`{' + fence[1].length + ',}\\s*$');
             const buf = [];
             i++;
-            while (i < lines.length && !/^```/.test(lines[i])) {
+            while (i < lines.length && !closeRe.test(lines[i])) {
                 buf.push(lines[i]);
                 i++;
             }
@@ -79,7 +96,9 @@ function markdownToHtml(md) {
 
         const heading = line.match(/^(#{1,6})\s+(.*)$/);
         if (heading) {
-            const level = heading[1].length;
+            // Yazı başlığı posts.js'ten tek h1 olarak gelir; .md içindeki
+            // # de h2'ye indirilir ki sayfada ikinci bir h1 oluşmasın
+            const level = Math.max(2, heading[1].length);
             out.push('<h' + level + '>' + mdInline(heading[2]) + '</h' + level + '>');
             i++;
             continue;
