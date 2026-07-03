@@ -58,7 +58,8 @@ murq.in/
 │   └── api/visitors.js     # Visitor counter (Cloudflare Pages Function + KV)
 ├── posts/                  # Blog posts as plain markdown files
 ├── tools/
-│   └── generate-rss.js     # Regenerates rss.xml from posts.js (run on new post)
+│   ├── update-rss.py       # Run on new post: validates index, refreshes rss.xml
+│   └── generate-rss.js     # XML generator used by update-rss.py
 ├── index.html              # Main page markup & semantic metadata
 ├── blog.html               # Blog: post list & single-post view (?post=slug)
 ├── script.js               # Seed parsing logic & dynamic starfield renderer
@@ -77,7 +78,8 @@ murq.in/
 
 1. Create `posts/<slug>.md` (the title comes from the index — no `h1` in the file).
 2. Add an entry to `posts.js` (`slug`, `title`, `date`, `summary`).
-3. Run `node tools/generate-rss.js` to refresh `rss.xml`, then commit.
+3. Run `python3 tools/update-rss.py` — it validates the post index, regenerates
+   `rss.xml`, and stages it. Then commit everything together.
 
 ---
 
