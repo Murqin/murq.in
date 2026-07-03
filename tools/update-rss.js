@@ -53,8 +53,14 @@ function validate(posts) {
         }
         seen.add(slug);
 
-        if (slug && !fs.existsSync(path.join(ROOT, 'posts', slug + '.md'))) {
-            errors.push(label + ': posts/' + slug + '.md does not exist');
+        if (slug) {
+            const mdPath = path.join(ROOT, 'posts', slug + '.md');
+            if (!fs.existsSync(mdPath)) {
+                errors.push(label + ': posts/' + slug + '.md does not exist');
+            } else if (!fs.readFileSync(mdPath, 'utf8').trim()) {
+                // new-post.js dosyayı boş açar; yazılmadan yayınlanmasın
+                errors.push(label + ': posts/' + slug + '.md is empty — write it first');
+            }
         }
         if (!isValidDate(post.date || '')) {
             errors.push(

@@ -58,7 +58,8 @@ murq.in/
 │   └── api/visitors.js     # Visitor counter (Cloudflare Pages Function + KV)
 ├── posts/                  # Blog posts as plain markdown files
 ├── tools/
-│   └── update-rss.js       # Run on new post: validates index, refreshes rss.xml
+│   ├── new-post.js         # Interactive scaffold: creates the .md + index entry
+│   └── update-rss.js       # Run on new post: validates, lints, refreshes rss.xml
 ├── index.html              # Main page markup & semantic metadata
 ├── blog.html               # Blog: post list & single-post view (?post=slug)
 ├── script.js               # Seed parsing logic & dynamic starfield renderer
@@ -75,10 +76,15 @@ murq.in/
 
 ### ✍️ Adding a blog post
 
-1. Create `posts/<slug>.md` (the title comes from the index — no `h1` in the file).
-2. Add an entry to `posts.js` (`slug`, `title`, `date`, `summary`).
-3. Run `node tools/update-rss.js` — it validates the post index, regenerates
-   `rss.xml`, and stages it. Then commit everything together.
+1. Run `node tools/new-post.js` — it asks for title/slug/date/summary, creates
+   an empty `posts/<slug>.md`, and adds the entry to `posts.js`.
+2. Write the post in `posts/<slug>.md` (the title comes from the index — no
+   `h1` in the file).
+3. Run `node tools/update-rss.js` — it validates the post index, lints the
+   content, regenerates `rss.xml`, and stages it. Then commit everything.
+
+(Steps can also be done by hand: create the file, add the `posts.js` entry,
+run `update-rss.js`.)
 
 ---
 
