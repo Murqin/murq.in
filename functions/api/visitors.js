@@ -1,5 +1,6 @@
 const ALLOWED_ORIGINS = [
     'https://murq.in',
+    'https://www.murq.in',
     'http://localhost:8788', // wrangler pages dev
 ];
 
