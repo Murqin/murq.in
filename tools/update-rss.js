@@ -232,10 +232,19 @@ function main() {
     }
     console.log('rss.xml regenerated');
 
-    // Yarı otomatik kısım: değişen rss.xml'i stage'le (git yoksa sessizce geç)
+    // Yarı otomatik kısım: rss.xml'le birlikte dizini ve dizindeki yazı
+    // dosyalarını da stage'le — yalnız rss.xml commit'lenip yazının kendisi
+    // unutulursa canlıda "beslemede var, sitede yok" durumu oluşur.
+    // (Doğrulama geçtiği için dizindeki her dosya mevcut ve dolu; dizin dışı
+    // taslaklar bilerek stage'lenmez.)
     try {
-        execFileSync('git', ['-C', ROOT, 'add', 'rss.xml'], { stdio: 'ignore' });
-        console.log('rss.xml staged — commit it together with your post');
+        const files = ['rss.xml', 'posts.json'].concat(
+            posts.map((p) => path.join('posts', p.slug + '.md'))
+        );
+        execFileSync('git', ['-C', ROOT, 'add', '--', ...files], {
+            stdio: 'ignore'
+        });
+        console.log('staged: rss.xml, posts.json and post files — commit them together');
     } catch (err) {
         // git kurulu değilse ya da repo değilse stage adımı atlanır
     }
