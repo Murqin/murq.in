@@ -14,18 +14,6 @@ const PROJECTS = [
         status: 'active'
     },
     {
-        name: 'Rep Counter',
-        description:
-            'A minimal workout rep counter — tap to count, nothing to configure, ' +
-            'no distractions between sets.',
-        tags: ['JavaScript', 'Web App'],
-        links: [
-            { label: 'Try', url: 'https://rep-counter-sapphire.vercel.app/' },
-            { label: 'GitHub', url: 'https://github.com/Murqin/rep-counter' }
-        ],
-        status: 'wip'
-    },
-    {
         name: 'Whitelist Managers',
         description:
             'Ultra-lightweight, high-performance whitelist management built for ' +
