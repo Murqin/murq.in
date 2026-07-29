@@ -1,5 +1,11 @@
 [
     {
+        "slug": "fedora-migration-notes-anti-cheat-workarounds-drivers-and-my-ai-usage",
+        "title": "Fedora Migration Notes: Anti-Cheat Workarounds, Drivers, and My AI Usage",
+        "date": "2026-07-29",
+        "summary": "My experience migrating to Fedora, fixing Secure Boot anti-cheat issues, and taking a pragmatic approach to AI."
+    },
+    {
         "slug": "my-first-experience-with-claude-fable-5",
         "title": "My first experience with Claude Fable 5",
         "date": "2026-07-03",
