@@ -18,7 +18,10 @@
 services:
   murqin-web:
     container_name: murqin-web
-    image: ghcr.io/murqin/murq.in:latest
+    # While staging on yeni.cosmos.murq.in, pin :staging — the astro-migration
+    # branch publishes there. Switch to :latest at cutover, once main carries
+    # this code.
+    image: ghcr.io/murqin/murq.in:staging
     restart: unless-stopped
     environment:
       # Only these origins may increment the counter. Drop the staging host

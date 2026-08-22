@@ -2,7 +2,7 @@ name: Publish container image
 
 on:
   push:
-    branches: [main]
+    branches: [main, astro-migration]
   workflow_dispatch:
 
 concurrency:
@@ -32,13 +32,23 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      # Only main publishes :latest. Everything else lands on :staging so a
+      # Cosmos container tracking :latest can never pull an in-progress branch.
+      - id: tag
+        run: |
+          if [ "${{ github.ref_name }}" = "main" ]; then
+            echo "moving=latest" >> "$GITHUB_OUTPUT"
+          else
+            echo "moving=staging" >> "$GITHUB_OUTPUT"
+          fi
+
       - uses: docker/build-push-action@v6
         with:
           context: .
           platforms: linux/arm64
           push: true
           tags: |
-            ${{ env.IMAGE }}:latest
+            ${{ env.IMAGE }}:${{ steps.tag.outputs.moving }}
             ${{ env.IMAGE }}:${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
