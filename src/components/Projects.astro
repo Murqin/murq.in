@@ -1,0 +1,42 @@
+---
+import { PROJECTS } from '../data/projects';
+---
+
+<div class="projects-list">
+    {
+        PROJECTS.map((project) => (
+            <div class="project-item">
+                <div class="project-header">
+                    <span class="project-name">{project.name}</span>
+                    <span class={`project-status ${project.status}`}>{project.status}</span>
+                </div>
+                <p class="project-desc">{project.description}</p>
+                {(project.tags.length > 0 || project.links.length > 0) && (
+                    <div class="project-footer">
+                        {project.tags.length > 0 && (
+                            <div class="project-tags">
+                                {project.tags.map((tag) => (
+                                    <span class="project-tag">{tag}</span>
+                                ))}
+                            </div>
+                        )}
+                        {project.links.length > 0 && (
+                            <div class="project-links">
+                                {project.links.map((link) => (
+                                    <a
+                                        class="project-link-btn"
+                                        href={link.url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        {link.label}
+                                    </a>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                )}
+            </div>
+        ))
+    }
+</div>

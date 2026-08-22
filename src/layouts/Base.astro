@@ -1,0 +1,60 @@
+---
+import Footer from '../components/Footer.astro';
+
+interface Props {
+    title: string;
+    description: string;
+    /** Social cards read better without the " — Icarus Murqin" suffix. */
+    ogTitle?: string;
+    /** Drives og:type — posts are articles, everything else is a website. */
+    ogType?: 'website' | 'article';
+    /** The visitor counter only lives on the home page. */
+    showVisitorCount?: boolean;
+}
+
+const {
+    title,
+    description,
+    ogTitle = title,
+    ogType = 'website',
+    showVisitorCount = false,
+} = Astro.props;
+
+// Absolute URLs: link-preview bots reject relative og:image/og:url values.
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL('/assets/og-image.png', Astro.site);
+---
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>{title}</title>
+        <meta name="description" content={description} />
+        <link rel="canonical" href={canonical} />
+        <meta property="og:title" content={ogTitle} />
+        <meta property="og:description" content={description} />
+        <meta property="og:url" content={canonical} />
+        <meta property="og:type" content={ogType} />
+        <meta property="og:image" content={ogImage} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" content="murq.in — Icarus Murqin's personal site" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+        <link rel="alternate" type="application/rss+xml" title="murq.in blog" href="/rss.xml" />
+        <link rel="stylesheet" href="/style.css" />
+    </head>
+    <body>
+        <div id="gradient" aria-hidden="true"></div>
+        <div id="stars" aria-hidden="true"></div>
+        <main class="container">
+            <slot />
+            <Footer showVisitorCount={showVisitorCount} />
+        </main>
+        <script>
+            import '../scripts/theme';
+        </script>
+    </body>
+</html>

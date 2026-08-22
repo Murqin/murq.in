@@ -1,0 +1,26 @@
+{
+  "name": "murq-in",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro check && astro build",
+    "build:server": "tsc --project server",
+    "build:all": "npm run build && npm run build:server",
+    "serve": "SITE_ROOT=./dist DATA_DIR=./.data ALLOWED_ORIGINS=http://localhost:8080 node server/dist/server.js",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/rss": "^4.0.19",
+    "@astrojs/sitemap": "^3.7.3",
+    "astro": "^7.2.4"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "@types/node": "^26.2.0",
+    "typescript": "^6.0.3"
+  }
+}

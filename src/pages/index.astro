@@ -1,0 +1,84 @@
+---
+import Base from '../layouts/Base.astro';
+import Projects from '../components/Projects.astro';
+---
+
+<Base
+    title="Icarus Murqin"
+    description="Icarus Murqin's personal site"
+    showVisitorCount={true}
+>
+    <section class="card hero">
+        <button type="button" class="dice-btn" aria-label="Generate a new random theme">
+            <svg
+                viewBox="0 0 24 24"
+                width="18"
+                height="18"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+            >
+                <rect x="3" y="3" width="18" height="18" rx="4"></rect>
+                <circle cx="8.5" cy="8.5" r="1" fill="currentColor"></circle>
+                <circle cx="15.5" cy="8.5" r="1" fill="currentColor"></circle>
+                <circle cx="12" cy="12" r="1" fill="currentColor"></circle>
+                <circle cx="8.5" cy="15.5" r="1" fill="currentColor"></circle>
+                <circle cx="15.5" cy="15.5" r="1" fill="currentColor"></circle>
+            </svg>
+        </button>
+        <button type="button" class="seed-star" aria-label="Copy theme seed link">✦</button>
+        <img src="/assets/avatar.png" alt="Icarus Murqin" class="avatar" />
+        <h1>Icarus Murqin</h1>
+        <p class="tagline">I'm just randomly surfing the web.</p>
+
+        <div class="section-title">Social Media</div>
+        <div class="socials">
+            <a href="https://www.instagram.com/murqin/" class="social-icon">Instagram</a>
+            <a href="https://steamcommunity.com/id/murqin/" class="social-icon">Steam</a>
+            <a href="https://www.youtube.com/@Murqin" class="social-icon">YouTube</a>
+            <a href="https://github.com/Murqin" class="social-icon">GitHub</a>
+        </div>
+    </section>
+
+    <div class="grid">
+        <section class="card">
+            <div class="section-title">About Me</div>
+            <p>
+                Just a tech hobbyist who spends most of his time playing video games,
+                listening to music, watching videos, and casually tinkering with random
+                projects.
+            </p>
+        </section>
+        <section class="card">
+            <div class="section-title">Contact Me</div>
+            <button type="button" class="mail-btn">murqin@proton.me</button>
+        </section>
+    </div>
+
+    <section class="card">
+        <div class="section-title">Blog</div>
+        <p>Occasional notes on projects, tools, and whatever I'm tinkering with.</p>
+        <a href="/blog" class="source-link" data-seed-nav="/blog">read the blog</a>
+    </section>
+
+    <section class="card">
+        <div class="section-title">My Projects</div>
+        <Projects />
+    </section>
+
+    <section class="card">
+        <div class="section-title">Source Code</div>
+        <p>Code is MIT licensed. Third-party assets are their respective owners.</p>
+        <a
+            href="https://github.com/murqin/murq.in/blob/main/LICENSES.md"
+            class="source-licenses-link"
+            target="_blank">third-party notices</a
+        >
+        <a href="https://github.com/murqin/murq.in" class="source-link" target="_blank"
+            >view on github</a
+        >
+    </section>
+</Base>

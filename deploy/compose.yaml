@@ -1,0 +1,30 @@
+# Import this in Cosmos (ServApps -> Import compose) or run it with
+# `docker compose up -d`.
+#
+# Before the first start, create the data directory and hand it to the
+# container's uid, or the server refuses to boot:
+#
+#   sudo mkdir -p /cosmos-storage/murqin/data
+#   sudo chown -R 1000:1000 /cosmos-storage/murqin/data
+#
+# Then add a Cosmos route pointing at this container:
+#   Mode              SERVAPP -> http://murqin-web:8080
+#   BlockCommonBots   false    <- link-preview bots and RSS readers must pass
+#
+# Seed the counter to carry the count over from Cloudflare:
+#   curl -s https://murq.in/api/visitors \
+#     | sudo tee /cosmos-storage/murqin/data/visitors.json
+
+services:
+  murqin-web:
+    container_name: murqin-web
+    image: ghcr.io/murqin/murq.in:latest
+    restart: unless-stopped
+    environment:
+      # Only these origins may increment the counter. Drop the staging host
+      # once the cutover is done.
+      ALLOWED_ORIGINS: https://murq.in,https://yeni.cosmos.murq.in
+    volumes:
+      - /cosmos-storage/murqin/data:/data
+    labels:
+      cosmos-auto-update: "true"

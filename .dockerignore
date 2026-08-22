@@ -1,0 +1,14 @@
+node_modules
+dist
+server/dist
+.astro
+.data
+.git
+.github
+.claude
+.superpowers
+docs
+research
+tools
+README.md
+LICENSES.md

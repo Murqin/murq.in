@@ -3,11 +3,14 @@
 //
 //   node tools/screenshot.js [url] [output]
 //
-// Defaults: http://127.0.0.1:8788/a1b2c3d4e5f6 -> assets/preview.png
+// Defaults: http://127.0.0.1:8080/a1b2c3d4e5f6 -> docs/preview.png
 // (a fixed seed keeps the theme reproducible between captures).
 //
+// The seed path only resolves through the Node server, not `astro dev`, so the
+// local server has to be the built one.
+//
 // Requirements — both are dev-only, nothing ships to the site:
-//   * a running local server:  npx wrangler pages dev .
+//   * a running local server:  npm run build:all && npm run serve
 //   * puppeteer (headless Chromium), not a repo dependency on purpose:
 //       npm install --no-save puppeteer
 //
@@ -27,8 +30,8 @@ try {
 }
 
 const ROOT = path.join(__dirname, '..');
-const url = process.argv[2] || 'http://127.0.0.1:8788/a1b2c3d4e5f6';
-const out = path.resolve(ROOT, process.argv[3] || 'assets/preview.png');
+const url = process.argv[2] || 'http://127.0.0.1:8080/a1b2c3d4e5f6';
+const out = path.resolve(ROOT, process.argv[3] || 'docs/preview.png');
 
 (async () => {
     const browser = await puppeteer.launch({

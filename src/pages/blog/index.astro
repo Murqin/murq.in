@@ -1,0 +1,38 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { formatPostDate } from '../../lib/date';
+
+const posts = (await getCollection('blog')).sort(
+    (a, b) => b.data.date.getTime() - a.data.date.getTime()
+);
+---
+
+<Base title="Blog — Icarus Murqin" description="Notes on projects, tools, and tinkering">
+    <section class="card blog-card">
+        <div class="blog-topbar">
+            <a href="/" class="blog-nav-link" data-seed-nav="/">← murq.in</a>
+            <a href="/rss.xml" class="blog-nav-link">RSS</a>
+        </div>
+        <div class="section-title">Blog</div>
+        {
+            posts.length === 0 ? (
+                <p class="blog-empty">No posts yet.</p>
+            ) : (
+                posts.map((post) => (
+                    <a
+                        class="post-list-item"
+                        href={`/blog/${post.id}/`}
+                        data-seed-nav={`/blog/${post.id}/`}
+                    >
+                        <div class="post-list-header">
+                            <span class="post-list-title">{post.data.title}</span>
+                            <span class="post-list-date">{formatPostDate(post.data.date)}</span>
+                        </div>
+                        <p class="post-list-summary">{post.data.summary}</p>
+                    </a>
+                ))
+            )
+        }
+    </section>
+</Base>

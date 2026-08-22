@@ -1,0 +1,42 @@
+---
+interface Props {
+    showVisitorCount?: boolean;
+}
+
+const { showVisitorCount = false } = Astro.props;
+const year = new Date().getFullYear();
+---
+
+<footer>
+    <div class="footer-box">
+        <div class="footer-content">
+            <span class="copyright">&copy; {year} Icarus Murqin</span>
+            {
+                showVisitorCount && (
+                    <>
+                        <span class="footer-separator" aria-hidden="true">
+                            •
+                        </span>
+                        <span id="visitor-count" class="visitor-counter">
+                            <svg
+                                class="eye-icon"
+                                viewBox="0 0 24 24"
+                                width="12"
+                                height="12"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            >
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                <circle cx="12" cy="12" r="3" />
+                            </svg>
+                            <span class="count-value">...</span> visits
+                        </span>
+                    </>
+                )
+            }
+        </div>
+    </div>
+</footer>
