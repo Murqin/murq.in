@@ -1,146 +1,358 @@
+/* ==========================================================================
+   SELF-HOSTED FONTS (Geist Sans & Geist Mono)
+   ========================================================================== */
+
+/* Geist Sans */
+@font-face {
+    font-family: 'Geist';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('assets/fonts/geist-400-normal-4.woff2') format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+    font-family: 'Geist';
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: url('assets/fonts/geist-500-normal-9.woff2') format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+    font-family: 'Geist';
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+    src: url('assets/fonts/geist-600-normal-14.woff2') format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Geist Mono */
+@font-face {
+    font-family: 'Geist Mono';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('assets/fonts/geist-mono-400-normal-4.woff2') format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+    font-family: 'Geist Mono';
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: url('assets/fonts/geist-mono-500-normal-9.woff2') format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* ==========================================================================
+   DESIGN TOKENS & RESET
+   ========================================================================== */
+
+:root {
+    --bg: #0A0A0B;
+    --surface: #101012;
+    --hairline: rgba(255, 255, 255, 0.055);
+
+    --text-display: #EDEDEF;
+    --text-body: #D4D4D8;
+    --text-muted: #94949E;
+    --text-pill: #D8D8DD;
+
+    --pill: rgba(255, 255, 255, 0.045);
+    --pill-hover: rgba(255, 255, 255, 0.09);
+    --pill-border: rgba(255, 255, 255, 0.06);
+    --pill-copied: #10b981;
+    --ring: rgba(255, 255, 255, 0.28);
+
+    --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-mono: 'Geist Mono', ui-monospace, monospace;
+
+    /* Vertical rhythm */
+    --sp-status-avatar: 18px;
+    --sp-avatar-name: 20px;
+    --sp-name-bio: 10px;
+    --sp-bio-links: 30px;
+
+    --card-w: 412px;
+    --radius-card: 22px;
+
+    --ease: cubic-bezier(0.2, 0.6, 0.2, 1);
+}
+
 *, *::before, *::after {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
-:root {
-    --bg-page: #09090b;
-    --bg-card: #121215;
-    --bg-link: #18181c;
-    --bg-link-hover: #222228;
-    --border-card: #222227;
-    --border-link: #282830;
-    --border-link-hover: #3a3a46;
-    --text-primary: #f4f4f6;
-    --text-secondary: #93939f;
-    --text-tertiary: #60606d;
-    --radius-card: 16px;
-    --radius-link: 10px;
-    --radius-avatar: 50%;
-    --transition: 0.15s ease;
+html {
+    -webkit-text-size-adjust: 100%;
+    color-scheme: dark;
 }
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+a, button {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    font: inherit;
+}
+
+::selection {
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+}
+
+/* ==========================================================================
+   PAGE LAYOUT
+   ========================================================================== */
 
 body {
-    background-color: var(--bg-page);
-    color: var(--text-primary);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    font-size: 15px;
-    line-height: 1.5;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 24px 16px;
+    min-height: 100dvh;
+    display: grid;
+    place-items: center;
+    padding: clamp(20px, 5vw, 48px);
+    padding-bottom: max(clamp(20px, 5vw, 48px), env(safe-area-inset-bottom));
+    background: var(--bg);
+    color: var(--text-body);
+    font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
 }
 
-.page {
-    width: 100%;
-    max-width: 440px;
-    margin: auto;
+/* Mat doku: %3 mikro-gren */
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 2;
+    opacity: 0.032;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
 }
+
+/* ==========================================================================
+   CARD & PROFILE
+   ========================================================================== */
 
 .card {
-    background-color: var(--bg-card);
-    border: 1px solid var(--border-card);
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: var(--card-w);
+    padding: 36px 32px 36px;
+    background: var(--surface);
+    border: 1px solid var(--hairline);
     border-radius: var(--radius-card);
-    padding: 32px 28px;
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-}
-
-.profile {
+    box-shadow: 0 32px 64px -32px rgba(0, 0, 0, 0.75);
+    text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
-    text-align: center;
-    gap: 14px;
+}
+
+/* Status & Live Clock */
+.meta-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: var(--text-muted);
+    background: rgba(255, 255, 255, 0.025);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: 999px;
+    padding: 4px 12px;
+    margin-bottom: var(--sp-status-avatar);
+    letter-spacing: 0.02em;
+}
+
+.status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: #22c55e;
+    box-shadow: 0 0 8px rgba(34, 197, 94, 0.4);
+}
+
+.time-text {
+    font-variant-numeric: tabular-nums;
+    color: var(--text-display);
+    font-weight: 500;
+}
+
+.meta-sep {
+    opacity: 0.35;
+}
+
+.tz-text {
+    opacity: 0.7;
 }
 
 .avatar {
-    width: 84px;
-    height: 84px;
-    border-radius: var(--radius-avatar);
-    border: 1px solid var(--border-card);
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
     object-fit: cover;
-    background-color: var(--bg-link);
+    background: #17171A;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+    margin-bottom: var(--sp-avatar-name);
 }
 
+/* ==========================================================================
+   TYPOGRAPHY
+   ========================================================================== */
+
 .name {
-    font-size: 1.5rem;
+    font-family: var(--font-sans);
+    font-size: clamp(1.55rem, 1.3rem + 1vw, 1.95rem);
     font-weight: 600;
-    letter-spacing: -0.02em;
-    color: var(--text-primary);
-    text-align: center;
+    letter-spacing: -0.03em;
+    line-height: 1.12;
+    color: var(--text-display);
+    margin-bottom: var(--sp-name-bio);
 }
 
 .bio {
-    color: var(--text-secondary);
-    font-size: 0.95rem;
-    line-height: 1.6;
-    text-align: center;
+    font-family: var(--font-sans);
+    max-width: 38ch;
+    font-size: clamp(0.9375rem, 0.91rem + 0.15vw, 1rem);
+    font-weight: 400;
+    line-height: 1.62;
+    letter-spacing: -0.005em;
+    color: var(--text-muted);
+    text-wrap: pretty;
+    margin-bottom: var(--sp-bio-links);
 }
+
+/* ==========================================================================
+   PILL BUTTONS (3 + 2 Controlled Wrap)
+   ========================================================================== */
 
 .links {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 8px;
+    max-width: 310px;
 }
 
-.link-item {
-    display: flex;
+.pill {
+    position: relative;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    padding: 12px 14px;
-    background-color: var(--bg-link);
-    border: 1px solid var(--border-link);
-    border-radius: var(--radius-link);
-    color: var(--text-primary);
-    text-decoration: none;
-    font-size: 0.9rem;
+    gap: 6px;
+    height: 40px;
+    padding: 0 16px;
+    border-radius: 999px;
+    background: var(--pill);
+    border: 1px solid var(--pill-border);
+    color: var(--text-pill);
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
     font-weight: 500;
-    transition: background-color var(--transition), border-color var(--transition), transform var(--transition);
+    letter-spacing: 0.005em;
+    line-height: 1;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.16s var(--ease), border-color 0.16s var(--ease), color 0.16s var(--ease), transform 0.16s var(--ease);
 }
 
-.link-item:hover {
-    background-color: var(--bg-link-hover);
-    border-color: var(--border-link-hover);
+.pill:hover {
+    background: var(--pill-hover);
+    border-color: rgba(255, 255, 255, 0.12);
     color: #ffffff;
 }
 
-.link-item:active {
-    transform: scale(0.99);
+.pill:active, .pill.key-active {
+    transform: translateY(0.5px) scale(0.98);
 }
 
-.link-item:focus-visible {
-    outline: 2px solid #52525e;
-    outline-offset: 2px;
+.pill:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--bg), 0 0 0 3.5px var(--ring);
 }
 
-.icon {
-    flex-shrink: 0;
-    color: var(--text-secondary);
-    transition: color var(--transition);
+/* Keyboard Shortcut Badge (1-5) */
+.pill-kbd {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 500;
+    opacity: 0.35;
+    padding: 1px 4px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+    line-height: 1.1;
+    transition: opacity 0.16s var(--ease);
 }
 
-.link-item:hover .icon {
-    color: #ffffff;
+.pill:hover .pill-kbd,
+body.show-shortcuts .pill-kbd {
+    opacity: 0.75;
 }
 
-@media (max-width: 480px) {
+/* Email Copy State */
+.pill.copied {
+    background: rgba(16, 185, 129, 0.12);
+    border-color: rgba(16, 185, 129, 0.35);
+    color: #34d399;
+}
+
+.pill.copied .pill-kbd {
+    display: none;
+}
+
+/* ==========================================================================
+   ANIMATIONS & RESPONSIVE
+   ========================================================================== */
+
+@media (prefers-reduced-motion: no-preference) {
+    .reveal {
+        opacity: 0;
+        transform: translateY(6px);
+        animation: rise 0.6s var(--ease) forwards;
+    }
+    .reveal:nth-child(1) { animation-delay: 0.02s; }
+    .reveal:nth-child(2) { animation-delay: 0.07s; }
+    .reveal:nth-child(3) { animation-delay: 0.12s; }
+    .reveal:nth-child(4) { animation-delay: 0.17s; }
+    .reveal:nth-child(5) { animation-delay: 0.22s; }
+
+    @keyframes rise {
+        to {
+            opacity: 1;
+            transform: none;
+        }
+    }
+}
+
+@media (max-width: 400px) {
+    :root {
+        --sp-status-avatar: 14px;
+        --sp-avatar-name: 16px;
+        --sp-bio-links: 26px;
+    }
     .card {
-        padding: 24px 20px;
-        gap: 20px;
+        padding: 30px 20px 30px;
+        border-radius: 20px;
     }
     .avatar {
-        width: 72px;
-        height: 72px;
+        width: 82px;
+        height: 82px;
     }
-    .name {
-        font-size: 1.35rem;
+    .pill {
+        height: 38px;
+        padding: 0 13px;
     }
 }

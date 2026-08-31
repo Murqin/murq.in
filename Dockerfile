@@ -7,7 +7,7 @@ RUN rm -rf /usr/share/nginx/html/*
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Copy static assets
-COPY index.html style.css /usr/share/nginx/html/
+COPY index.html style.css script.js /usr/share/nginx/html/
 COPY assets/ /usr/share/nginx/html/assets/
 
 EXPOSE 80
