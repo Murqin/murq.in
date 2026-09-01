@@ -1,5 +1,6 @@
 services:
   web:
+    image: ghcr.io/murqin/murq.in:latest
     build: .
     container_name: murqin-site
     restart: unless-stopped
