@@ -42,6 +42,7 @@ export const PROJECTS: Project[] = [
         tags: ['Java', 'Fabric/Forge/NeoForge'],
         links: [
             { label: 'Modrinth', url: 'https://modrinth.com/mod/nocroptrample' },
+            { label: 'CurseForge', url: 'https://www.curseforge.com/minecraft/mc-mods/no-crop-trample' },
             { label: 'GitHub', url: 'https://github.com/Murqin/NoCropTrample' },
         ],
         status: 'active',

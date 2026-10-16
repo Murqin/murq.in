@@ -492,6 +492,10 @@ footer:hover .footer-box {
 
 .project-links {
     display: flex;
+    /* Three links do not fit a half-width card; let them wrap inside it instead of overflowing. */
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    max-width: 100%;
     gap: 8px;
     /* Links stay right-aligned in the bottom row even without tags */
     margin-left: auto;
