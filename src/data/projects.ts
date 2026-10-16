@@ -27,28 +27,4 @@ export const PROJECTS: Project[] = [
         links: [{ label: 'GitHub', url: 'https://github.com/murqin/murq.in' }],
         status: 'active',
     },
-    {
-        name: 'Whitelist Managers',
-        description:
-            'Ultra-lightweight, high-performance whitelist management built for ' +
-            'modern Minecraft servers (Paper & Purpur).',
-        tags: ['Java', 'Paper/Purpur'],
-        links: [
-            { label: 'Modrinth', url: 'https://modrinth.com/plugin/whitelist-managers' },
-            { label: 'GitHub', url: 'https://github.com/Murqin/whitelist-managers/' },
-        ],
-        status: 'active',
-    },
-    {
-        name: 'Global Villager Discounts',
-        description:
-            'A Minecraft plugin that synchronizes villager curing discounts ' +
-            'across every player on the server.',
-        tags: ['Java', 'Paper/Purpur'],
-        links: [
-            { label: 'Modrinth', url: 'https://modrinth.com/plugin/globalvillagerdiscounts' },
-            { label: 'GitHub', url: 'https://github.com/Murqin/GlobalVillagerDiscounts' },
-        ],
-        status: 'active',
-    },
 ];
