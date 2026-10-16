@@ -94,6 +94,10 @@
         const target = document.querySelector(`.cs-list__name[data-key="${e.key}"]`);
         if (!target) return;
         e.preventDefault();
+        // Press the row's key cap for a moment, so the keyboard shortcut shows which row it hit.
+        const row = target.closest('li');
+        row.classList.add('is-key');
+        setTimeout(() => row.classList.remove('is-key'), 220);
         if (target.tagName === 'A') {
             window.open(target.href, '_blank', 'noopener,noreferrer');
         } else {

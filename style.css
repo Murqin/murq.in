@@ -58,6 +58,10 @@ img { max-width: 100%; }
 
 /* Paper: three noise layers (tooth, long fibres, mottling). Dark stock screens the inverted fibres so they read as pale texture,
    light stock multiplies them. Isolation keeps the blend on the paper, and z-index -1 paints it above the background, under the content. */
+/* Sizes here (row height, label height, list max-height) assume border-box. Pages without a global reset still get it. */
+.cs-paper, .cs-cover, .cs-cover *, .cs-list, .cs-list *, .cs-strip, .cs-label, .cs-ruler, .cs-ruler *, .cs-leaf, .cs-status { box-sizing: border-box; }
+.cs-list *::before, .cs-list *::after, .cs-label::after, .cs-ruler *::before { box-sizing: border-box; }
+
 .cs-paper { position: relative; isolation: isolate; background: var(--page); color: var(--ink); font: 400 16px/1.6 var(--font-sans); -webkit-font-smoothing: antialiased; }
 .cs-paper::after {
   content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
@@ -91,7 +95,14 @@ body.cs-paper::after { position: fixed; }
   border-bottom: var(--stroke-heavy) solid var(--rule);
 }
 .cs-list__rows > li { counter-increment: cs; height: var(--row); scroll-snap-align: start; display: grid; grid-template-columns: 40px auto minmax(24px, 1fr) auto; gap: 14px; align-items: baseline; padding: 11px var(--space-2) 0 0; }
-.cs-list__rows > li::before { content: counter(cs, decimal-leading-zero); font: 500 13px/1 var(--font-mono); color: var(--ink-soft); }
+/* Key cap: the row number sits in a square with a heavier bottom edge, like a keyboard key, because the numbers are
+   the 1-9 shortcuts. The cap fills while its row or its key is pressed (.is-key is set by the page's key handler). */
+.cs-list__rows > li::before {
+  content: counter(cs, decimal-leading-zero); width: 26px; height: 26px; display: inline-grid; place-items: center;
+  align-self: center; margin-top: -11px; font: 500 11px/1 var(--font-mono); color: var(--ink);
+  border: var(--stroke-hair) solid var(--rule); border-bottom-width: var(--stroke-heavy);
+}
+.cs-list__rows > li:active::before, .cs-list__rows > li.is-key::before { background: var(--ink); color: var(--page); }
 .cs-list__name { font: 600 20px/1.2 var(--font-sans); letter-spacing: -0.015em; color: var(--ink); text-decoration: none; background: none; border: 0; padding: 0; cursor: pointer; text-align: left; white-space: nowrap; }
 .cs-list__lead { border-bottom: var(--stroke-heavy) dotted var(--ink-soft); opacity: .6; transform: translateY(-4px); }
 .cs-list__addr { font: 500 13px/1 var(--font-mono); color: var(--ink-soft); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 260px; }
@@ -137,6 +148,7 @@ body.cs-paper::after { position: fixed; }
 
 /* Hover only where a pointer can hover; on touch screens a hover state sticks after the tap. */
 @media (hover: hover) {
+  .cs-list__rows > li:hover::before { border-color: var(--link); color: var(--link); }
   .cs-list__name:hover { color: var(--link); }
   .cs-list__name:hover ~ .cs-list__lead { border-color: var(--link); }
   .cs-strip a:hover { color: var(--link); }
@@ -149,7 +161,7 @@ body.cs-paper::after { position: fixed; }
               translucent token laid over it; a one-colour linear-gradient is the only way to stack two flat fills in CSS.
    selected : inverted, page-coloured ink on an ink fill. Never used for the pressed state, so the two stay apart.
    disabled : faint ink for text and edge; no hover, no press. */
-.cs-label:active, .cs-list__rows > li:active { background-image: linear-gradient(var(--press), var(--press)); }
+.cs-label:active, .cs-list__rows > li:active { background-image: linear-gradient(var(--press), var(--press)); } /* cardstock-allow: gradient */
 .cs-label[aria-selected="true"], .cs-label.is-selected { background: var(--ink); color: var(--page); border-color: var(--ink); }
 .cs-label[aria-selected="true"] .cs-sheet, .cs-label.is-selected .cs-sheet { fill: var(--ink); }
 .cs-label:disabled, .cs-label[aria-disabled="true"] { color: var(--ink-faint); border-color: var(--ink-faint); background-image: none; cursor: not-allowed; pointer-events: none; }
