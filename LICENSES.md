@@ -15,10 +15,10 @@ This document details licenses, attributions, and notices for third-party assets
 - **License:** Creative Commons Attribution 3.0 Unported ([CC BY 3.0](https://creativecommons.org/licenses/by/3.0/))
 - **Modifications:** Converted to SVG, recolored, cropped for favicon dimensions.
 
-### 2. avatar.webp, avatar.png
+### 2. avatar.webp
 
-- **Path:** `assets/avatar.webp` (used by the site), `assets/avatar.png` (previous avatar)
-- **Note:** `avatar.webp` is AI-generated fan art of the character below.
+- **Path:** `assets/avatar.webp` (also shown in `assets/og-image.png`)
+- **Note:** AI-generated fan art, created with ChatGPT image generation.
 - **Character:** Akane Kurokawa
 - **Series:** Oshi no Ko 【推しの子】
 - **Copyright:** © Aka Akasaka × Mengo Yokoyari / Shueisha, Doga Kobo
