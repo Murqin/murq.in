@@ -19,15 +19,13 @@ This file contains notices and licensing information for third-party assets used
   3. Recolored from black to `#8B7EFF`.
   4. Cropped canvas for favicon use.
 
-### 2. avatar.png
+### 2. avatar-amethyst.webp
 
-- **File Path**: `assets/avatar.png`
-- **Character**: Akane Kurokawa
-- **Series**: Oshi no Ko 【My Star】
-- **Copyright**: © Aka Akasaka x Mengo Yokoyari / Shueisha, Doga Kobo
-- **Source**: Screenshot from anime episode
+- **File Path**: `assets/avatar-amethyst.webp`
+- **Character**: Original character by Icarus Murqin (an amethyst stained-glass artisan)
+- **Source**: Generated with ChatGPT image generation from the owner's own character description
 - **Usage**: Personal avatar for non-commercial website
-- **Disclaimer**: This is a non-profit, personal project. Intellectual property of the avatar belongs to the creators and publishers of the original series. It is not covered by this repository's MIT License.
+- **Disclaimer**: Not covered by this repository's MIT License.
 
 ---
 
