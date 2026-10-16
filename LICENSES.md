@@ -6,18 +6,11 @@ This file contains notices and licensing information for third-party assets used
 
 ## Assets
 
-### 1. favicon.svg
+### 1. Crystal icon (favicon-crystal-*.png, apple-touch-icon-crystal.png)
 
-- **File Path**: `assets/favicon.svg`
-- **Title**: Wing
-- **Author**: Kim Sun Young
-- **Source**: [Noun Project](https://thenounproject.com/browse/icons/term/wing/)
-- **License**: Creative Commons Attribution 3.0 Unported ([CC BY 3.0](https://creativecommons.org/licenses/by/3.0/))
-- **Modifications**: 
-  1. Removed embedded text/watermark from original PNG.
-  2. Converted from PNG to SVG via tracing.
-  3. Recolored from black to `#8B7EFF`.
-  4. Cropped canvas for favicon use.
+- **File Path**: `assets/favicon-crystal-32.png`, `assets/favicon-crystal-192.png`, `assets/apple-touch-icon-crystal.png`
+- **Source**: Generated with ChatGPT image generation from the owner's own description; resized for icon use
+- **Disclaimer**: Not covered by this repository's MIT License.
 
 ### 2. avatar-amethyst.webp
 
