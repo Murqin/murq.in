@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="ln-snap">
+<html lang="en" class="cs-snap">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -36,12 +36,12 @@
                 light: [['Bone', '#E7E3DB'], ['Fog', '#DCE1E4'], ['Sage', '#DCE0D3'], ['Blush', '#EADDD6'], ['Newsprint', '#E8E1CB'], ['Lilac', '#E0DCE6']]
             };
             var theme = 'dark';
-            try { theme = localStorage.getItem('ln-theme') === 'light' ? 'light' : 'dark'; } catch (e) {}
+            try { theme = localStorage.getItem('cs-theme') === 'light' ? 'light' : 'dark'; } catch (e) {}
             var list = STOCKS[theme], pick = list[Math.floor(Math.random() * list.length)], root = document.documentElement;
             root.setAttribute('data-theme', theme);
             root.setAttribute('data-stock', pick[0]);
             root.style.setProperty('--page', pick[1]);
-            window.LN_STOCKS = STOCKS;
+            window.CS_STOCKS = STOCKS;
         })();
     </script>
 
@@ -62,48 +62,48 @@
     }
     </script>
 </head>
-<body class="ln-paper">
-    <nav class="ln-ruler" id="ruler" aria-label="Pages"></nav>
+<body class="cs-paper">
+    <nav class="cs-ruler" id="ruler" aria-label="Pages"></nav>
 
-    <div class="ln-labels controls" aria-label="Paper">
-        <button type="button" class="ln-label" id="stock-btn" aria-label="Pick another paper colour">
-            <svg viewBox="0 0 14 14" aria-hidden="true"><path class="ln-sheet" d="M3 1.5h5.5L11.5 4.5v8H3z"/><path d="M8.5 1.5v3h3"/></svg>
+    <div class="cs-labels controls" aria-label="Paper">
+        <button type="button" class="cs-label" id="stock-btn" aria-label="Pick another paper colour">
+            <svg viewBox="0 0 14 14" aria-hidden="true"><path class="cs-sheet" d="M3 1.5h5.5L11.5 4.5v8H3z"/><path d="M8.5 1.5v3h3"/></svg>
             <span id="stock-name">Paper</span>
         </button>
-        <button type="button" class="ln-label" id="theme-btn" aria-pressed="true">
+        <button type="button" class="cs-label" id="theme-btn" aria-pressed="true">
             <svg viewBox="0 0 14 14" aria-hidden="true" id="theme-icon"></svg>
             <span id="theme-label">Dark</span>
         </button>
     </div>
 
     <main>
-        <section class="ln-leaf" id="cover" aria-label="Cover">
-            <div class="ln-cover">
-                <div class="ln-cover__main">
-                    <img class="ln-cover__avatar" src="assets/avatar.webp" width="168" height="168" alt="Murqin's avatar" decoding="async" fetchpriority="high">
+        <section class="cs-leaf" id="cover" aria-label="Cover">
+            <div class="cs-cover">
+                <div class="cs-cover__main">
+                    <img class="cs-cover__avatar" src="assets/avatar.webp" width="168" height="168" alt="Murqin's avatar" decoding="async" fetchpriority="high">
                     <div>
-                        <h1 class="ln-cover__title">Murqin</h1>
-                        <p class="ln-cover__lead">Just a tech hobbyist who spends most of his time playing video games, listening to music, and casually tinkering with random projects.</p>
+                        <h1 class="cs-cover__title">Murqin</h1>
+                        <p class="cs-cover__lead">Just a tech hobbyist who spends most of his time playing video games, listening to music, and casually tinkering with random projects.</p>
                     </div>
                 </div>
-                <div class="ln-cover__foot"><span>Local time in İstanbul</span><b id="clock">--:--</b></div>
+                <div class="cs-cover__foot"><span>Local time in İstanbul</span><b id="clock">--:--</b></div>
             </div>
             <a class="hint" href="#links" aria-label="Next: links">↓</a>
         </section>
 
-        <section class="ln-leaf" id="links" aria-labelledby="links-title">
-            <div class="ln-list">
-                <div class="ln-list__head"><h2 class="ln-list__title" id="links-title">Links</h2><span class="ln-list__count">Press 1–5</span></div>
-                <ol class="ln-list__rows" id="rows" aria-label="Links">
-                    <li><a class="ln-list__name" href="https://github.com/Murqin" target="_blank" rel="noopener noreferrer" data-key="1">GitHub</a><span class="ln-list__lead" aria-hidden="true"></span><small class="ln-list__addr">github.com/Murqin</small></li>
-                    <li><a class="ln-list__name" href="https://steamcommunity.com/id/murqin/" target="_blank" rel="noopener noreferrer" data-key="2">Steam</a><span class="ln-list__lead" aria-hidden="true"></span><small class="ln-list__addr">steamcommunity.com/id/murqin</small></li>
-                    <li><a class="ln-list__name" href="https://www.youtube.com/@Murqin" target="_blank" rel="noopener noreferrer" data-key="3">YouTube</a><span class="ln-list__lead" aria-hidden="true"></span><small class="ln-list__addr">youtube.com/@Murqin</small></li>
-                    <li><a class="ln-list__name" href="https://www.instagram.com/murqin/" target="_blank" rel="noopener noreferrer" data-key="4">Instagram</a><span class="ln-list__lead" aria-hidden="true"></span><small class="ln-list__addr">instagram.com/murqin</small></li>
-                    <li><button type="button" class="ln-list__name" id="email-btn" data-email="murqin@proton.me" data-key="5" aria-label="Copy email address">Mail</button><span class="ln-list__lead" aria-hidden="true"></span><small class="ln-list__addr" id="email-addr">murqin@proton.me</small></li>
+        <section class="cs-leaf" id="links" aria-labelledby="links-title">
+            <div class="cs-list">
+                <div class="cs-list__head"><h2 class="cs-list__title" id="links-title">Links</h2><span class="cs-list__count">Press 1–5</span></div>
+                <ol class="cs-list__rows" id="rows" aria-label="Links">
+                    <li><a class="cs-list__name" href="https://github.com/Murqin" target="_blank" rel="noopener noreferrer" data-key="1">GitHub</a><span class="cs-list__lead" aria-hidden="true"></span><small class="cs-list__addr">github.com/Murqin</small></li>
+                    <li><a class="cs-list__name" href="https://steamcommunity.com/id/murqin/" target="_blank" rel="noopener noreferrer" data-key="2">Steam</a><span class="cs-list__lead" aria-hidden="true"></span><small class="cs-list__addr">steamcommunity.com/id/murqin</small></li>
+                    <li><a class="cs-list__name" href="https://www.youtube.com/@Murqin" target="_blank" rel="noopener noreferrer" data-key="3">YouTube</a><span class="cs-list__lead" aria-hidden="true"></span><small class="cs-list__addr">youtube.com/@Murqin</small></li>
+                    <li><a class="cs-list__name" href="https://www.instagram.com/murqin/" target="_blank" rel="noopener noreferrer" data-key="4">Instagram</a><span class="cs-list__lead" aria-hidden="true"></span><small class="cs-list__addr">instagram.com/murqin</small></li>
+                    <li><button type="button" class="cs-list__name" id="email-btn" data-email="murqin@proton.me" data-key="5" aria-label="Copy email address">Mail</button><span class="cs-list__lead" aria-hidden="true"></span><small class="cs-list__addr" id="email-addr">murqin@proton.me</small></li>
                 </ol>
-                <div class="ln-list__foot" id="rows-foot" hidden><span id="rows-pos"></span><span>Scroll for more</span></div>
+                <div class="cs-list__foot" id="rows-foot" hidden><span id="rows-pos"></span><span>Scroll for more</span></div>
             </div>
-            <footer class="ln-strip ln-leaf__foot"><span>© 2026 Murqin. All rights reserved.</span><a href="#cover">Back to top ↑</a></footer>
+            <footer class="cs-strip cs-leaf__foot"><span>© 2026 Murqin. All rights reserved.</span><a href="#cover">Back to top ↑</a></footer>
         </section>
     </main>
 

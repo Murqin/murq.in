@@ -2,7 +2,7 @@
   <img src="assets/og-image.png" alt="murq.in preview" width="680" style="border-radius: 12px;" />
   <br />
   <h1>murq.in</h1>
-  <p>Personal bio website styled as a CD booklet printed on paper.</p>
+  <p>Personal bio website printed in flat ink on coloured cardstock.</p>
 </div>
 
 ---

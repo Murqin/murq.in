@@ -9,7 +9,7 @@
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     // 1. Paper stock and theme. The stock is picked by the inline script in <head> before first paint.
-    const STOCKS = window.LN_STOCKS;
+    const STOCKS = window.CS_STOCKS;
     const themeColor = document.querySelector('meta[name="theme-color"]');
     const ICONS = {
         dark: '<path d="M11.5 8.6A5 5 0 0 1 5.4 2.5a5 5 0 1 0 6.1 6.1z"/>',
@@ -44,7 +44,7 @@
 
     $('theme-btn').addEventListener('click', () => {
         const theme = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-        try { localStorage.setItem('ln-theme', theme); } catch (e) { /* private mode: the choice lasts for this visit only */ }
+        try { localStorage.setItem('cs-theme', theme); } catch (e) { /* private mode: the choice lasts for this visit only */ }
         setPaper(theme);
     });
 
@@ -91,7 +91,7 @@
         if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable || e.ctrlKey || e.metaKey || e.altKey) {
             return;
         }
-        const target = document.querySelector(`.ln-list__name[data-key="${e.key}"]`);
+        const target = document.querySelector(`.cs-list__name[data-key="${e.key}"]`);
         if (!target) return;
         e.preventDefault();
         if (target.tagName === 'A') {
@@ -119,25 +119,25 @@
 
     // 6. Ruler: a major tick and label per page; the marker follows the real scroll position
     const ruler = $('ruler');
-    const pages = Array.from(document.querySelectorAll('.ln-leaf'));
+    const pages = Array.from(document.querySelectorAll('.cs-leaf'));
     const MINOR = 24;
     const labels = [];
     const axis = document.createElement('span');
-    axis.className = 'ln-ruler__axis';
+    axis.className = 'cs-ruler__axis';
     ruler.appendChild(axis);
     for (let i = 0; i <= MINOR; i++) {
         const t = document.createElement('span');
-        t.className = 'ln-ruler__tick';
+        t.className = 'cs-ruler__tick';
         t.style.top = `${(i / MINOR) * 100}%`;
         ruler.appendChild(t);
     }
     pages.forEach((page, i) => {
         const pos = pages.length > 1 ? i / (pages.length - 1) : 0;
         const major = document.createElement('span');
-        major.className = 'ln-ruler__tick ln-ruler__tick--major';
+        major.className = 'cs-ruler__tick cs-ruler__tick--major';
         major.style.top = `${pos * 100}%`;
         const a = document.createElement('a');
-        a.className = 'ln-ruler__label';
+        a.className = 'cs-ruler__label';
         a.href = `#${page.id}`;
         a.textContent = page.id;
         a.style.top = `${pos * 100}%`;
@@ -149,7 +149,7 @@
         labels.push(a);
     });
     const mark = document.createElement('span');
-    mark.className = 'ln-ruler__mark';
+    mark.className = 'cs-ruler__mark';
     ruler.appendChild(mark);
 
     function updateRuler() {

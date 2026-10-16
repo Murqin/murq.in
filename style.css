@@ -6,7 +6,7 @@
 @font-face { font-family: 'Geist Mono'; font-style: normal; font-weight: 500; font-display: swap; src: url('assets/fonts/geist-mono-500-normal-11.woff2') format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
 @font-face { font-family: 'Geist Mono'; font-style: normal; font-weight: 500; font-display: swap; src: url('assets/fonts/geist-mono-500-normal-10.woff2') format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
 
-/* Liner Notes tokens. Dark is the default; the inline script in <head> sets data-theme and the picked stock as --page. */
+/* Cardstock tokens. Dark is the default; the inline script in <head> sets data-theme and the picked stock as --page. */
 :root {
     color-scheme: dark;
     --page: #151417;
@@ -43,100 +43,100 @@ body {
 main { max-width: 1040px; margin: 0 auto; }
 img { max-width: 100%; }
 
-/* Liner Notes: a CD booklet printed on paper. Every colour comes from tokens.css; nothing here draws a gradient, gloss or shadow. */
+/* Cardstock: flat ink on coloured cardstock. Every colour comes from tokens.css; nothing here draws a gradient, gloss or shadow. */
 
 /* Paper: three noise layers (tooth, long fibres, mottling). Dark stock screens the inverted fibres so they read as pale texture,
    light stock multiplies them. Isolation keeps the blend on the paper, and z-index -1 paints it above the background, under the content. */
-.ln-paper { position: relative; isolation: isolate; background: var(--page); color: var(--ink); font: 400 16px/1.6 var(--font-sans); -webkit-font-smoothing: antialiased; }
-.ln-paper::after {
+.cs-paper { position: relative; isolation: isolate; background: var(--page); color: var(--ink); font: 400 16px/1.6 var(--font-sans); -webkit-font-smoothing: antialiased; }
+.cs-paper::after {
   content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.12 0 0 0 0 0.11 0 0 0 0 0.09 0 0 0 0.6 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='420'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='turbulence' baseFrequency='.006 .28' numOctaves='2' seed='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.25 0 0 0 0 0.23 0 0 0 0 0.2 0 0 0 0.7 -0.28'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.012' numOctaves='3' seed='9' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.3 0 0 0 0 0.28 0 0 0 0 0.24 0 0 0 0.45 -0.2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   filter: invert(1); mix-blend-mode: screen; opacity: .2;
 }
-body.ln-paper::after { position: fixed; }
-[data-theme="light"] .ln-paper::after, .ln-paper[data-theme="light"]::after { filter: none; mix-blend-mode: multiply; opacity: .42; }
+body.cs-paper::after { position: fixed; }
+[data-theme="light"] .cs-paper::after, .cs-paper[data-theme="light"]::after { filter: none; mix-blend-mode: multiply; opacity: .42; }
 
-/* Cover panel: the booklet's front, a flat ink frame. */
-.ln-cover { border: var(--stroke) solid var(--rule); display: grid; }
-.ln-cover__main { display: grid; grid-template-columns: 168px minmax(0, 1fr); gap: var(--space-8); padding: var(--space-7); align-items: center; }
-.ln-cover__avatar { display: block; width: 168px; height: 168px; object-fit: cover; border: var(--stroke-hair) solid var(--rule); }
-.ln-cover__title { margin: 0 0 var(--space-3); font: 700 clamp(44px, 7vw, 88px)/.95 var(--font-sans); letter-spacing: -0.045em; text-wrap: balance; }
-.ln-cover__lead { margin: 0; max-width: 46ch; font-size: 18px; line-height: 1.6; color: var(--ink-soft); }
-.ln-cover__foot { display: flex; justify-content: space-between; gap: var(--space-3); padding: 10px var(--space-6); border-top: var(--stroke-hair) solid var(--rule); font-size: 13px; color: var(--ink-soft); }
-.ln-cover__foot b { color: var(--ink); font: 500 13px/1.6 var(--font-mono); font-variant-numeric: tabular-nums; }
-@media (max-width: 520px) { .ln-cover__main { grid-template-columns: minmax(0, 1fr); } .ln-cover__avatar { width: 112px; height: 112px; } }
+/* Cover panel: a front panel in a flat ink frame. */
+.cs-cover { border: var(--stroke) solid var(--rule); display: grid; }
+.cs-cover__main { display: grid; grid-template-columns: 168px minmax(0, 1fr); gap: var(--space-8); padding: var(--space-7); align-items: center; }
+.cs-cover__avatar { display: block; width: 168px; height: 168px; object-fit: cover; border: var(--stroke-hair) solid var(--rule); }
+.cs-cover__title { margin: 0 0 var(--space-3); font: 700 clamp(44px, 7vw, 88px)/.95 var(--font-sans); letter-spacing: -0.045em; text-wrap: balance; }
+.cs-cover__lead { margin: 0; max-width: 46ch; font-size: 18px; line-height: 1.6; color: var(--ink-soft); }
+.cs-cover__foot { display: flex; justify-content: space-between; gap: var(--space-3); padding: 10px var(--space-6); border-top: var(--stroke-hair) solid var(--rule); font-size: 13px; color: var(--ink-soft); }
+.cs-cover__foot b { color: var(--ink); font: 500 13px/1.6 var(--font-mono); font-variant-numeric: tabular-nums; }
+@media (max-width: 520px) { .cs-cover__main { grid-template-columns: minmax(0, 1fr); } .cs-cover__avatar { width: 112px; height: 112px; } }
 
-/* Liner-notes list: no frame, a heavy rule above and below, dotted leaders join the name to its address. */
-.ln-list { display: grid; }
-.ln-list__head { display: flex; justify-content: space-between; align-items: baseline; padding-bottom: var(--space-3); border-bottom: var(--stroke-heavy) solid var(--rule); }
-.ln-list__title { margin: 0; font: 700 13px/1.6 var(--font-sans); letter-spacing: .14em; text-transform: uppercase; }
-.ln-list__count { font: 500 13px/1 var(--font-mono); color: var(--ink-soft); font-variant-numeric: tabular-nums; }
-.ln-list__rows {
+/* Leader list: no frame, a heavy rule above and below, dotted leaders join the name to its address. */
+.cs-list { display: grid; }
+.cs-list__head { display: flex; justify-content: space-between; align-items: baseline; padding-bottom: var(--space-3); border-bottom: var(--stroke-heavy) solid var(--rule); }
+.cs-list__title { margin: 0; font: 700 13px/1.6 var(--font-sans); letter-spacing: .14em; text-transform: uppercase; }
+.cs-list__count { font: 500 13px/1 var(--font-mono); color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+.cs-list__rows {
   --rows: 5;
-  list-style: none; margin: 0; padding: 0; counter-reset: ln;
+  list-style: none; margin: 0; padding: 0; counter-reset: cs;
   max-height: calc(var(--row) * var(--rows)); overflow-y: auto; overscroll-behavior: contain;
   scroll-snap-type: y mandatory; scrollbar-width: thin; scrollbar-color: var(--ink-soft) #00000000;
   border-bottom: var(--stroke-heavy) solid var(--rule);
 }
-.ln-list__rows > li { counter-increment: ln; height: var(--row); scroll-snap-align: start; display: grid; grid-template-columns: 40px auto minmax(24px, 1fr) auto; gap: 14px; align-items: baseline; padding: 11px var(--space-2) 0 0; }
-.ln-list__rows > li::before { content: counter(ln, decimal-leading-zero); font: 500 13px/1 var(--font-mono); color: var(--ink-soft); }
-.ln-list__name { font: 600 20px/1.2 var(--font-sans); letter-spacing: -0.015em; color: var(--ink); text-decoration: none; background: none; border: 0; padding: 0; cursor: pointer; text-align: left; white-space: nowrap; }
-.ln-list__name:hover { color: var(--link); }
-.ln-list__name:hover ~ .ln-list__lead { border-color: var(--link); }
-.ln-list__lead { border-bottom: var(--stroke-heavy) dotted var(--ink-soft); opacity: .6; transform: translateY(-4px); }
-.ln-list__addr { font: 500 13px/1 var(--font-mono); color: var(--ink-soft); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 260px; }
-.ln-list__foot { display: flex; justify-content: space-between; margin-top: 10px; font: 500 12px/1 var(--font-mono); color: var(--ink-soft); font-variant-numeric: tabular-nums; }
-@media (max-width: 560px) { .ln-list__addr { max-width: 130px; } .ln-list__name { font-size: 17px; } }
+.cs-list__rows > li { counter-increment: cs; height: var(--row); scroll-snap-align: start; display: grid; grid-template-columns: 40px auto minmax(24px, 1fr) auto; gap: 14px; align-items: baseline; padding: 11px var(--space-2) 0 0; }
+.cs-list__rows > li::before { content: counter(cs, decimal-leading-zero); font: 500 13px/1 var(--font-mono); color: var(--ink-soft); }
+.cs-list__name { font: 600 20px/1.2 var(--font-sans); letter-spacing: -0.015em; color: var(--ink); text-decoration: none; background: none; border: 0; padding: 0; cursor: pointer; text-align: left; white-space: nowrap; }
+.cs-list__name:hover { color: var(--link); }
+.cs-list__name:hover ~ .cs-list__lead { border-color: var(--link); }
+.cs-list__lead { border-bottom: var(--stroke-heavy) dotted var(--ink-soft); opacity: .6; transform: translateY(-4px); }
+.cs-list__addr { font: 500 13px/1 var(--font-mono); color: var(--ink-soft); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 260px; }
+.cs-list__foot { display: flex; justify-content: space-between; margin-top: 10px; font: 500 12px/1 var(--font-mono); color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+@media (max-width: 560px) { .cs-list__addr { max-width: 130px; } .cs-list__name { font-size: 17px; } }
 
 /* Ruled strip: a heavy rule with text at both ends; the page foot, or a head with the rule underneath. */
-.ln-strip { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 6px var(--space-4); padding-top: var(--space-3); border-top: var(--stroke-heavy) solid var(--rule); font-size: 13px; line-height: 1.6; color: var(--ink-soft); }
-.ln-strip--head { padding: 0 0 var(--space-3); border-top: 0; border-bottom: var(--stroke-heavy) solid var(--rule); }
-.ln-strip a { font: 500 12px/1 var(--font-mono); color: var(--ink-soft); text-decoration: none; white-space: nowrap; }
-.ln-strip a:hover { color: var(--link); }
+.cs-strip { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 6px var(--space-4); padding-top: var(--space-3); border-top: var(--stroke-heavy) solid var(--rule); font-size: 13px; line-height: 1.6; color: var(--ink-soft); }
+.cs-strip--head { padding: 0 0 var(--space-3); border-top: 0; border-bottom: var(--stroke-heavy) solid var(--rule); }
+.cs-strip a { font: 500 12px/1 var(--font-mono); color: var(--ink-soft); text-decoration: none; white-space: nowrap; }
+.cs-strip a:hover { color: var(--link); }
 
 /* Label button: a printed label on the same paper; 1px ink edge, mono text, a 14px line icon. */
-.ln-label { height: 26px; padding: 0 10px; border: var(--stroke-hair) solid var(--rule); border-radius: var(--radius-none); background: var(--page); color: var(--ink); font: 500 11px/1 var(--font-mono); cursor: pointer; display: inline-flex; align-items: center; gap: 7px; }
-.ln-label:hover { color: var(--link); border-color: var(--link); }
-.ln-label svg { width: 14px; height: 14px; flex: none; fill: none; stroke: currentColor; stroke-width: var(--stroke); stroke-linejoin: round; stroke-linecap: round; }
-.ln-label .ln-sheet { fill: var(--page); }
-.ln-labels { display: flex; gap: 6px; }
+.cs-label { height: 26px; padding: 0 10px; border: var(--stroke-hair) solid var(--rule); border-radius: var(--radius-none); background: var(--page); color: var(--ink); font: 500 11px/1 var(--font-mono); cursor: pointer; display: inline-flex; align-items: center; gap: 7px; }
+.cs-label:hover { color: var(--link); border-color: var(--link); }
+.cs-label svg { width: 14px; height: 14px; flex: none; fill: none; stroke: currentColor; stroke-width: var(--stroke); stroke-linejoin: round; stroke-linecap: round; }
+.cs-label .cs-sheet { fill: var(--page); }
+.cs-labels { display: flex; gap: 6px; }
 
 /* Ruler: a printer's rule on the right edge. Minor ticks are scale only; a major tick marks where each page starts.
    The marker follows the real scroll position, so it also sits between pages mid-snap. */
-.ln-ruler { position: fixed; z-index: 3; right: max(16px, env(safe-area-inset-right, 0px)); top: 24vh; bottom: 24vh; width: 90px; pointer-events: none; }
-.ln-ruler__axis { position: absolute; right: 0; top: 0; bottom: 0; width: var(--stroke-hair); background: var(--rule); opacity: .45; }
-.ln-ruler__tick { position: absolute; right: 0; height: var(--stroke-hair); width: 6px; background: var(--rule); opacity: .45; }
-.ln-ruler__tick--major { width: 14px; opacity: 1; }
-.ln-ruler__label { position: absolute; right: 42px; transform: translateY(-50%); padding: 4px 0; font: 500 11px/1 var(--font-mono); color: var(--ink-soft); text-decoration: none; pointer-events: auto; white-space: nowrap; }
-.ln-ruler__label:hover { color: var(--link); }
-.ln-ruler__label[aria-current="true"] { color: var(--ink); }
-.ln-ruler__mark { position: absolute; right: 0; width: 24px; height: var(--stroke-heavy); margin-top: -1px; background: var(--ink); }
-.ln-ruler__mark::before { content: ""; position: absolute; left: -7px; top: -4px; border: 5px solid #00000000; border-left: 7px solid var(--ink); border-right: 0; }
-@media (max-width: 640px) { .ln-ruler { width: 30px; } .ln-ruler__label { display: none; } }
+.cs-ruler { position: fixed; z-index: 3; right: max(16px, env(safe-area-inset-right, 0px)); top: 24vh; bottom: 24vh; width: 90px; pointer-events: none; }
+.cs-ruler__axis { position: absolute; right: 0; top: 0; bottom: 0; width: var(--stroke-hair); background: var(--rule); opacity: .45; }
+.cs-ruler__tick { position: absolute; right: 0; height: var(--stroke-hair); width: 6px; background: var(--rule); opacity: .45; }
+.cs-ruler__tick--major { width: 14px; opacity: 1; }
+.cs-ruler__label { position: absolute; right: 42px; transform: translateY(-50%); padding: 4px 0; font: 500 11px/1 var(--font-mono); color: var(--ink-soft); text-decoration: none; pointer-events: auto; white-space: nowrap; }
+.cs-ruler__label:hover { color: var(--link); }
+.cs-ruler__label[aria-current="true"] { color: var(--ink); }
+.cs-ruler__mark { position: absolute; right: 0; width: 24px; height: var(--stroke-heavy); margin-top: -1px; background: var(--ink); }
+.cs-ruler__mark::before { content: ""; position: absolute; left: -7px; top: -4px; border: 5px solid #00000000; border-left: 7px solid var(--ink); border-right: 0; }
+@media (max-width: 640px) { .cs-ruler { width: 30px; } .cs-ruler__label { display: none; } }
 
-/* Leaf (murq.in layout only): one element per screen with native scroll-snap, no scroll hijacking. Put .ln-snap on <html>. */
-.ln-snap { scroll-snap-type: y mandatory; scroll-behavior: smooth; }
-.ln-leaf { min-height: 100dvh; scroll-snap-align: start; scroll-snap-stop: always; display: grid; place-items: center; align-content: center; padding-block: var(--space-14); position: relative; }
-.ln-leaf > :not(.ln-leaf__foot) { width: min(860px, 100%); }
-.ln-leaf__foot { position: absolute; left: 50%; bottom: var(--space-6); transform: translateX(-50%); width: min(860px, 100%); }
+/* Leaf (murq.in layout only): one element per screen with native scroll-snap, no scroll hijacking. Put .cs-snap on <html>. */
+.cs-snap { scroll-snap-type: y mandatory; scroll-behavior: smooth; }
+.cs-leaf { min-height: 100dvh; scroll-snap-align: start; scroll-snap-stop: always; display: grid; place-items: center; align-content: center; padding-block: var(--space-14); position: relative; }
+.cs-leaf > :not(.cs-leaf__foot) { width: min(860px, 100%); }
+.cs-leaf__foot { position: absolute; left: 50%; bottom: var(--space-6); transform: translateX(-50%); width: min(860px, 100%); }
 @media (prefers-reduced-motion: no-preference) {
-  .ln-leaf.is-in > :not(.ln-leaf__foot) { animation: ln-leaf-in .5s cubic-bezier(.2, .7, .2, 1) both; }
+  .cs-leaf.is-in > :not(.cs-leaf__foot) { animation: cs-leaf-in .5s cubic-bezier(.2, .7, .2, 1) both; }
 }
-@keyframes ln-leaf-in { from { opacity: 0; transform: translateY(18px); } }
-@media (prefers-reduced-motion: reduce) { .ln-snap { scroll-behavior: auto; } }
+@keyframes cs-leaf-in { from { opacity: 0; transform: translateY(18px); } }
+@media (prefers-reduced-motion: reduce) { .cs-snap { scroll-behavior: auto; } }
 
-.ln-list__rows:focus-visible { outline: 2px solid var(--focus); outline-offset: 4px; }
-.ln-list__name:focus-visible, .ln-strip a:focus-visible, .ln-ruler__label:focus-visible, .ln-label:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.cs-list__rows:focus-visible { outline: 2px solid var(--focus); outline-offset: 4px; }
+.cs-list__name:focus-visible, .cs-strip a:focus-visible, .cs-ruler__label:focus-visible, .cs-label:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
 
 /* ---- murq.in page chrome ---- */
 .controls { position: fixed; z-index: 4; top: max(16px, env(safe-area-inset-top, 0px)); right: max(16px, env(safe-area-inset-right, 0px)); }
-.ln-leaf > .hint { width: auto; position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%); font: 500 18px/1 var(--font-mono); color: var(--ink-soft); text-decoration: none; padding: 6px 10px; }
+.cs-leaf > .hint { width: auto; position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%); font: 500 18px/1 var(--font-mono); color: var(--ink-soft); text-decoration: none; padding: 6px 10px; }
 .hint:hover { color: var(--link); }
 .hint:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
-.ln-list__name.copied { color: var(--link); }
+.cs-list__name.copied { color: var(--link); }
 @media (prefers-reduced-motion: reduce) { html, body { transition: none; } }
 /* On a phone the ruler would sit on the panels' right edge: move it to the very edge and keep the content clear of it. */
 @media (max-width: 640px) {
-    .ln-ruler { right: max(6px, env(safe-area-inset-right, 0px)); }
+    .cs-ruler { right: max(6px, env(safe-area-inset-right, 0px)); }
     main { padding-right: 22px; }
 }
