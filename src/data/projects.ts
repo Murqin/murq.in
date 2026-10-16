@@ -27,4 +27,23 @@ export const PROJECTS: Project[] = [
         links: [{ label: 'GitHub', url: 'https://github.com/murqin/murq.in' }],
         status: 'active',
     },
+    {
+        name: 'Scribo',
+        description:
+            'A Telegram bot in Go that transcribes and summarizes voice notes, audio ' +
+            'and video with Google Gemini. Runs in under 10 MB of RAM as a 15 MB container.',
+        tags: ['Go', 'Docker'],
+        links: [{ label: 'GitHub', url: 'https://github.com/Murqin/Scribo' }],
+        status: 'active',
+    },
+    {
+        name: 'No Crop Trample',
+        description: 'A Minecraft mod that stops players and mobs from trampling farmland crops.',
+        tags: ['Java', 'Fabric/Forge/NeoForge'],
+        links: [
+            { label: 'Modrinth', url: 'https://modrinth.com/mod/nocroptrample' },
+            { label: 'GitHub', url: 'https://github.com/Murqin/NoCropTrample' },
+        ],
+        status: 'active',
+    },
 ];
