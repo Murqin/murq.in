@@ -665,12 +665,13 @@ footer:hover .footer-box {
     box-shadow: 0 8px 24px rgba(139, 126, 255, 0.1);
 }
 
+/* Grid, not wrapping flex: a long title wraps inside its own column, so the date stays on the
+   right, level with the title's first line, whatever the title's length. */
 .post-list-header {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
     align-items: baseline;
-    flex-wrap: wrap;
-    gap: 8px 12px;
+    gap: 12px;
     margin-bottom: 6px;
 }
 
