@@ -2,19 +2,21 @@
   <img src="assets/og-image.png" alt="murq.in preview" width="680" style="border-radius: 12px;" />
   <br />
   <h1>murq.in</h1>
-  <p>Minimalist, matte-opaque dark personal bio website.</p>
+  <p>Personal bio website styled as a CD booklet printed on paper.</p>
 </div>
 
 ---
 
 ### Highlights
 
-- **Pure & Lightweight:** Zero JS frameworks, zero external CDN requests, total payload < 25 KB.
-- **Typography:** 100% self-hosted **Geist Sans** and **Geist Mono** with optimized OpenType features and preloads.
-- **Micro-interactions:** 
-  - Inline email copy morph with clipboard feedback.
-  - Keyboard navigation (`1` GitHub, `2` Steam, `3` YouTube, `4` Instagram, `5` Email).
-  - Real-time local time (`UTC+3`) and status badge with tabular numerals.
+- **Pure & Lightweight:** Zero JS frameworks, zero external CDN requests.
+- **Paper & ink:** Flat ink on a random paper stock per visit (six dark, six light), with a fibre texture; dark by default, theme choice remembered.
+- **One page per screen:** Cover and links each fill the screen with native scroll-snap; a printer's ruler on the right shows where you are.
+- **Typography:** 100% self-hosted **Geist Sans** and **Geist Mono** (latin + latin-ext) with preloads.
+- **Micro-interactions:**
+  - Email copy with inline "Copied" feedback.
+  - Keyboard navigation (`1` GitHub, `2` Steam, `3` YouTube, `4` Instagram, `5` Mail).
+  - Real-time local time in Istanbul with tabular numerals.
 - **Docker-ready:** High-performance `nginx:alpine-slim` setup with Gzip (level 6), immutable asset caching, and security headers.
 
 ---

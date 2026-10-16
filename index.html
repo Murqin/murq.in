@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="ln-snap">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>Murqin</title>
     <meta name="description" content="Personal site of Murqin — tech hobbyist tinkering with random projects.">
-    <meta name="theme-color" content="#0A0A0B">
+    <meta name="theme-color" content="#151417">
 
     <!-- Open Graph / Social Meta -->
     <meta property="og:title" content="Murqin">
@@ -24,9 +24,26 @@
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
     <link rel="preload" href="assets/fonts/geist-400-normal-4.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="assets/fonts/geist-600-normal-14.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="assets/fonts/geist-mono-400-normal-4.woff2" as="font" type="font/woff2" crossorigin>
-    
+    <link rel="preload" href="assets/fonts/geist-mono-500-normal-11.woff2" as="font" type="font/woff2" crossorigin>
+
     <link rel="stylesheet" href="style.css">
+
+    <!-- Pick the paper before first paint, otherwise the default stock flashes and then changes. -->
+    <script>
+        (function () {
+            var STOCKS = {
+                dark: [['Ink', '#151417'], ['Navy', '#131A29'], ['Forest', '#152019'], ['Oxblood', '#22151A'], ['Umber', '#1F1A16'], ['Plum', '#1C1724']],
+                light: [['Bone', '#E7E3DB'], ['Fog', '#DCE1E4'], ['Sage', '#DCE0D3'], ['Blush', '#EADDD6'], ['Newsprint', '#E8E1CB'], ['Lilac', '#E0DCE6']]
+            };
+            var theme = 'dark';
+            try { theme = localStorage.getItem('ln-theme') === 'light' ? 'light' : 'dark'; } catch (e) {}
+            var list = STOCKS[theme], pick = list[Math.floor(Math.random() * list.length)], root = document.documentElement;
+            root.setAttribute('data-theme', theme);
+            root.setAttribute('data-stock', pick[0]);
+            root.style.setProperty('--page', pick[1]);
+            window.LN_STOCKS = STOCKS;
+        })();
+    </script>
 
     <!-- Structured Data (JSON-LD) -->
     <script type="application/ld+json">
@@ -35,7 +52,7 @@
       "@type": "Person",
       "name": "Murqin",
       "url": "https://murq.in/",
-      "image": "https://murq.in/assets/avatar.png",
+      "image": "https://murq.in/assets/avatar.webp",
       "sameAs": [
         "https://github.com/Murqin",
         "https://steamcommunity.com/id/murqin/",
@@ -45,55 +62,49 @@
     }
     </script>
 </head>
-<body>
-    <main class="card">
-        <!-- Live Status & Local Time Header -->
-        <div class="meta-status reveal" aria-label="System status and local time">
-            <span class="status-dot" aria-hidden="true"></span>
-            <span id="local-time" class="time-text">--:--:--</span>
-            <span class="meta-sep" aria-hidden="true">·</span>
-            <span class="tz-text">UTC+3</span>
-        </div>
+<body class="ln-paper">
+    <nav class="ln-ruler" id="ruler" aria-label="Pages"></nav>
 
-        <img
-            class="avatar reveal"
-            src="assets/avatar.png"
-            width="92"
-            height="92"
-            alt="Murqin avatar"
-            decoding="async"
-            fetchpriority="high"
-        >
+    <div class="ln-labels controls" aria-label="Paper">
+        <button type="button" class="ln-label" id="stock-btn" aria-label="Pick another paper colour">
+            <svg viewBox="0 0 14 14" aria-hidden="true"><path class="ln-sheet" d="M3 1.5h5.5L11.5 4.5v8H3z"/><path d="M8.5 1.5v3h3"/></svg>
+            <span id="stock-name">Paper</span>
+        </button>
+        <button type="button" class="ln-label" id="theme-btn" aria-pressed="true">
+            <svg viewBox="0 0 14 14" aria-hidden="true" id="theme-icon"></svg>
+            <span id="theme-label">Dark</span>
+        </button>
+    </div>
 
-        <h1 class="name reveal">Murqin</h1>
+    <main>
+        <section class="ln-leaf" id="cover" aria-label="Cover">
+            <div class="ln-cover">
+                <div class="ln-cover__main">
+                    <img class="ln-cover__avatar" src="assets/avatar.webp" width="168" height="168" alt="Murqin's avatar" decoding="async" fetchpriority="high">
+                    <div>
+                        <h1 class="ln-cover__title">Murqin</h1>
+                        <p class="ln-cover__lead">Just a tech hobbyist who spends most of his time playing video games, listening to music, and casually tinkering with random projects.</p>
+                    </div>
+                </div>
+                <div class="ln-cover__foot"><span>Local time in İstanbul</span><b id="clock">--:--</b></div>
+            </div>
+            <a class="hint" href="#links" aria-label="Next: links">↓</a>
+        </section>
 
-        <p class="bio reveal">
-            Just a tech hobbyist who spends most of his time playing video games,
-            listening to music, and casually tinkering with random projects.
-        </p>
-
-        <nav class="links reveal" aria-label="Social links and shortcuts">
-            <a class="pill" href="https://github.com/Murqin" target="_blank" rel="noopener noreferrer" data-key="1">
-                <span class="pill-kbd" aria-hidden="true">1</span>
-                <span>GitHub</span>
-            </a>
-            <a class="pill" href="https://steamcommunity.com/id/murqin/" target="_blank" rel="noopener noreferrer" data-key="2">
-                <span class="pill-kbd" aria-hidden="true">2</span>
-                <span>Steam</span>
-            </a>
-            <a class="pill" href="https://www.youtube.com/@Murqin" target="_blank" rel="noopener noreferrer" data-key="3">
-                <span class="pill-kbd" aria-hidden="true">3</span>
-                <span>YouTube</span>
-            </a>
-            <a class="pill" href="https://www.instagram.com/murqin/" target="_blank" rel="noopener noreferrer" data-key="4">
-                <span class="pill-kbd" aria-hidden="true">4</span>
-                <span>Instagram</span>
-            </a>
-            <button type="button" class="pill pill-copy" id="email-btn" data-email="murqin@proton.me" data-key="5" aria-label="Copy email address">
-                <span class="pill-kbd" aria-hidden="true">5</span>
-                <span class="pill-text">Email</span>
-            </button>
-        </nav>
+        <section class="ln-leaf" id="links" aria-labelledby="links-title">
+            <div class="ln-list">
+                <div class="ln-list__head"><h2 class="ln-list__title" id="links-title">Links</h2><span class="ln-list__count">Press 1–5</span></div>
+                <ol class="ln-list__rows" id="rows" aria-label="Links">
+                    <li><a class="ln-list__name" href="https://github.com/Murqin" target="_blank" rel="noopener noreferrer" data-key="1">GitHub</a><span class="ln-list__lead" aria-hidden="true"></span><small class="ln-list__addr">github.com/Murqin</small></li>
+                    <li><a class="ln-list__name" href="https://steamcommunity.com/id/murqin/" target="_blank" rel="noopener noreferrer" data-key="2">Steam</a><span class="ln-list__lead" aria-hidden="true"></span><small class="ln-list__addr">steamcommunity.com/id/murqin</small></li>
+                    <li><a class="ln-list__name" href="https://www.youtube.com/@Murqin" target="_blank" rel="noopener noreferrer" data-key="3">YouTube</a><span class="ln-list__lead" aria-hidden="true"></span><small class="ln-list__addr">youtube.com/@Murqin</small></li>
+                    <li><a class="ln-list__name" href="https://www.instagram.com/murqin/" target="_blank" rel="noopener noreferrer" data-key="4">Instagram</a><span class="ln-list__lead" aria-hidden="true"></span><small class="ln-list__addr">instagram.com/murqin</small></li>
+                    <li><button type="button" class="ln-list__name" id="email-btn" data-email="murqin@proton.me" data-key="5" aria-label="Copy email address">Mail</button><span class="ln-list__lead" aria-hidden="true"></span><small class="ln-list__addr" id="email-addr">murqin@proton.me</small></li>
+                </ol>
+                <div class="ln-list__foot" id="rows-foot" hidden><span id="rows-pos"></span><span>Scroll for more</span></div>
+            </div>
+            <footer class="ln-strip ln-leaf__foot"><span>© 2026 Murqin. All rights reserved.</span><a href="#cover">Back to top ↑</a></footer>
+        </section>
     </main>
 
     <script src="script.js" defer></script>
