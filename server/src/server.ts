@@ -4,6 +4,7 @@
 
 import { createServer, type IncomingMessage, type ServerResponse } from 'node:http';
 import { createReadStream } from 'node:fs';
+import { pipeline } from 'node:stream/promises';
 import { stat, readFile, writeFile, rename, mkdir, rm } from 'node:fs/promises';
 import { join, normalize, resolve, extname, sep } from 'node:path';
 
@@ -55,8 +56,38 @@ function cacheControl(pathname: string, ext: string): string {
 /* ------------------------------- counter ------------------------------- */
 
 let visitorCount = 0;
-// Serialises writes so two increments in the same tick cannot interleave.
-let writeChain: Promise<unknown> = Promise.resolve();
+// At most one write in flight. Increments that land while it runs only mark the count dirty, and the
+// next write carries the latest value: memory stays bounded however fast POSTs arrive.
+let writing: Promise<void> | null = null;
+let dirty = false;
+
+// An Origin header is trivial to forge outside a browser, so the allow-list alone does not stop a
+// script from inflating the count. Each client gets a few increments per window; behind Cosmos and
+// Cloudflare the client is CF-Connecting-IP, falling back to the socket address.
+const RATE_WINDOW_MS = 10 * 60 * 1000;
+// Generous enough for a campus or home NAT where many visitors share one address.
+const RATE_MAX = 20;
+const RATE_TRACKED_MAX = 50_000;
+const rate = new Map<string, { start: number; hits: number }>();
+
+function clientKey(req: IncomingMessage): string {
+    const cf = req.headers['cf-connecting-ip'];
+    return (typeof cf === 'string' && cf) || req.socket.remoteAddress || 'unknown';
+}
+
+function allowIncrement(req: IncomingMessage): boolean {
+    const now = Date.now();
+    const key = clientKey(req);
+    const entry = rate.get(key);
+    if (!entry || now - entry.start >= RATE_WINDOW_MS) {
+        // Bound the table: when it is full, drop it and start over rather than grow without limit.
+        if (!entry && rate.size >= RATE_TRACKED_MAX) rate.clear();
+        rate.set(key, { start: now, hits: 1 });
+        return true;
+    }
+    entry.hits += 1;
+    return entry.hits <= RATE_MAX;
+}
 
 /**
  * A read-only /data is the one failure that is invisible at runtime: the count
@@ -79,36 +110,67 @@ async function checkDataDirWritable(): Promise<void> {
     }
 }
 
+/**
+ * Only a missing file means "first boot". Anything else (a root-owned restore, half-edited JSON)
+ * would otherwise read as zero, and the next increment would rename a fresh file over the real
+ * count. Refuse to start instead, so the problem is seen and the old file survives.
+ */
 async function loadCount(): Promise<void> {
+    let raw: string;
     try {
-        const raw = await readFile(COUNTER_FILE, 'utf8');
-        const parsed: unknown = JSON.parse(raw);
-        const value =
-            typeof parsed === 'object' && parsed !== null && 'count' in parsed
-                ? Number((parsed as { count: unknown }).count)
-                : NaN;
-        visitorCount = Number.isFinite(value) && value >= 0 ? Math.floor(value) : 0;
-    } catch {
-        // First boot, or an unreadable file: start from zero rather than refusing
-        // to serve. Seed the file by hand to carry a count over from elsewhere.
-        visitorCount = 0;
+        raw = await readFile(COUNTER_FILE, 'utf8');
+    } catch (err) {
+        if ((err as NodeJS.ErrnoException).code === 'ENOENT') {
+            visitorCount = 0;
+            console.log('visitor count file not found, starting from 0');
+            return;
+        }
+        console.error(`FATAL: ${COUNTER_FILE} exists but cannot be read; fix its owner/mode rather than lose the count.`);
+        console.error(err);
+        process.exit(1);
     }
+    let value: unknown;
+    try {
+        const parsed: unknown = JSON.parse(raw);
+        value = typeof parsed === 'object' && parsed !== null ? (parsed as { count?: unknown }).count : undefined;
+    } catch (err) {
+        console.error(`FATAL: ${COUNTER_FILE} is not valid JSON; fix or remove it by hand.`);
+        console.error(err);
+        process.exit(1);
+    }
+    if (typeof value !== 'number' || !Number.isSafeInteger(value) || value < 0) {
+        console.error(`FATAL: ${COUNTER_FILE} has no non-negative integer "count" (got ${JSON.stringify(value)}).`);
+        process.exit(1);
+    }
+    visitorCount = value;
     console.log(`visitor count loaded: ${visitorCount}`);
 }
 
+/**
+ * Marks the count dirty and makes sure one writer is running. The response does not wait for the
+ * disk: an acknowledged increment can be lost only if the process dies before the next write lands.
+ */
 function persistCount(): void {
-    const value = visitorCount;
-    writeChain = writeChain
-        .then(async () => {
-            // Write-then-rename: a crash mid-write leaves the old file intact
-            // instead of a truncated one.
-            const tmp = `${COUNTER_FILE}.tmp`;
-            await writeFile(tmp, JSON.stringify({ count: value }), 'utf8');
-            await rename(tmp, COUNTER_FILE);
-        })
-        .catch((err: unknown) => {
-            console.error('visitor count could not be persisted:', err);
-        });
+    dirty = true;
+    if (writing) return;
+    writing = (async () => {
+        while (dirty) {
+            dirty = false;
+            const value = visitorCount;
+            try {
+                // Write-then-rename: a crash mid-write leaves the old file intact instead of a truncated one.
+                const tmp = `${COUNTER_FILE}.tmp`;
+                await writeFile(tmp, JSON.stringify({ count: value }), 'utf8');
+                await rename(tmp, COUNTER_FILE);
+            } catch (err) {
+                console.error('visitor count could not be persisted:', err);
+                // Keep the in-memory count; the next increment retries the write.
+                break;
+            }
+        }
+    })().finally(() => {
+        writing = null;
+    });
 }
 
 /* ------------------------------ responses ------------------------------ */
@@ -135,7 +197,12 @@ function redirect(res: ServerResponse, location: string): void {
  * Returns null when nothing matches or the path escapes the root.
  */
 async function resolveFile(pathname: string): Promise<string | null> {
-    const decoded = decodeURIComponent(pathname);
+    let decoded: string;
+    try {
+        decoded = decodeURIComponent(pathname);
+    } catch {
+        return null; // Malformed percent-encoding: answer 404, not 500.
+    }
     // normalize() collapses ".." before the prefix check, so traversal cannot
     // slip through by encoding.
     const candidate = normalize(join(SITE_ROOT, decoded));
@@ -184,7 +251,17 @@ async function sendFile(
         res.end();
         return;
     }
-    createReadStream(filePath).pipe(res);
+    // pipeline() instead of .pipe(): a read error after stat() (file removed, permission change, I/O
+    // failure) becomes a rejected promise here instead of an unhandled 'error' event that kills the process.
+    try {
+        await pipeline(createReadStream(filePath), res);
+    } catch (err) {
+        // A client closing the connection mid-transfer is routine, not a failure.
+        if ((err as NodeJS.ErrnoException).code !== 'ERR_STREAM_PREMATURE_CLOSE') {
+            console.error(`${req.method} ${pathname} stream failed:`, err);
+        }
+        res.destroy();
+    }
 }
 
 async function sendNotFound(req: IncomingMessage, res: ServerResponse): Promise<void> {
@@ -212,6 +289,12 @@ async function handleVisitors(req: IncomingMessage, res: ServerResponse): Promis
     const origin = req.headers.origin;
     if (!origin || !ALLOWED_ORIGINS.includes(origin)) {
         sendJson(res, 403, { error: 'Forbidden' });
+        return;
+    }
+
+    if (!allowIncrement(req)) {
+        // Not an error for the visitor: report the count without counting them again.
+        sendJson(res, 429, { count: visitorCount });
         return;
     }
 
@@ -276,7 +359,13 @@ await loadCount();
 const server = createServer((req, res) => {
     handle(req, res).catch((err: unknown) => {
         console.error(`${req.method} ${req.url} failed:`, err);
-        if (!res.headersSent) res.writeHead(500, { 'Content-Type': 'text/plain' });
+        // After headers have gone out the body is already partly sent; cut the connection rather
+        // than append an error message to it.
+        if (res.headersSent) {
+            res.destroy();
+            return;
+        }
+        res.writeHead(500, { 'Content-Type': 'text/plain' });
         res.end('Internal server error');
     });
 });
@@ -292,8 +381,9 @@ for (const signal of ['SIGTERM', 'SIGINT'] as const) {
     process.on(signal, () => {
         console.log(`${signal} received, shutting down`);
         server.close(() => {
-            // Let the last persist settle before the process goes away.
-            void writeChain.finally(() => process.exit(0));
+            // Let the last write settle, and flush an increment that arrived while it ran.
+            if (dirty && !writing) persistCount();
+            void (writing ?? Promise.resolve()).finally(() => process.exit(0));
         });
         // Don't hang forever on a wedged keep-alive connection.
         setTimeout(() => process.exit(0), 5000).unref();

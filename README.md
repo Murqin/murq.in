@@ -46,6 +46,7 @@ murq.in/
 │   ├── components/         # Projects, Footer
 │   ├── lib/date.ts         # Shared UTC date formatting
 │   ├── scripts/theme.ts    # Seed engine, starfield, copy buttons, counter fetch
+│   ├── styles/style.css    # Bundled by Vite into a content-hashed /_astro/ file
 │   └── pages/
 │       ├── index.astro
 │       ├── 404.astro
@@ -54,7 +55,7 @@ murq.in/
 │       └── blog/
 │           ├── index.astro     # Post list
 │           └── [...slug].astro # One page per post
-├── public/                 # Copied verbatim: style.css, robots.txt, assets/
+├── public/                 # Copied verbatim: robots.txt, assets/
 ├── server/src/server.ts    # Static host + seed fallback + visitor counter
 ├── docs/preview.png        # README screenshot (not shipped with the site)
 ├── tools/screenshot.js     # Regenerates docs/preview.png (needs puppeteer)

@@ -1,5 +1,8 @@
 ---
 import Footer from '../components/Footer.astro';
+// Imported, not linked from public/: Vite then emits it under /_astro/ with a content hash, so a deploy
+// changes its URL and no cache (Cloudflare's included) can pair new HTML with an old stylesheet.
+import '../styles/style.css';
 
 interface Props {
     title: string;
@@ -44,7 +47,6 @@ const ogImage = new URL('/assets/og-image.png', Astro.site);
         <meta name="twitter:card" content="summary_large_image" />
         <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
         <link rel="alternate" type="application/rss+xml" title="murq.in blog" href="/rss.xml" />
-        <link rel="stylesheet" href="/style.css" />
     </head>
     <body>
         <div id="gradient" aria-hidden="true"></div>

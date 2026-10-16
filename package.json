@@ -11,7 +11,8 @@
     "build:all": "npm run build && npm run build:server",
     "serve": "SITE_ROOT=./dist DATA_DIR=./.data ALLOWED_ORIGINS=http://localhost:8080 node server/dist/server.js",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "test": "npm run build:all && node --test tests/*.test.mjs"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.19",
