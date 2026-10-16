@@ -15,12 +15,18 @@
     --rule: var(--ink);
     --link: #8FB0FF;
     --focus: var(--link);
+    --ink-faint: #ECE7DE66;
+    --press: #ECE7DE24;
+    --danger: #FF8A80;
+    --warning: #F2C46B;
+    --success: #9FDDB0;
 
     --font-sans: 'Geist', 'Helvetica Neue', Arial, sans-serif;
     --font-mono: 'Geist Mono', ui-monospace, monospace;
 
     --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-6: 24px; --space-7: 28px; --space-8: 32px; --space-14: 56px;
     --row: 48px;
+    --touch-target: 48px;
     --radius-none: 0;
     --stroke-heavy: 2px; --stroke: 1.5px; --stroke-hair: 1px;
 }
@@ -29,6 +35,11 @@
     --ink: #15181D;
     --ink-soft: #57534D;
     --link: #1F4FB5;
+    --ink-faint: #15181D73;
+    --press: #15181D1A;
+    --danger: #B42318;
+    --warning: #7A4F00;
+    --success: #17532D;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -74,15 +85,14 @@ body.cs-paper::after { position: fixed; }
 .cs-list__rows {
   --rows: 5;
   list-style: none; margin: 0; padding: 0; counter-reset: cs;
-  max-height: calc(var(--row) * var(--rows)); overflow-y: auto; overscroll-behavior: contain;
+  /* border-box: the bottom rule counts toward max-height, so add it back or five rows already overflow. */
+  max-height: calc(var(--row) * var(--rows) + var(--stroke-heavy)); overflow-y: auto; overscroll-behavior: contain;
   scroll-snap-type: y mandatory; scrollbar-width: thin; scrollbar-color: var(--ink-soft) #00000000;
   border-bottom: var(--stroke-heavy) solid var(--rule);
 }
 .cs-list__rows > li { counter-increment: cs; height: var(--row); scroll-snap-align: start; display: grid; grid-template-columns: 40px auto minmax(24px, 1fr) auto; gap: 14px; align-items: baseline; padding: 11px var(--space-2) 0 0; }
 .cs-list__rows > li::before { content: counter(cs, decimal-leading-zero); font: 500 13px/1 var(--font-mono); color: var(--ink-soft); }
 .cs-list__name { font: 600 20px/1.2 var(--font-sans); letter-spacing: -0.015em; color: var(--ink); text-decoration: none; background: none; border: 0; padding: 0; cursor: pointer; text-align: left; white-space: nowrap; }
-.cs-list__name:hover { color: var(--link); }
-.cs-list__name:hover ~ .cs-list__lead { border-color: var(--link); }
 .cs-list__lead { border-bottom: var(--stroke-heavy) dotted var(--ink-soft); opacity: .6; transform: translateY(-4px); }
 .cs-list__addr { font: 500 13px/1 var(--font-mono); color: var(--ink-soft); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 260px; }
 .cs-list__foot { display: flex; justify-content: space-between; margin-top: 10px; font: 500 12px/1 var(--font-mono); color: var(--ink-soft); font-variant-numeric: tabular-nums; }
@@ -92,11 +102,9 @@ body.cs-paper::after { position: fixed; }
 .cs-strip { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 6px var(--space-4); padding-top: var(--space-3); border-top: var(--stroke-heavy) solid var(--rule); font-size: 13px; line-height: 1.6; color: var(--ink-soft); }
 .cs-strip--head { padding: 0 0 var(--space-3); border-top: 0; border-bottom: var(--stroke-heavy) solid var(--rule); }
 .cs-strip a { font: 500 12px/1 var(--font-mono); color: var(--ink-soft); text-decoration: none; white-space: nowrap; }
-.cs-strip a:hover { color: var(--link); }
 
 /* Label button: a printed label on the same paper; 1px ink edge, mono text, a 14px line icon. */
 .cs-label { height: 26px; padding: 0 10px; border: var(--stroke-hair) solid var(--rule); border-radius: var(--radius-none); background: var(--page); color: var(--ink); font: 500 11px/1 var(--font-mono); cursor: pointer; display: inline-flex; align-items: center; gap: 7px; }
-.cs-label:hover { color: var(--link); border-color: var(--link); }
 .cs-label svg { width: 14px; height: 14px; flex: none; fill: none; stroke: currentColor; stroke-width: var(--stroke); stroke-linejoin: round; stroke-linecap: round; }
 .cs-label .cs-sheet { fill: var(--page); }
 .cs-labels { display: flex; gap: 6px; }
@@ -108,7 +116,6 @@ body.cs-paper::after { position: fixed; }
 .cs-ruler__tick { position: absolute; right: 0; height: var(--stroke-hair); width: 6px; background: var(--rule); opacity: .45; }
 .cs-ruler__tick--major { width: 14px; opacity: 1; }
 .cs-ruler__label { position: absolute; right: 42px; transform: translateY(-50%); padding: 4px 0; font: 500 11px/1 var(--font-mono); color: var(--ink-soft); text-decoration: none; pointer-events: auto; white-space: nowrap; }
-.cs-ruler__label:hover { color: var(--link); }
 .cs-ruler__label[aria-current="true"] { color: var(--ink); }
 .cs-ruler__mark { position: absolute; right: 0; width: 24px; height: var(--stroke-heavy); margin-top: -1px; background: var(--ink); }
 .cs-ruler__mark::before { content: ""; position: absolute; left: -7px; top: -4px; border: 5px solid #00000000; border-left: 7px solid var(--ink); border-right: 0; }
@@ -128,9 +135,44 @@ body.cs-paper::after { position: fixed; }
 .cs-list__rows:focus-visible { outline: 2px solid var(--focus); outline-offset: 4px; }
 .cs-list__name:focus-visible, .cs-strip a:focus-visible, .cs-ruler__label:focus-visible, .cs-label:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
 
+/* Hover only where a pointer can hover; on touch screens a hover state sticks after the tap. */
+@media (hover: hover) {
+  .cs-list__name:hover { color: var(--link); }
+  .cs-list__name:hover ~ .cs-list__lead { border-color: var(--link); }
+  .cs-strip a:hover { color: var(--link); }
+  .cs-label:hover { color: var(--link); border-color: var(--link); }
+  .cs-ruler__label:hover { color: var(--link); }
+}
+
+/* ---- States ----
+   pressed  : a translucent ink wash over the paper (press). The paper colour changes per visit, so the wash is a
+              translucent token laid over it; a one-colour linear-gradient is the only way to stack two flat fills in CSS.
+   selected : inverted, page-coloured ink on an ink fill. Never used for the pressed state, so the two stay apart.
+   disabled : faint ink for text and edge; no hover, no press. */
+.cs-label:active, .cs-list__rows > li:active { background-image: linear-gradient(var(--press), var(--press)); }
+.cs-label[aria-selected="true"], .cs-label.is-selected { background: var(--ink); color: var(--page); border-color: var(--ink); }
+.cs-label[aria-selected="true"] .cs-sheet, .cs-label.is-selected .cs-sheet { fill: var(--ink); }
+.cs-label:disabled, .cs-label[aria-disabled="true"] { color: var(--ink-faint); border-color: var(--ink-faint); background-image: none; cursor: not-allowed; pointer-events: none; }
+.cs-list__name:disabled, .cs-list__name[aria-disabled="true"] { color: var(--ink-faint); cursor: not-allowed; pointer-events: none; }
+
+/* Touch: every control reaches touch-target (48px) even when its ink is smaller. The visible label stays 26px;
+   an invisible box around it takes the tap. */
+.cs-label, .cs-strip a, .cs-list__rows > li { position: relative; }
+.cs-label::after { content: ""; position: absolute; inset: -11px -2px; }
+.cs-strip a::after { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: var(--touch-target); transform: translateY(-50%); }
+/* In the list the whole 48px row is the target; the box stays inside the row so the list never overflows. */
+.cs-list__name::after { content: ""; position: absolute; inset: 0; }
+
+/* Status line: the word carries the meaning, the colour only repeats it. Always write the word (Error, Warning, Saved). */
+.cs-status { margin: 0; display: flex; gap: var(--space-3); align-items: baseline; font-size: 15px; line-height: 1.5; color: var(--ink); }
+.cs-status > b { flex: none; font: 500 13px/1.5 var(--font-mono); }
+.cs-status--danger > b { color: var(--danger); }
+.cs-status--warning > b { color: var(--warning); }
+.cs-status--success > b { color: var(--success); }
+
 /* ---- murq.in page chrome ---- */
 .controls { position: fixed; z-index: 4; top: max(16px, env(safe-area-inset-top, 0px)); right: max(16px, env(safe-area-inset-right, 0px)); }
-.cs-leaf > .hint { width: auto; position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%); font: 500 18px/1 var(--font-mono); color: var(--ink-soft); text-decoration: none; padding: 6px 10px; }
+.cs-leaf > .hint { width: auto; position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%); font: 500 18px/1 var(--font-mono); color: var(--ink-soft); text-decoration: none; padding: 15px; }
 .hint:hover { color: var(--link); }
 .hint:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
 .cs-list__name.copied { color: var(--link); }
