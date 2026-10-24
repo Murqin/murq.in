@@ -6,10 +6,11 @@ This file contains notices and licensing information for third-party assets used
 
 ## Assets
 
-### 1. Crystal icon (favicon-crystal-*.png, apple-touch-icon-crystal.png)
+### 1. Eclipse icon (favicon-eclipse-*.png, apple-touch-icon-eclipse.png)
 
-- **File Path**: `assets/favicon-crystal-32.png`, `assets/favicon-crystal-192.png`, `assets/apple-touch-icon-crystal.png`
-- **Source**: Generated with ChatGPT image generation from the owner's own description; resized for icon use
+- **File Path**: `assets/favicon-eclipse-32.png`, `assets/favicon-eclipse-192.png`, `assets/apple-touch-icon-eclipse.png`
+- **Source**: Generated with ChatGPT image generation from the owner's own description, with a screenshot
+  of the site's eclipse as reference; trimmed and resized for icon use
 - **Disclaimer**: Not covered by this repository's MIT License.
 
 ### 2. avatar-amethyst.webp

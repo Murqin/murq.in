@@ -215,6 +215,10 @@ test('every page picks its light or dark theme in the head, before any styleshee
     assert.ok(css === -1 || script < css, `${page}: theme set before the stylesheet`);
   }
   assert.match(readFileSync('dist/index.html', 'utf8'), /class="theme-btn"/);
+  // Every icon the head links to is in the build.
+  for (const [, href] of readFileSync('dist/index.html', 'utf8').matchAll(/rel="(?:icon|apple-touch-icon)"[^>]*href="([^"]+)"/g)) {
+    assert.ok(existsSync(`dist${href}`), href);
+  }
 });
 
 test('a miss under /tr/ gets the Turkish 404 page, any other miss the English one', async () => {
@@ -260,6 +264,7 @@ test('every page points og:image at a preview generated for it, in its own langu
     ['/tr/now/index.html', '/og/tr/now.png'],
     ['/ai/index.html', '/og/en/ai.png'],
     ['/tr/projects/index.html', '/og/tr/projects.png'],
+    ['/404.html', '/og/en/404.png'],
     ['/blog/opus-cheats-and-sketches/index.html', '/og/en/blog/opus-cheats-and-sketches.png'],
     ['/tr/blog/opus-cheats-and-sketches/index.html', '/og/tr/blog/opus-cheats-and-sketches.png'],
   ]) {

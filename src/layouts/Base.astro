@@ -29,7 +29,7 @@ const {
     lang = 'en',
     alternates = {},
     rssHref = '/rss.xml',
-    ogImagePath = '/assets/og-image-amethyst.png',
+    ogImagePath = '/og/en/home.png',
     snap = false,
 } = Astro.props;
 
@@ -71,9 +71,9 @@ const xDefault = alternates['en'];
         <meta property="og:image:height" content="630" />
         <meta property="og:image:alt" content={ogTitle} />
         <meta name="twitter:card" content="summary_large_image" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-crystal-32.png" />
-        <link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-crystal-192.png" />
-        <link rel="apple-touch-icon" href="/assets/apple-touch-icon-crystal.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-eclipse-32.png" />
+        <link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-eclipse-192.png" />
+        <link rel="apple-touch-icon" href="/assets/apple-touch-icon-eclipse.png" />
         {hreflangs.map(([hreflang, path]) => (
             <link rel="alternate" hreflang={hreflang} href={new URL(path, Astro.site)} />
         ))}
