@@ -166,6 +166,11 @@ test('each language version of a post links to the other, and English stays the 
   assert.match(tr, /data-summary-prompt="Aşağıda murq\.in/);
   assert.ok(en.includes(`href="/tr/blog/${post}/"`), 'EN post links to its Turkish version');
   assert.ok(tr.includes(`href="/blog/${post}/"`), 'TR post links to its English version');
+  // The visible RSS button points at the page's own feed, on the post and on the index.
+  const enIndex = readFileSync('dist/blog/index.html', 'utf8');
+  const trIndex = readFileSync('dist/tr/blog/index.html', 'utf8');
+  for (const html of [en, enIndex]) assert.match(html, /<a href="\/rss\.xml" class="rss-link"/);
+  for (const html of [tr, trIndex]) assert.match(html, /<a href="\/tr\/rss\.xml" class="rss-link"/);
   // Separate feeds: the English one must not pick up Turkish posts.
   assert.ok(!readFileSync('dist/rss.xml', 'utf8').includes('/tr/blog/'));
   assert.ok(readFileSync('dist/tr/rss.xml', 'utf8').includes(`/tr/blog/${post}/`));

@@ -2,6 +2,7 @@
 import { render } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import LangSwitch from './LangSwitch.astro';
+import RssLink from './RssLink.astro';
 import {
     blogIndexUrl,
     getTranslations,
@@ -45,7 +46,7 @@ const index = blogIndexUrl(lang);
             <a href={index} class="blog-nav-link" data-seed-nav={index}>{t.allPosts}</a>
             <div class="blog-topbar-end">
                 <LangSwitch lang={lang} links={links} />
-                <a href={rssUrl(lang)} class="blog-nav-link">RSS</a>
+                <RssLink lang={lang} />
             </div>
         </div>
         <article class="post-content">

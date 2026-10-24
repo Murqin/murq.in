@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import LangSwitch from './LangSwitch.astro';
+import RssLink from './RssLink.astro';
 import { LANGS, blogIndexUrl, getPosts, postSlug, postUrl, rssUrl, type Lang } from '../lib/blog';
 import { formatPostDate } from '../lib/date';
 import { ui } from '../lib/i18n';
@@ -27,7 +28,7 @@ const links = Object.fromEntries(LANGS.map((l) => [l, blogIndexUrl(l)]));
             <a href="/" class="blog-nav-link" data-seed-nav="/">← murq.in</a>
             <div class="blog-topbar-end">
                 <LangSwitch lang={lang} links={links} />
-                <a href={rssUrl(lang)} class="blog-nav-link">RSS</a>
+                <RssLink lang={lang} />
             </div>
         </div>
         <div class="section-title">Blog</div>

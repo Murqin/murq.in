@@ -1,0 +1,18 @@
+---
+import { rssUrl, type Lang } from '../lib/blog';
+
+interface Props {
+    lang: Lang;
+}
+
+const { lang } = Astro.props;
+---
+
+<a href={rssUrl(lang)} class="rss-link" type="application/rss+xml">
+    <svg class="rss-link-icon" viewBox="0 0 16 16" aria-hidden="true">
+        <circle cx="3" cy="13" r="1.75" fill="currentColor" />
+        <path d="M2 7.5a6.5 6.5 0 0 1 6.5 6.5" />
+        <path d="M2 2.5a11.5 11.5 0 0 1 11.5 11.5" />
+    </svg>
+    RSS
+</a>
