@@ -54,6 +54,10 @@ function resolveSeeds(): Seeds {
     return randomSeeds();
 }
 
+const isLight = (): boolean => document.documentElement.dataset['theme'] === 'light';
+
+// The same seed draws the same sky in both themes: positions and hues come from the stream in
+// the same order, only lightness and saturation change (deep night spots vs pale day haze).
 function gradientCSS(gradSeed: number): string {
     const randGrad = mulberry32(gradSeed);
     const x1 = Math.floor(randGrad() * 30) + 5;
@@ -63,10 +67,11 @@ function gradientCSS(gradSeed: number): string {
     const x3 = Math.floor(randGrad() * 60) + 20;
     const hue1 = Math.floor(randGrad() * 60) + 210;
     const hue2 = Math.floor(randGrad() * 60) + 260;
+    const [sat, light, glow] = isLight() ? [28, 87, 'rgba(14, 116, 144, 0.06)'] : [38, 16, 'rgba(139, 126, 255, 0.08)'];
     return [
-        `radial-gradient(at ${x1}% ${y1}%, hsl(${hue1}, 38%, 16%) 0px, transparent 50%)`,
-        `radial-gradient(at ${x2}% ${y2}%, hsl(${hue2}, 38%, 16%) 0px, transparent 50%)`,
-        `radial-gradient(circle at ${x3}% 0%, rgba(139, 126, 255, 0.08) 0px, transparent 40%)`,
+        `radial-gradient(at ${x1}% ${y1}%, hsl(${hue1}, ${sat}%, ${light}%) 0px, transparent 50%)`,
+        `radial-gradient(at ${x2}% ${y2}%, hsl(${hue2}, ${sat}%, ${light}%) 0px, transparent 50%)`,
+        `radial-gradient(circle at ${x3}% 0%, ${glow} 0px, transparent 40%)`,
     ].join(', ');
 }
 
@@ -355,6 +360,19 @@ document.querySelector<HTMLElement>('.dice-btn')?.addEventListener('click', () =
     registerRerollClick(reduceMotion.matches);
 });
 document.querySelector<HTMLElement>('.seed-star')?.addEventListener('click', copySeed);
+
+// Light/dark: the head script already picked one before paint; the button flips it, remembers the
+// choice and redraws the sky gradient (stars and lines follow through CSS variables).
+document.querySelector<HTMLElement>('.theme-btn')?.addEventListener('click', () => {
+    const next = isLight() ? 'dark' : 'light';
+    document.documentElement.dataset['theme'] = next;
+    try {
+        localStorage.setItem('theme', next);
+    } catch {
+        // Private mode or blocked storage: the switch still works for this page.
+    }
+    if (currentSeeds) applyGradient(currentSeeds.gradSeed, !reduceMotion.matches);
+});
 
 const mailBtn = document.querySelector<HTMLElement>('.mail-btn');
 mailBtn?.addEventListener('click', () => copyMail(mailBtn));

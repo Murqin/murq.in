@@ -81,6 +81,17 @@
     --accent: #67e8f9;
     --accent-2: #a5f3fc;
     --border: rgba(255, 255, 255, 0.12);
+    /* Text on a hovered accent tint, the sky's points of light, and the darker panels (code,
+       tooltips). Each has a light-theme counterpart below. */
+    --text-strong: #fff;
+    --star: #fff;
+    --star-glow: rgba(255, 255, 255, 0.6);
+    --panel: #101427;
+    --code-bg: rgba(10, 13, 26, 0.7);
+    --status-active: #7ddba3;
+    --status-wip: #e5c07b;
+    --status-archived: #d29922;
+    color-scheme: dark;
     /* Near-square corners everywhere: the soft rounded look is what every product UI already uses. */
     --radius: 2px;
 
@@ -102,6 +113,28 @@
     --text-md: 16px;
     --text-lg: 20px;
     --text-xl: 26px;
+}
+
+/* Light theme: a pale day sky over warm paper. Same seed, same layout; the stars become faint
+   graphite marks and the constellations ink lines. Set on <html> before first paint (Base.astro). */
+:root[data-theme="light"] {
+    --bg: #f3f2ed;
+    --text: #20252b;
+    --text-dim: #5b6470;
+    --text-body: #2e343c;
+    --accent: #0e7490;
+    --accent-2: #155e75;
+    --border: rgba(32, 37, 43, 0.16);
+    --text-strong: #0b0e12;
+    --star: #3a4048;
+    --star-glow: transparent;
+    --panel: #ffffff;
+    --code-bg: rgba(32, 37, 43, 0.05);
+    /* GitHub's light-theme status colours: the dark-theme ones wash out on paper. */
+    --status-active: #1a7f37;
+    --status-wip: #8a6a00;
+    --status-archived: #9a6700;
+    color-scheme: light;
 }
 
 body {
@@ -147,9 +180,9 @@ body {
 
 .star {
     position: absolute;
-    background: #fff;
+    background: var(--star);
     border-radius: 50%;
-    box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+    box-shadow: 0 0 8px var(--star-glow);
     /* Promote to GPU compositor layer for hardware-accelerated transform & opacity twinkling */
     will-change: transform, opacity;
     backface-visibility: hidden;
@@ -174,8 +207,8 @@ body {
 }
 
 .constellation-star {
-    fill: #fff;
-    filter: drop-shadow(0 0 0.01px #fff);
+    fill: var(--star);
+    filter: drop-shadow(0 0 0.01px var(--star));
 }
 
 .constellation-name {
@@ -393,7 +426,7 @@ body {
     font-family: var(--font-mono);
     font-size: 11px;
     color: var(--text-dim);
-    background: #101427;
+    background: var(--panel);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 6px 12px;
@@ -491,7 +524,7 @@ h1 {
 .mail-btn:hover {
     border-color: var(--accent);
     background: color-mix(in srgb, var(--accent) 8%, transparent);
-    color: #fff;
+    color: var(--text-strong);
     box-shadow: 0 4px 15px color-mix(in srgb, var(--accent) 10%, transparent);
 }
 
@@ -689,7 +722,7 @@ footer:hover .footer-box {
 }
 
 .project-link-btn:hover {
-    color: #fff;
+    color: var(--text-strong);
     background: color-mix(in srgb, var(--accent) 15%, transparent);
     border-color: var(--accent);
 }
@@ -719,10 +752,10 @@ footer:hover .footer-box {
     background: currentColor;
 }
 
-.project-status.active { color: #7ddba3; }
-.project-status.wip { color: #e5c07b; }
+.project-status.active { color: var(--status-active); }
+.project-status.wip { color: var(--status-wip); }
 /* GitHub's "Public archive" yellow (its dark-theme attention colour). */
-.project-status.archived { color: #d29922; }
+.project-status.archived { color: var(--status-archived); }
 
 /* In equal-height grid cells the last child (the bottom row, or the
    description when there is none) anchors to the card bottom */
@@ -821,7 +854,7 @@ footer:hover .footer-box {
 
 .rss-link:hover,
 .rss-link:focus-visible {
-    color: #fff;
+    color: var(--text-strong);
     background: color-mix(in srgb, var(--accent) 15%, transparent);
     border-color: var(--accent);
 }
@@ -937,7 +970,7 @@ a.lang-switch-item:hover {
 }
 
 .copy-md-btn:hover {
-    color: #fff;
+    color: var(--text-strong);
     background: color-mix(in srgb, var(--accent) 15%, transparent);
     border-color: var(--accent);
 }
@@ -1048,7 +1081,7 @@ a.lang-switch-item:hover {
 }
 
 .post-body pre {
-    background: rgba(10, 13, 26, 0.7);
+    background: var(--code-bg);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 14px 16px;
@@ -1144,8 +1177,8 @@ a.lang-switch-item:hover {
     width: 2px;
     height: 2px;
     border-radius: 50%;
-    background: #fff;
-    box-shadow: 0 0 6px 1px rgba(255, 255, 255, 0.5);
+    background: var(--star);
+    box-shadow: 0 0 6px 1px var(--star-glow);
     opacity: 0;
     pointer-events: none;
     animation: shoot 1.4s ease-out forwards;
@@ -1160,7 +1193,7 @@ a.lang-switch-item:hover {
     width: 80px;
     height: 1px;
     transform: translateY(-50%);
-    background: linear-gradient(to left, rgba(255, 255, 255, 0.6), transparent);
+    background: linear-gradient(to left, var(--star), transparent);
 }
 
 @keyframes shoot {
@@ -1179,7 +1212,7 @@ a.lang-switch-item:hover {
 
 ::selection {
     background: color-mix(in srgb, var(--accent) 35%, transparent);
-    color: #fff;
+    color: var(--text-strong);
 }
 
 /* Press feedback */
@@ -2013,4 +2046,44 @@ html.chrome .post-toc[open] > summary::after {
 .bracket:hover::before,
 .bracket:hover::after {
     color: var(--accent);
+}
+
+.theme-btn {
+    appearance: none;
+    background: none;
+    border: none;
+    padding: 0;
+    line-height: 1;
+    color: var(--accent);
+    opacity: 0.5;
+    cursor: pointer;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.theme-btn:hover {
+    opacity: 1;
+    transform: rotate(180deg);
+}
+
+.theme-btn:focus-visible {
+    outline: 1px solid var(--accent);
+    outline-offset: 4px;
+}
+
+/* Colours ease across instead of snapping when the theme flips. */
+body,
+.star,
+.constellation-line,
+.constellation-star {
+    transition: background-color 0.4s ease, color 0.4s ease, fill 0.4s ease, stroke 0.4s ease;
+}
+
+@media (pointer: coarse) {
+    .sky-controls .theme-btn {
+        min-width: 44px;
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
 }

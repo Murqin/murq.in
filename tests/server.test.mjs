@@ -205,6 +205,17 @@ test('the home page exists in both languages and each links to its own blog', ()
   assert.match(readFileSync('dist/tr/blog/index.html', 'utf8'), /href="\/tr\/" class="blog-nav-link[ "]/);
 });
 
+test('every page picks its light or dark theme in the head, before any stylesheet loads', () => {
+  for (const page of ['dist/index.html', 'dist/tr/blog/index.html', 'dist/blog/opus-cheats-and-sketches/index.html', 'dist/404.html']) {
+    const html = readFileSync(page, 'utf8');
+    const script = html.indexOf("localStorage.getItem('theme')");
+    const css = html.indexOf('rel="stylesheet"');
+    assert.ok(script > 0 && script < html.indexOf('</head>'), `${page}: theme script in head`);
+    assert.ok(css === -1 || script < css, `${page}: theme set before the stylesheet`);
+  }
+  assert.match(readFileSync('dist/index.html', 'utf8'), /class="theme-btn"/);
+});
+
 test('a miss under /tr/ gets the Turkish 404 page, any other miss the English one', async () => {
   const dir = tmp();
   const s = start(dir);

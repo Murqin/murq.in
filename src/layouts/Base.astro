@@ -59,6 +59,18 @@ const xDefault = alternates['en'];
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <!-- Theme before first paint, or a light-theme reader sees a flash of the dark page. A choice
+             made with the theme button wins; otherwise the system setting decides. -->
+        <script is:inline>
+            try {
+                const saved = localStorage.getItem('theme');
+                const theme = saved === 'light' || saved === 'dark' ? saved
+                    : matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+                document.documentElement.dataset.theme = theme;
+            } catch {
+                document.documentElement.dataset.theme = 'dark';
+            }
+        </script>
         <title>{title}</title>
         <meta name="description" content={description} />
         <link rel="canonical" href={canonical} />
