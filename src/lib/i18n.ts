@@ -23,8 +23,8 @@ export const ui = {
         socialTitle: 'Social Media',
         aboutTitle: 'About Me',
         about:
-            'Just a tech hobbyist who spends most of his time playing video games, listening to music, ' +
-            'watching videos, and casually tinkering with random projects.',
+            'I like playing games, listening to music and watching videos. I also make hobby projects; ' +
+            'most of them are MIT-licensed, so use them however you like.',
         copyEmail: 'Copy email address',
         blogTitle: 'Blog',
         blogTeaser: "Occasional notes on projects, tools, and whatever I'm tinkering with.",
@@ -86,8 +86,8 @@ export const ui = {
         socialTitle: 'Sosyal Medya',
         aboutTitle: 'Hakkımda',
         about:
-            'Vaktinin çoğunu oyun oynayarak, müzik dinleyerek, video izleyerek ve rastgele projelerle ' +
-            'kafasına göre uğraşarak geçiren bir teknoloji meraklısıyım.',
+            'Oyun oynamayı, müzik dinlemeyi ve video izlemeyi severim. Ek olarak hobi projeleri yapıyorum; ' +
+            'çoğunu MIT lisansıyla yayınlıyorum, istediğiniz gibi kullanabilirsiniz.',
         copyEmail: 'E-posta adresini kopyala',
         blogTitle: 'Blog',
         blogTeaser: 'Projeler, araçlar ve o sıralar neyle uğraşıyorsam onun üzerine ara sıra notlar.',
