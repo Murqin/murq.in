@@ -3,8 +3,8 @@
 // conserved angular momentum), so the far side of the disk shows up lensed over and under the
 // shadow. Units: the event horizon has radius 1. The sky is left transparent: the page's own seeded
 // gradient shows through, so the hole opens inside whatever theme is on screen instead of cutting
-// to a sky of its own. Written for this site; returns null where WebGL is missing so the CSS
-// version can stand in.
+// to a sky of its own. Written for this site; returns null where WebGL is missing, and
+// blackhole.ts then teleports the page out instead.
 
 const VERTEX = `
 attribute vec2 aPos;
@@ -26,10 +26,12 @@ float noise(vec2 p) {
                mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), u.x), u.y);
 }
 
-const float DISK_IN = 3.0;
+const float DISK_IN = 3.0;   // innermost stable circular orbit: 3 horizon radii
 const float DISK_OUT = 12.0;
+// Rays aimed closer than 3·sqrt(3)/2 horizon radii fall in; this is the shadow's edge as seen from afar.
 const float CRITICAL_IMPACT = 2.598076211;
 
+// Emission and opacity of the disk where the ray crosses its plane.
 vec4 disk(vec3 hit, vec3 rayDir) {
     float r = length(hit.xz);
     if (r < DISK_IN || r > DISK_OUT) return vec4(0.0);
