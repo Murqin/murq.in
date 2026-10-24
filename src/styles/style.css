@@ -1772,10 +1772,12 @@ html.chrome .post-title {
     .post-aside > .blog-nav-link { order: 1; margin-bottom: 24px; }
     .post-header { order: 2; }
     .ai-badge { order: 3; }
-    .post-aside > .post-toc { order: 4; margin-bottom: 16px; }
-    .post-tools { order: 5; margin-bottom: 32px; }
-    .post-body { order: 6; }
-    .post-end { order: 7; }
+    /* html.chrome in front: the desktop rule that zeroes the contents' margin is that specific. */
+    html.chrome .post-aside > .post-toc { order: 4; margin-bottom: 20px; }
+    .post-tools { order: 5; margin-bottom: 12px; }
+    html.chrome .post-license { order: 6; margin-bottom: 36px; }
+    .post-body { order: 7; }
+    .post-end { order: 8; }
 }
 
 html.chrome .post-toc > summary {

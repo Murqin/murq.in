@@ -28,17 +28,20 @@ export function showConstellation(rand: () => number, force: boolean, animate: b
     // post layout), shrunk to fit it. Text now sits straight on the sky with no card to blur what is
     // behind it, so a figure drawn across the text tangled with the letters. Without a usable gutter
     // (phones) it becomes a faint watermark behind the text instead (the .faint class).
-    // The column is measured from the blocks that hold text, not their padded containers.
+    // The column is measured from the blocks that hold text, not their padded containers. Children,
+    // because on phones the post's two columns are display: contents and measure as zero.
     let contentLeft = vw;
     let contentRight = 0;
-    for (const el of document.querySelectorAll('.snap-page > *, .post-aside, .post-content')) {
+    for (const el of document.querySelectorAll('.snap-page > *, .post-aside > *, .post-content > *')) {
         const box = el.getBoundingClientRect();
         if (box.width === 0) continue;
         contentLeft = Math.min(contentLeft, box.left);
         contentRight = Math.max(contentRight, box.right);
     }
-    const freeLeft = contentLeft;
-    const freeRight = vw - contentRight;
+    // Nothing measured means no known column: treat it as no room rather than all room.
+    const measured = contentRight > contentLeft;
+    const freeLeft = measured ? contentLeft : 0;
+    const freeRight = measured ? vw - contentRight : 0;
     // The seed still picks the side, among the sides wide enough to hold a figure.
     const useRight = freeRight >= 150 && (freeLeft < 150 || side >= 0.5);
     const gutter = useRight ? freeRight : freeLeft;
