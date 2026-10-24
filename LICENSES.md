@@ -20,6 +20,14 @@ This file contains notices and licensing information for third-party assets used
 - **Usage**: Personal avatar for non-commercial website
 - **Disclaimer**: Not covered by this repository's MIT License.
 
+### 2a. avatar-netrunner.webp
+
+- **File Path**: `assets/avatar-netrunner.webp`
+- **Source**: Generated with ChatGPT image generation, steered by reference images the owner supplied
+  over several rounds; background removed and resized for use as an avatar
+- **Usage**: Personal avatar for non-commercial website; also embedded in the generated link preview images
+- **Disclaimer**: Not covered by this repository's MIT License.
+
 ---
 
 ## Fonts
