@@ -186,8 +186,8 @@ test('the home page exists in both languages and each links to its own blog', ()
     assert.ok(html.includes('hreflang="en" href="https://murq.in/"'), 'hreflang en');
     assert.ok(html.includes('hreflang="tr" href="https://murq.in/tr/"'), 'hreflang tr');
   }
-  assert.ok(en.includes('href="/blog/" class="source-link"'), 'EN home links to the English blog');
-  assert.ok(tr.includes('href="/tr/blog/" class="source-link"'), 'TR home links to the Turkish blog');
+  assert.match(en, /href="\/blog\/" class="source-link[ "]/, 'EN home links to the English blog');
+  assert.match(tr, /href="\/tr\/blog\/" class="source-link[ "]/, 'TR home links to the Turkish blog');
   assert.match(tr, /Projelerim/);
   // Snapping home: each page names itself for the footer's "Here:" label.
   assert.match(en, /class="snap-page" id="about-me" data-here="About Me"/);
@@ -195,7 +195,7 @@ test('the home page exists in both languages and each links to its own blog', ()
   // The home page lists only pinned projects, and links the full list (in its own language) only
   // when that list has more to show.
   const all = count(/class="project-item"/g, readFileSync('dist/tr/projects/index.html', 'utf8'));
-  assert.equal(tr.includes('href="/tr/projects/" class="source-link"'), all > count(/class="project-item"/g, tr));
+  assert.equal(/href="\/tr\/projects\/" class="source-link[ "]/.test(tr), all > count(/class="project-item"/g, tr));
   assert.ok(count(/class="project-item"/g) >= 1 && count(/class="project-item"/g) <= 3, 'one to three projects on the home page');
   assert.ok(count(/class="snap-post-date"/g) >= 1 && count(/class="snap-post-date"/g) <= 6, 'one to six posts on the home page');
   assert.match(tr, /<span id="here"/);

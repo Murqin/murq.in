@@ -39,15 +39,12 @@ const statusLabel: Record<ProjectStatus, string> = {
                             <div class="project-links">
                                 {project.links.map((link) => (
                                     <a
-                                        class="project-link-btn"
+                                        class="project-link-btn bracket"
                                         href={link.url}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                     >
                                         {link.label}
-                                        <span class="project-link-arrow" aria-hidden="true">
-                                            ↗
-                                        </span>
                                     </a>
                                 ))}
                             </div>

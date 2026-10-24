@@ -633,15 +633,6 @@ footer:hover .footer-box {
     transition: all 0.3s ease;
 }
 
-.project-link-arrow {
-    color: var(--accent);
-    transition: transform 0.2s ease;
-}
-
-.project-link-btn:hover .project-link-arrow {
-    transform: translate(1px, -1px);
-}
-
 /* /now: label column beside the text, stacked on narrow screens. */
 .now-list {
     margin: 0;
@@ -1839,9 +1830,34 @@ html.chrome .post-title {
     margin: 8px 0 0;
 }
 
-/* Lists end on a rule as well, so a short second column does not hang open. */
-.snap-posts li:last-child a,
-.snap-posts li:nth-last-child(2):nth-child(odd) a,
+/* Every row is closed by its own rule and the first row opens with one, so a short second column
+   never hangs open (in two columns the first row is two items, in one column it is one). */
+.snap-posts {
+    row-gap: 0;
+    /* Fixed column count tied to the same breakpoint as the rules below; auto-fill switched at a
+       width of its own and left a doubled rule in between. */
+    grid-template-columns: 1fr 1fr;
+}
+
+.snap-posts a {
+    border-top: none;
+    border-bottom: 1px solid var(--border);
+}
+
+.snap-posts li:nth-child(-n + 2) a {
+    border-top: 1px solid var(--border);
+}
+
+@media (max-width: 860px) {
+    .snap-posts {
+        grid-template-columns: 1fr;
+    }
+
+    .snap-posts li:nth-child(2) a {
+        border-top: none;
+    }
+}
+
 .page-posts li:last-child a {
     border-bottom: 1px solid var(--border);
 }
@@ -1972,4 +1988,29 @@ html.chrome .post-toc > summary::after {
 
 html.chrome .post-toc[open] > summary::after {
     content: " −";
+}
+
+/* Standalone links are set in square brackets instead of trailing arrows (→ after every link is a
+   template tic). The brackets come from CSS so the link text in the markup, the RSS feed and the
+   copied markdown stays plain. */
+.bracket::before,
+.bracket::after {
+    font-family: var(--font-mono);
+    color: var(--text-dim);
+    transition: color 0.2s ease;
+}
+
+.bracket::before {
+    content: "[";
+    margin-right: 0.2em;
+}
+
+.bracket::after {
+    content: "]";
+    margin-left: 0.2em;
+}
+
+.bracket:hover::before,
+.bracket:hover::after {
+    color: var(--accent);
 }

@@ -48,7 +48,7 @@ const index = blogIndexUrl(lang);
     ogImagePath={ogImageUrl(lang, `blog/${slug}`)}
     alternates={links}
     rssHref={rssUrl(lang)}
-    here={`${t.blogTitle} → ${post.data.title}`}
+    here={`${t.blogTitle} / ${post.data.title}`}
     postLicense={true}
 >
     <Controls lang={lang} links={links} />
@@ -93,7 +93,7 @@ const index = blogIndexUrl(lang);
                         </span>
                         <span>
                             {t.aiNote}{' '}
-                            <a href={t.aiUrl} data-seed-nav={t.aiUrl}>
+                            <a class="bracket" href={t.aiUrl} data-seed-nav={t.aiUrl}>
                                 {t.aiMore}
                             </a>
                         </span>
