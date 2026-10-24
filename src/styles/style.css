@@ -1974,3 +1974,9 @@ body,
     font-size: var(--text-2xs);
     color: var(--text-dim);
 }
+
+/* The reticle sits still like the dice and theme buttons; only the old star twinkled. */
+.sky-controls .seed-star {
+    display: inline-flex;
+    animation: none;
+}
