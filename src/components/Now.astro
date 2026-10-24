@@ -1,0 +1,42 @@
+---
+import Base from '../layouts/Base.astro';
+import LangSwitch from './LangSwitch.astro';
+import { NOW } from '../data/now';
+import { LANGS, type Lang } from '../lib/blog';
+import { formatPostDate } from '../lib/date';
+import { ui } from '../lib/i18n';
+
+interface Props {
+    lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = ui[lang];
+const links = Object.fromEntries(LANGS.map((l) => [l, ui[l].nowUrl]));
+---
+
+<Base title={`${t.nowTitle} — Icarus Murqin`} description={t.nowIntro} lang={lang} alternates={links}>
+    <section class="card blog-card">
+        <div class="blog-topbar">
+            <a href={t.homeUrl} class="blog-nav-link" data-seed-nav={t.homeUrl}>← murq.in</a>
+            <div class="blog-topbar-end">
+                <LangSwitch lang={lang} links={links} />
+            </div>
+        </div>
+        <header class="blog-head">
+            <h1 class="blog-heading">{t.nowTitle}</h1>
+            <p class="blog-intro">{t.nowIntro}</p>
+        </header>
+        <dl class="now-list">
+            {
+                NOW.items.map((item) => (
+                    <div class="now-item">
+                        <dt>{item.label[lang]}</dt>
+                        <dd>{item.text[lang]}</dd>
+                    </div>
+                ))
+            }
+        </dl>
+        <p class="now-updated">{t.nowUpdated} {formatPostDate(NOW.updated, lang)}</p>
+    </section>
+</Base>
