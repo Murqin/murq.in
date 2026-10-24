@@ -4,76 +4,76 @@ date: 2026-07-29
 summary: Fedora'ya geçiş deneyimim, Secure Boot kaynaklı anti-cheat sorunlarını çözmem ve yapay zekâya pragmatik bakışım.
 ---
 
-Son zamanlarda günlük işlerim için Linux tabanlı dağıtımları, GNU/Linux sistemlerini kullanıyorum. İşletim sistemlerini yalnızca bir araç olarak görüyorum: gündelik işleri halletmemizi, bir şeyler üretmemizi ya da oyun oynamamızı sağlayan araçlar. Microsoft'un geliştirdiği bir sistem de olsa, açık kaynak topluluklarının yaptığı bir sistem de olsa, o anki ihtiyacımı kutudan çıktığı gibi karşılayanı tercih ederim.
+Bir süredir günlük işlerimde Linux kullanıyorum. İşletim sistemlerini yalnızca bir araç olarak görüyorum: gündelik işleri halletmemizi, bir şeyler üretmemizi ya da oyun oynamamızı sağlayan araçlar. Microsoft'un geliştirdiği bir sistem de olsa, açık kaynak topluluklarının yaptığı bir sistem de olsa, o an işimi uğraştırmadan görüyorsa onu kullanırım.
 
-Açıkçası bir "Linux haçlı seferi" yürütmüyorum. Farklı işletim sistemleri farklı alanlarda öne çıkıyor ve ben de tamamen ihtiyacıma göre seçiyorum:
+Açıkçası Linux'un bayraktarlığını yapan biri değilim. Her işletim sisteminin iyi olduğu bir alan var, ben de tamamen ihtiyacıma göre seçiyorum:
 
-- **Windows:** Çevrim içi çok oyunculu oyunlara (PUBG, CS FACEIT, League of Legends gibi) ve onların çekirdek seviyesindeki anti-cheat yazılımlarına ilk günden destek verdiği için çok işe yarıyor. Bu yüzden Windows'u, özellikle bu oyunlar için dual-boot düzeninde ikincil işletim sistemi olarak tutuyorum.
+- **Windows:** Çevrim içi çok oyunculu oyunlar (PUBG, CS FACEIT, League of Legends gibi) ve bunların çekirdek seviyesindeki anti-cheat yazılımları Windows'ta zaten sorunsuz çalışıyor. Bu yüzden Windows'u özellikle bu oyunlar için dual-boot'ta ikinci sistem olarak tutuyorum.
     
 - **Linux:** Az yer kaplaması ve düşük bellek tüketimi sayesinde yazılım geliştirme, tek oyunculu oyunlar ve sunucu kurulumları için birinci tercihim.
     
 
 ## CachyOS'tan Fedora'ya: zorunlu geçiş ve sürücü kurulumu
 
-Uzun süre ana dağıtımım CachyOS'tu ve ona epey bağlanmıştım. Ama anti-cheat sistemlerinin son dönemde getirdiği kısıtlamalar beni Fedora'ya geçmeye zorladı. Çekirdek seviyesindeki anti-cheat yazılımları anakart modüllerini ve TPM verilerini sorguladığı için, uyumsuz görülen en ufak şey oyuna erişimin engellenmesiyle sonuçlanıyor.
+Uzun süre ana dağıtımım CachyOS'tu ve ona epey alışmıştım. Ama anti-cheat sistemlerinin son dönemde getirdiği kısıtlamalar yüzünden Fedora'ya geçmek zorunda kaldım. Çekirdek seviyesindeki anti-cheat yazılımları anakart modüllerini ve TPM verilerini kontrol ediyor; en ufak uyumsuzlukta oyuna giremiyorsunuz.
 
-FACEIT'e girmeye çalışırken bir Secure Boot doğrulama (attestation) hatasıyla karşılaştım. CachyOS'ta imzalı önyükleme yapılandırmalarını ve Shim'i denesem de sorun çözülmedi. Fedora ise Microsoft imzalı Shim önyükleyicisini kullandığı için açılışta donanım seviyesindeki doğrulamadan sorunsuzca geçebiliyor.
+FACEIT'e girmeye çalışırken bir Secure Boot doğrulama (attestation) hatasıyla karşılaştım. CachyOS'ta imzalı önyüklemeyi de Shim'i de denedim, sorun çözülmedi. Fedora ise Microsoft imzalı Shim önyükleyicisini kullandığı için açılışta donanım seviyesindeki doğrulamadan sorunsuzca geçebiliyor.
 
-Fedora'ya geçiş, Secure Boot altında ciddi sürücü ve imza sorunlarını da beraberinde getirdi:
+Fedora'ya geçince de Secure Boot yüzünden ciddi sürücü ve imza sorunları çıktı:
 
-- **Secure Boot ve Nvidia:** BIOS'um "Maximum Security" modunda olduğu için sistem varsayılan anahtarları reddediyordu. Yapay zekâ destekli araştırmayla kendi anahtar dosyamı oluşturup doğrudan anakartın UEFI `db`'sine (Signature Database) kaydetmeyi öğrendim. Bu sayede Secure Boot, Nvidia'nın kapalı kaynak sürücüsünün imzasını kabul etti.
+- **Secure Boot ve Nvidia:** BIOS'um "Maximum Security" modunda olduğu için sistem varsayılan anahtarları reddediyordu. Yapay zekâyla araştırırken kendi anahtar dosyamı oluşturup doğrudan anakartın UEFI `db`'sine (Signature Database) kaydetmeyi öğrendim. Bu sayede Secure Boot, Nvidia'nın kapalı kaynak sürücüsünün imzasını kabul etti.
     
-- **SELinux ve masaüstü donmaları:** Geçiş sırasında `/home` dizinimi doğrudan CachyOS'tan taşıdım. Ancak Fedora'nın SELinux güvenlik modülü dosyalara belirli güvenlik bağlamı etiketleri uyguluyor. Taşınan yapılandırma dosyalarında bu etiketler olmadığı için erişim engellendi; KDE kullanıcı ayarlarını yükleyemedi ve karşıma siyah bir ekran çıktı. Yapay zekânın yönlendirmesiyle bir TTY terminaline geçtim ve güvenlik etiketlerini Fedora'nın varsayılanlarına döndürmek için `restorecon` çalıştırdım; sorun çözüldü.
+- **SELinux ve masaüstü donmaları:** `/home` dizinimi olduğu gibi CachyOS'tan taşıdım. Ama Fedora'nın SELinux güvenlik modülü dosyalara güvenlik bağlamı etiketleri koyuyor. Taşınan yapılandırma dosyalarında bu etiketler olmadığı için erişim engellendi; KDE kullanıcı ayarlarını yükleyemedi ve karşıma siyah ekran çıktı. Yapay zekânın tarifiyle TTY'ye geçip etiketleri Fedora'nın varsayılanlarına döndürmek için `restorecon` çalıştırdım, sorun çözüldü.
     
 
-Bu kurulum sorunlarını çözmek yarım günden fazla sürdü. Yapay zekâ olmasa forumlarda yolumu bulmak günler alabilirdi; anında gelen sorun giderme önerileri sistemi kısa sürede tamamen çalışır hâle getirdi.
+Bütün bunları çözmek yarım günden fazla sürdü. Yapay zekâ olmasa forumlarda günlerce dolaşırdım; anında gelen önerilerle sistemi kısa sürede tamamen ayağa kaldırdım.
 
 ## Arch (AUR) ve Fedora (COPR ve Flatpak)
 
-Dağıtım değiştirmek, paket yönetimi alışkanlıklarımı da uyarlamamı gerektirdi:
+Dağıtım değişince paket kurma alışkanlıklarım da değişti:
 
-- **AUR (Arch User Repository):** AUR, kurulumdan önce `PKGBUILD` dosyasını terminalde hızlıca incelemenize izin veriyor. Kaynak kodun nereden geldiğini, hangi işlemleri yaptığını ve zararlı bir komut içerip içermediğini gözden geçirebiliyorsunuz (gerekirse analiz için yapay zekâdan yardım alarak). Kodun tamamını incelemeseniz bile, kurulum anında derleme tarifine bakabilmek ciddi bir şeffaflık ve kontrol sağlıyor.
+- **AUR (Arch User Repository):** AUR, kurulumdan önce `PKGBUILD` dosyasını terminalde hızlıca incelemenize izin veriyor. Kaynak kodun nereden geldiğini, hangi işlemleri yaptığını ve zararlı bir komut içerip içermediğini gözden geçirebiliyorsunuz (gerekirse analiz için yapay zekâdan yardım alarak). Kodun tamamını okumasanız bile kurarken derleme tarifine bakabilmek işi epey şeffaf yapıyor, kontrol sizde kalıyor.
     
-- **COPR (Fedora):** COPR da benzer bir topluluk modelini izliyor, ama paketler sunucu tarafında `.spec` dosyalarıyla derleniyor ve önceden derlenmiş ikili `.rpm` paketleri olarak dağıtılıyor. Derleme tarifleri web sitesinden kontrol edilebilse de `dnf` ile kurarken AUR'daki o anlık tarif inceleme adımı yok; bu da doğrudan kontrol hissini azaltıyor.
+- **COPR (Fedora):** COPR da benzer bir topluluk modelini izliyor, ama paketler sunucu tarafında `.spec` dosyalarıyla derleniyor ve önceden derlenmiş ikili `.rpm` paketleri olarak dağıtılıyor. Derleme tarifleri web sitesinden kontrol edilebilse de `dnf` ile kurarken AUR'daki gibi o an tarife bakma adımı yok; kontrol sizdeymiş gibi hissettirmiyor.
     
 
-COPR, AUR kadar kapsamlı olmadığı ve kurulum öncesi inceleme imkânı sunmadığı için bazı uygulamalarda (Zen Browser gibi) Flatpak'e yöneldim. Ancak Flatpak'in de kendi ödünleşimleri var:
+COPR, AUR kadar kapsamlı olmadığı ve kurulum öncesi inceleme imkânı sunmadığı için bazı uygulamalarda (Zen Browser gibi) Flatpak'e yöneldim. Ama Flatpak'in de kendine göre dertleri var:
 
-- **Entegrasyon sorunları:** İzole çalıştıkları için Flatpak uygulamaları sistem temalarına her zaman uymuyor. KDE'de bir Mac teması kullanmama rağmen bazı uygulamalar standart GTK/Qt kenarlıklarına dönüyor.
+- **Entegrasyon sorunları:** Flatpak uygulamaları izole çalıştığı için sistem temasına her zaman uymuyor. KDE'de bir Mac teması kullanmama rağmen bazı uygulamalar standart GTK/Qt kenarlıklarına dönüyor.
     
 - **İzin kısıtlamaları:** Paket bakımcıları varsayılan izinleri tam doğru yapılandırmazsa dosya erişim sorunları çıkabiliyor.
     
 
 ## Yazılımda ve gündelik hayatta yapay zekânın rolü
 
-Yapay zekâ kullanmak zihinsel yükümü ciddi ölçüde hafifletiyor. İkincil ayrıntıları ya da karmaşık sistem yapılandırmalarını yapay zekâya bırakmak, asıl kavramlara odaklanmamı sağlıyor.
+Yapay zekâ kafamdaki yükü epey hafifletiyor. Ayrıntıları ya da karmaşık sistem ayarlarını ona bırakınca asıl meseleye odaklanabiliyorum.
 
-- **Yazılım geliştirme:** Bir projeye başlarken mimari ve teknoloji yığını seçimlerinde yapay zekâya danışıyorum. Zaman zaman da deneme yanılmayla adım adım geliştirmek için bir kod ajanı kullanıyorum.
+- **Yazılım geliştirme:** Bir projeye başlarken mimariyi ve hangi teknolojileri kullanacağımı yapay zekâya danışıyorum. Bazen de deneme yanılmayla adım adım ilerlemek için bir kod ajanı kullanıyorum.
     
-- **Gündelik hayat:** Teknoloji dışında da kullanıyorum. Geçenlerde saldırgan bir böcek tarafından ısırıldıktan sonra olasılıkları daraltmak için yapay zekâdan yararlandım ve büyük ihtimalle bir tatarcık ısırığı olduğu sonucuna vardım.
+- **Gündelik hayat:** Teknoloji dışında da kullanıyorum. Geçenlerde beni bir böcek fena ısırdı; ne olabileceğini yapay zekâyla daralttım, büyük ihtimalle tatarcıkmış.
     
 
-Bazı insanların yapay zekâya neden şüpheyle yaklaştığını anlıyorum. Kaygılar genellikle teknolojinin kendi faydasından değil, şirketlerin veri toplama politikalarından ve farklı ideolojik duruşlardan kaynaklanıyor.
+Bazı insanların yapay zekâya neden şüpheyle yaklaştığını anlıyorum. Kaygıların çoğu teknolojinin kendisinden değil, şirketlerin veri toplama politikalarından ve ideolojik duruşlardan geliyor.
 
 ## Hobiler ve müzik aletleri
 
-Zaman içinde çeşitli uygulamalı hobileri denedim:
+Zamanında elle yapılan birkaç hobiyi denedim:
 
 - **Çizim:** Görsel sanatla denemeler yapmak için bir grafik tablet aldım.
     
-- **Piyano:** Bir MIDI klavye edindim. Piyano erişilebilir çıktı; bir iki saatlik çalışmayla temel ritimler ve melodiler çalınabiliyor. Ancak tuş sayısının fiziksel kısıtı yüzünden sonunda sattım.
+- **Piyano:** Bir MIDI klavye aldım. Piyanoya başlamak kolaymış; bir iki saat çalışınca basit ritimler ve melodiler çalabiliyorsunuz. Ama tuş sayısı yetmediği için sonunda sattım.
     
-- **Gitar ve mızıka:** Telli ve üflemeli çalgılar, sadece temiz bir ses çıkarabilmek için bile her gün düzenli teknik çalışma istiyor. Bir arkadaşım almaya hazır olduğunda Ibanez gitarımı satmayı düşünüyorum.
+- **Gitar ve mızıka:** Telli ve üflemeli çalgılarda temiz bir ses çıkarmak için bile her gün düzenli çalışmak gerekiyor. Ibanez gitarımı bir arkadaşım almak istiyor, o hazır olunca satmayı düşünüyorum.
     
 
 ## Kariyer, teknoloji sektörü ve GitHub profilleri
 
-Gerçekçi olmak gerekirse iş bulmak ve gelir elde etmek gerekli. Yazılım geliştirme alanında çalışmaya açık olsam da kendimi bir "uzman" olarak görmüyorum; projelerimi hobi seviyesinde yapıyorum.
+Gerçekçi olalım, iş bulup para kazanmak lazım. Yazılım geliştirme alanında çalışmaya açık olsam da kendimi bir "uzman" olarak görmüyorum; projelerimi hobi seviyesinde yapıyorum.
 
-Bir şirkette uzman olduğunu iddia edip ardından bir kod tabanını başka bir dile taşırken büyük hatalar yapmak hem mahcubiyete hem de işini kaybetmeye yol açar. Bu yüzden teknik yetkinliğimi olduğundan büyük göstermekten kaçınıyorum.
+Bir şirkette uzman olduğunuzu söyleyip sonra bir kod tabanını başka dile taşırken büyük hatalar yaparsanız hem rezil olursunuz hem de işinizden. Bu yüzden kendimi olduğumdan iyi göstermiyorum.
 
-GitHub'da pek çok hobi geliştiricisinin son derece cilalı, profesyonel profilleri var. Benim profilim daha pragmatik bir yaklaşımı yansıtıyor: Commit mesajlarını sık sık yapay zekâya yazdırıyorum ve vitrine çıkarmaktan çok işe yarar bir çıktı üretmeyi önemsiyorum.
+GitHub'da pek çok hobi geliştiricisinin son derece cilalı, profesyonel profilleri var. Benimki daha pragmatik: Commit mesajlarını çoğu zaman yapay zekâya yazdırıyorum, vitrinden çok işe yarayan bir şey çıkarmayı önemsiyorum.
 
 ## Sonuç
 
-Düşüncelerimi ve teknik adımları yaklaşık 20 dakika boyunca sesli olarak kaydettim; anlatıyı açık ve okunabilir bir yapıya oturtmak için de yapay zekâyı kullandım. İşletim sistemlerinde, yazılım geliştirmede ve gündelik işlerde amaç seçkincilik değil fayda olmaya devam ediyor: eldeki araçlardan yararlanarak pratik sonuçlara verimli biçimde ulaşmak.
+Düşüncelerimi ve teknik adımları yaklaşık 20 dakikalık bir ses kaydında anlattım; bunu okunur bir yazıya dönüştürmek için de yapay zekâyı kullandım. İşletim sisteminde de, yazılımda da, gündelik işlerde de derdim seçkincilik değil fayda: elimdeki araçlarla pratik sonuca en kısa yoldan ulaşmak.
