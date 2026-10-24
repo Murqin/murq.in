@@ -20,7 +20,6 @@ export const ui = {
         themeLabel: 'Switch between light and dark',
         seedLabel: 'Copy theme seed link',
         seedCopied: 'seed copied!',
-        socialTitle: 'Social Media',
         aboutTitle: 'About Me',
         about:
             'I like playing games, listening to music and watching videos. I also make hobby projects; ' +
@@ -49,7 +48,7 @@ export const ui = {
         blogDescription: 'Notes on projects, tools, and tinkering',
         rssDescription: 'Notes on projects, tools, and tinkering by Icarus Murqin',
         noPosts: 'No posts yet.',
-        allPosts: '← all posts',
+        allPosts: 'all posts',
         contents: 'Contents',
         readingTime: '{n} min read',
         copyMd: 'copy md',
@@ -83,7 +82,6 @@ export const ui = {
         themeLabel: 'Açık ve koyu tema arasında geç',
         seedLabel: 'Tema bağlantısını kopyala',
         seedCopied: 'kopyalandı!',
-        socialTitle: 'Sosyal Medya',
         aboutTitle: 'Hakkımda',
         about:
             'Oyun oynamayı, müzik dinlemeyi ve video izlemeyi severim. Ek olarak hobi projeleri yapıyorum; ' +
@@ -112,7 +110,7 @@ export const ui = {
         blogDescription: 'Projeler, araçlar ve kurcalamalar üzerine notlar',
         rssDescription: 'Icarus Murqin’den projeler, araçlar ve kurcalamalar üzerine notlar',
         noPosts: 'Henüz yazı yok.',
-        allPosts: '← tüm yazılar',
+        allPosts: 'tüm yazılar',
         contents: 'İçindekiler',
         readingTime: '{n} dk okuma',
         copyMd: 'md kopyala',

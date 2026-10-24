@@ -1315,10 +1315,6 @@ html.chrome .container {
     margin: 18px 0;
 }
 
-.snap-label {
-    color: var(--text-dim);
-}
-
 .snap-page a {
     color: var(--text);
     text-decoration: none;
@@ -1591,7 +1587,6 @@ html.chrome .post-title {
 }
 
 .post-toc-title,
-.snap-label,
 .snap-post-date,
 .post-meta {
     text-transform: uppercase;
@@ -1762,12 +1757,6 @@ html.chrome .post-title {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 10px 16px;
-    }
-
-    .snap-socials .snap-label {
-        grid-column: 1 / -1;
-        font-family: var(--font-mono);
-        font-size: var(--text-xs);
     }
 }
 

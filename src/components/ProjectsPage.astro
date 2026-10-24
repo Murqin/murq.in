@@ -24,9 +24,8 @@ const links = Object.fromEntries(LANGS.map((l) => [l, ui[l].projectsUrl]));
 >
     <Controls lang={lang} links={links} />
     <section class="snap-page">
-        <a href={t.homeUrl} class="blog-nav-link page-back" data-seed-nav={t.homeUrl}>← murq.in</a>
+        <a href={t.homeUrl} class="blog-nav-link page-back bracket" data-seed-nav={t.homeUrl}>murq.in</a>
         <h1 class="snap-title">{t.projectsTitle}</h1>
-        <p class="snap-text">{t.projectsIntro}</p>
         <Projects lang={lang} />
     </section>
 </Base>

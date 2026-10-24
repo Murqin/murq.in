@@ -52,7 +52,7 @@ const index = blogIndexUrl(lang);
     <Controls lang={lang} links={links} />
     <div class="post-layout">
         <aside class="post-aside">
-            <a href={index} class="blog-nav-link" data-seed-nav={index}>{t.allPosts}</a>
+            <a href={index} class="blog-nav-link bracket" data-seed-nav={index}>{t.allPosts}</a>
             {
                 showToc && (
                     <details class="post-toc" open>
@@ -115,7 +115,7 @@ const index = blogIndexUrl(lang);
                 <Content />
             </div>
             <nav class="post-end">
-                <a href={index} class="blog-nav-link" data-seed-nav={index}>{t.allPosts}</a>
+                <a href={index} class="blog-nav-link bracket" data-seed-nav={index}>{t.allPosts}</a>
             </nav>
         </article>
     </div>
