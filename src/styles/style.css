@@ -297,6 +297,28 @@ body {
     transition-duration: 0.9s;
 }
 
+/* The ray-traced version (blackhole-gl.ts): drawn at half resolution and stretched over the
+   viewport, fading in as the page is pulled into it and out as the page comes back. */
+.bh-canvas {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 4;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 1.2s ease-in;
+}
+
+.swallowed .bh-canvas {
+    opacity: 1;
+}
+
+.released .bh-canvas {
+    opacity: 0;
+    transition: opacity 1s ease-out;
+}
+
 /* Every layer shrinks toward the centre of the screen; for the long column that point is set
    from script (blackhole.ts), since its own centre is usually far below the fold. */
 /* #stars carries an inline opacity from the dice crossfade (theme.ts), which would otherwise win
