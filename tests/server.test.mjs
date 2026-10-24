@@ -213,3 +213,17 @@ test('long posts get a contents list and every post a reading time', () => {
   assert.match(html, /\d+ min read/);
   assert.match(readFileSync('dist/tr/blog/opus-cheats-and-sketches/index.html', 'utf8'), /\d+ dk okuma/);
 });
+
+test('every page points og:image at a preview generated for it, in its own language', () => {
+  const png = (p) => readFileSync(`dist${p}`).subarray(0, 8).equals(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]));
+  for (const [page, image] of [
+    ['/index.html', '/og/en/home.png'],
+    ['/tr/index.html', '/og/tr/home.png'],
+    ['/tr/now/index.html', '/og/tr/now.png'],
+    ['/blog/opus-cheats-and-sketches/index.html', '/og/en/blog/opus-cheats-and-sketches.png'],
+    ['/tr/blog/opus-cheats-and-sketches/index.html', '/og/tr/blog/opus-cheats-and-sketches.png'],
+  ]) {
+    assert.ok(readFileSync(`dist${page}`, 'utf8').includes(`property="og:image" content="https://murq.in${image}"`), page);
+    assert.ok(png(image), `${image} is a PNG`);
+  }
+});

@@ -5,6 +5,7 @@ import RssLink from './RssLink.astro';
 import { LANGS, blogIndexUrl, getPosts, postSlug, postUrl, rssUrl, type Lang } from '../lib/blog';
 import { formatPostDate } from '../lib/date';
 import { ui } from '../lib/i18n';
+import { ogImageUrl } from '../lib/ogPath';
 
 interface Props {
     lang: Lang;
@@ -20,6 +21,7 @@ const links = Object.fromEntries(LANGS.map((l) => [l, blogIndexUrl(l)]));
     title="Blog — Icarus Murqin"
     description={t.blogDescription}
     lang={lang}
+    ogImagePath={ogImageUrl(lang, 'blog')}
     alternates={links}
     rssHref={rssUrl(lang)}
 >

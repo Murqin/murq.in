@@ -5,6 +5,7 @@ import Projects from './Projects.astro';
 import { LANGS, blogIndexUrl, getPosts, postSlug, postUrl, type Lang } from '../lib/blog';
 import { formatPostDate } from '../lib/date';
 import { ui } from '../lib/i18n';
+import { ogImageUrl } from '../lib/ogPath';
 
 interface Props {
     lang: Lang;
@@ -22,6 +23,7 @@ const latestHref = latest ? postUrl(lang, postSlug(latest)) : undefined;
     title="Icarus Murqin"
     description={t.homeDescription}
     lang={lang}
+    ogImagePath={ogImageUrl(lang, 'home')}
     alternates={links}
     showVisitorCount={true}
 >

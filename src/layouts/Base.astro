@@ -18,6 +18,8 @@ interface Props {
     /** Every language version of this page, the current one included, as hreflang -> path. */
     alternates?: Record<string, string>;
     rssHref?: string;
+    /** Site-relative path of the generated preview image (see src/lib/ogPath.ts). */
+    ogImagePath?: string;
 }
 
 const {
@@ -29,11 +31,12 @@ const {
     lang = 'en',
     alternates = {},
     rssHref = '/rss.xml',
+    ogImagePath = '/assets/og-image-amethyst.png',
 } = Astro.props;
 
 // Absolute URLs: link-preview bots reject relative og:image/og:url values.
 const canonical = new URL(Astro.url.pathname, Astro.site);
-const ogImage = new URL('/assets/og-image-amethyst.png', Astro.site);
+const ogImage = new URL(ogImagePath, Astro.site);
 // A lone hreflang tag is meaningless, so they appear only when a translation exists. English is
 // the x-default because it is the language the site and the old URLs started with.
 const hreflangs = Object.keys(alternates).length > 1 ? Object.entries(alternates) : [];
@@ -55,7 +58,7 @@ const xDefault = alternates['en'];
         <meta property="og:image" content={ogImage} />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
-        <meta property="og:image:alt" content="murq.in — Icarus Murqin's personal site" />
+        <meta property="og:image:alt" content={ogTitle} />
         <meta name="twitter:card" content="summary_large_image" />
         <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-crystal-32.png" />
         <link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-crystal-192.png" />

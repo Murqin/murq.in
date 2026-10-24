@@ -5,6 +5,7 @@ import { NOW } from '../data/now';
 import { LANGS, type Lang } from '../lib/blog';
 import { formatPostDate } from '../lib/date';
 import { ui } from '../lib/i18n';
+import { ogImageUrl } from '../lib/ogPath';
 
 interface Props {
     lang: Lang;
@@ -15,7 +16,13 @@ const t = ui[lang];
 const links = Object.fromEntries(LANGS.map((l) => [l, ui[l].nowUrl]));
 ---
 
-<Base title={`${t.nowTitle} — Icarus Murqin`} description={t.nowIntro} lang={lang} alternates={links}>
+<Base
+    title={`${t.nowTitle} — Icarus Murqin`}
+    description={t.nowIntro}
+    lang={lang}
+    alternates={links}
+    ogImagePath={ogImageUrl(lang, 'now')}
+>
     <section class="card blog-card">
         <div class="blog-topbar">
             <a href={t.homeUrl} class="blog-nav-link" data-seed-nav={t.homeUrl}>← murq.in</a>
