@@ -15,3 +15,15 @@ const observer = new IntersectionObserver(
     { rootMargin: '-50% 0px -50% 0px' },
 );
 pages.forEach((page) => observer.observe(page));
+
+// Switching language keeps the section: both homes use the same section ids, so EN/TR carries the
+// current #section across instead of landing at the top. Done at click time, because theme.ts
+// rewrites these hrefs (seed) after load and after every dice roll.
+for (const link of document.querySelectorAll<HTMLAnchorElement>('.lang-switch a')) {
+    link.addEventListener('click', () => {
+        if (!location.hash) return;
+        const target = new URL(link.href);
+        target.hash = location.hash;
+        link.href = target.href;
+    });
+}

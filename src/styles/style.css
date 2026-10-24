@@ -91,6 +91,10 @@
     --status-active: #7ddba3;
     --status-wip: #e5c07b;
     --status-archived: #d29922;
+    /* CRT teleport: dark text is pushed to a white-hot line. */
+    --crt-boost: 4;
+    --crt-boost-max: 5;
+    --crt-glow: #fff;
     color-scheme: dark;
     /* Near-square corners everywhere: the soft rounded look is what every product UI already uses. */
     --radius: 2px;
@@ -135,6 +139,10 @@
     --status-active: #1a7f37;
     --status-wip: #8a6a00;
     --status-archived: #9a6700;
+    /* On paper a white line vanishes; the CRT collapses into an ink line instead. */
+    --crt-boost: 0.3;
+    --crt-boost-max: 0.15;
+    --crt-glow: #0b0e1a;
     color-scheme: light;
 }
 
@@ -324,17 +332,17 @@ body {
     }
     60% {
         transform: scale(1, 0.006);
-        filter: brightness(4) saturate(0) drop-shadow(0 0 6px #fff) drop-shadow(0 0 18px var(--accent));
+        filter: brightness(var(--crt-boost)) saturate(0) drop-shadow(0 0 6px var(--crt-glow)) drop-shadow(0 0 18px var(--accent));
         opacity: 1;
     }
     85% {
         transform: scale(0.004, 0.006);
-        filter: brightness(5) saturate(0) drop-shadow(0 0 8px #fff) drop-shadow(0 0 24px var(--accent));
+        filter: brightness(var(--crt-boost-max)) saturate(0) drop-shadow(0 0 8px var(--crt-glow)) drop-shadow(0 0 24px var(--accent));
         opacity: 1;
     }
     100% {
         transform: scale(0, 0);
-        filter: brightness(5) blur(2px);
+        filter: brightness(var(--crt-boost-max)) blur(2px);
         opacity: 0;
     }
 }
@@ -342,17 +350,17 @@ body {
 @keyframes teleport-in {
     0% {
         transform: scale(0, 0);
-        filter: brightness(5) blur(2px);
+        filter: brightness(var(--crt-boost-max)) blur(2px);
         opacity: 0;
     }
     15% {
         transform: scale(0.004, 0.006);
-        filter: brightness(5) saturate(0) drop-shadow(0 0 8px #fff) drop-shadow(0 0 24px var(--accent));
+        filter: brightness(var(--crt-boost-max)) saturate(0) drop-shadow(0 0 8px var(--crt-glow)) drop-shadow(0 0 24px var(--accent));
         opacity: 1;
     }
     40% {
         transform: scale(1, 0.006);
-        filter: brightness(4) saturate(0) drop-shadow(0 0 6px #fff) drop-shadow(0 0 18px var(--accent));
+        filter: brightness(var(--crt-boost)) saturate(0) drop-shadow(0 0 6px var(--crt-glow)) drop-shadow(0 0 18px var(--accent));
         opacity: 1;
     }
     75% {
