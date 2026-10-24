@@ -160,7 +160,7 @@ let starsRebuildTimer: ReturnType<typeof setTimeout> | undefined;
 function rerollTheme(): void {
     clearTimeout(starsRebuildTimer);
     const seeds = randomSeeds();
-    history.replaceState(null, '', '/' + seeds.hex);
+    history.replaceState(null, '', homeSeedPath(seeds.hex));
 
     if (reduceMotion.matches) {
         applyCombinedSystem(seeds);
@@ -256,6 +256,12 @@ function animateCount(el: HTMLElement, target: number): void {
     requestAnimationFrame(frame);
 }
 
+// The Turkish home lives at /tr/, so its seed rides in the query like the blog's; the bare
+// /<hex> path is the English home, which the server answers for any 12-hex path.
+function homeSeedPath(hex: string): string {
+    return window.location.pathname.startsWith('/tr/') ? '/tr/?s=' + hex : '/' + hex;
+}
+
 // --- Copy the combined seed link ---
 let copiedPulseTimer: ReturnType<typeof setTimeout> | undefined;
 
@@ -264,8 +270,8 @@ function copySeed(): void {
     if (!star) return;
     const hex = star.dataset['hex'];
     if (!hex) return;
-    void navigator.clipboard?.writeText(window.location.origin + '/' + hex);
-    star.dataset['seed'] = 'seed copied!';
+    void navigator.clipboard?.writeText(window.location.origin + homeSeedPath(hex));
+    star.dataset['seed'] = star.dataset['copied'] ?? 'seed copied!';
     // Make the pulse retriggerable: drop the class, force a reflow, re-add it
     star.classList.remove('copied');
     void star.offsetWidth;
@@ -284,7 +290,7 @@ const MAIL = 'murqin@proton.me';
 function copyMail(btn: HTMLElement): void {
     const label = btn.querySelector<HTMLElement>('.mail-btn-text') ?? btn;
     void navigator.clipboard?.writeText(MAIL);
-    label.textContent = 'copied!';
+    label.textContent = btn.dataset['copied'] ?? 'copied!';
     setTimeout(() => {
         label.textContent = MAIL;
     }, 1500);

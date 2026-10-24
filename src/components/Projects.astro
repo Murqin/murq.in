@@ -1,5 +1,19 @@
 ---
-import { PROJECTS } from '../data/projects';
+import { PROJECTS, type ProjectStatus } from '../data/projects';
+import type { Lang } from '../lib/blog';
+import { ui } from '../lib/i18n';
+
+interface Props {
+    lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = ui[lang];
+const statusLabel: Record<ProjectStatus, string> = {
+    active: t.statusActive,
+    wip: t.statusWip,
+    archived: t.statusArchived,
+};
 ---
 
 <div class="projects-list">
@@ -8,9 +22,9 @@ import { PROJECTS } from '../data/projects';
             <div class="project-item">
                 <div class="project-header">
                     <span class="project-name">{project.name}</span>
-                    <span class={`project-status ${project.status}`}>{project.status}</span>
+                    <span class={`project-status ${project.status}`}>{statusLabel[project.status]}</span>
                 </div>
-                <p class="project-desc">{project.description}</p>
+                <p class="project-desc">{project.description[lang]}</p>
                 {(project.tags.length > 0 || project.links.length > 0) && (
                     <div class="project-footer">
                         {project.tags.length > 0 && (

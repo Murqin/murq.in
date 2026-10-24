@@ -197,6 +197,13 @@ body {
     position: relative;
 }
 
+/* Top-left, mirroring the dice and seed buttons on the right. */
+.hero-lang {
+    position: absolute;
+    top: 22px;
+    left: 22px;
+}
+
 .seed-star {
     appearance: none;
     -webkit-appearance: none;

@@ -175,3 +175,19 @@ test('each language version of a post links to the other, and English stays the 
   assert.ok(!readFileSync('dist/rss.xml', 'utf8').includes('/tr/blog/'));
   assert.ok(readFileSync('dist/tr/rss.xml', 'utf8').includes(`/tr/blog/${post}/`));
 });
+
+test('the home page exists in both languages and each links to its own blog', () => {
+  const en = readFileSync('dist/index.html', 'utf8');
+  const tr = readFileSync('dist/tr/index.html', 'utf8');
+  assert.match(en, /<html lang="en"/);
+  assert.match(tr, /<html lang="tr"/);
+  for (const html of [en, tr]) {
+    assert.ok(html.includes('hreflang="en" href="https://murq.in/"'), 'hreflang en');
+    assert.ok(html.includes('hreflang="tr" href="https://murq.in/tr/"'), 'hreflang tr');
+  }
+  assert.ok(en.includes('href="/blog/" class="source-link"'), 'EN home links to the English blog');
+  assert.ok(tr.includes('href="/tr/blog/" class="source-link"'), 'TR home links to the Turkish blog');
+  assert.match(tr, /Projelerim/);
+  // The Turkish blog leads back to the Turkish home, not the English one.
+  assert.ok(readFileSync('dist/tr/blog/index.html', 'utf8').includes('href="/tr/" class="blog-nav-link"'));
+});

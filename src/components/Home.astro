@@ -1,0 +1,98 @@
+---
+import Base from '../layouts/Base.astro';
+import LangSwitch from './LangSwitch.astro';
+import Projects from './Projects.astro';
+import { LANGS, blogIndexUrl, getPosts, postSlug, postUrl, type Lang } from '../lib/blog';
+import { formatPostDate } from '../lib/date';
+import { ui } from '../lib/i18n';
+
+interface Props {
+    lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = ui[lang];
+const links = Object.fromEntries(LANGS.map((l) => [l, ui[l].homeUrl]));
+const blogHref = blogIndexUrl(lang);
+const [latest] = await getPosts(lang);
+const latestHref = latest ? postUrl(lang, postSlug(latest)) : undefined;
+---
+
+<Base
+    title="Icarus Murqin"
+    description={t.homeDescription}
+    lang={lang}
+    alternates={links}
+    showVisitorCount={true}
+>
+    <section class="card hero">
+        <div class="hero-lang">
+            <LangSwitch lang={lang} links={links} />
+        </div>
+        <button type="button" class="dice-btn" aria-label={t.diceLabel}>
+            <svg
+                viewBox="0 0 24 24"
+                width="18"
+                height="18"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+            >
+                <rect x="3" y="3" width="18" height="18" rx="4"></rect>
+                <circle cx="8.5" cy="8.5" r="1" fill="currentColor"></circle>
+                <circle cx="15.5" cy="8.5" r="1" fill="currentColor"></circle>
+                <circle cx="12" cy="12" r="1" fill="currentColor"></circle>
+                <circle cx="8.5" cy="15.5" r="1" fill="currentColor"></circle>
+                <circle cx="15.5" cy="15.5" r="1" fill="currentColor"></circle>
+            </svg>
+        </button>
+        <button type="button" class="seed-star" aria-label={t.seedLabel} data-copied={t.seedCopied}>✦</button>
+        <img src="/assets/avatar-netrunner.webp" alt="Icarus Murqin" class="avatar" width="96" height="96" />
+        <h1>Icarus Murqin</h1>
+        <p class="tagline">{t.tagline}</p>
+
+        <div class="section-title">{t.socialTitle}</div>
+        <div class="socials">
+            <a href="https://www.instagram.com/murqin/" class="social-icon">Instagram</a>
+            <a href="https://steamcommunity.com/id/murqin/" class="social-icon">Steam</a>
+            <a href="https://www.youtube.com/@Murqin" class="social-icon">YouTube</a>
+            <a href="https://github.com/Murqin" class="social-icon">GitHub</a>
+        </div>
+    </section>
+
+    <!-- One card: the contact card held a single button and stood half empty beside About. -->
+    <section class="card">
+        <div class="section-title">{t.aboutTitle}</div>
+        <p>{t.about}</p>
+        <button type="button" class="mail-btn" title={t.copyEmail} data-copied={t.copied}>
+            <svg class="mail-btn-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <rect x="9" y="9" width="12" height="12" rx="2"></rect>
+                <path d="M5 15V5a2 2 0 0 1 2-2h10"></path>
+            </svg>
+            <span class="mail-btn-text">murqin@proton.me</span>
+        </button>
+    </section>
+
+    <section class="card">
+        <div class="section-title">{t.blogTitle}</div>
+        <p>{t.blogTeaser}</p>
+        {
+            latest && latestHref && (
+                <a href={latestHref} class="latest-post" data-seed-nav={latestHref}>
+                    <span class="latest-post-label">{t.latest}</span>
+                    <span class="latest-post-title">{latest.data.title}</span>
+                    <span class="latest-post-date">{formatPostDate(latest.data.date, lang)}</span>
+                </a>
+            )
+        }
+        <a href={blogHref} class="source-link" data-seed-nav={blogHref}>{t.allPostsHome}</a>
+    </section>
+
+    <section class="card">
+        <div class="section-title">{t.projectsTitle}</div>
+        <Projects lang={lang} />
+    </section>
+</Base>

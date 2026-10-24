@@ -19,13 +19,13 @@ const links = Object.fromEntries(LANGS.map((l) => [l, blogIndexUrl(l)]));
 <Base
     title="Blog — Icarus Murqin"
     description={t.blogDescription}
-    lang={t.htmlLang}
+    lang={lang}
     alternates={links}
     rssHref={rssUrl(lang)}
 >
     <section class="card blog-card">
         <div class="blog-topbar">
-            <a href="/" class="blog-nav-link" data-seed-nav="/">← murq.in</a>
+            <a href={t.homeUrl} class="blog-nav-link" data-seed-nav={t.homeUrl}>← murq.in</a>
             <div class="blog-topbar-end">
                 <LangSwitch lang={lang} links={links} />
                 <RssLink lang={lang} />

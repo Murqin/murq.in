@@ -1,5 +1,6 @@
 ---
 import Footer from '../components/Footer.astro';
+import type { Lang } from '../lib/blog';
 // Imported, not linked from public/: Vite then emits it under /_astro/ with a content hash, so a deploy
 // changes its URL and no cache (Cloudflare's included) can pair new HTML with an old stylesheet.
 import '../styles/style.css';
@@ -13,8 +14,7 @@ interface Props {
     ogType?: 'website' | 'article';
     /** The visitor counter only lives on the home page. */
     showVisitorCount?: boolean;
-    /** Only blog pages come in more than one language. */
-    lang?: string;
+    lang?: Lang;
     /** Every language version of this page, the current one included, as hreflang -> path. */
     alternates?: Record<string, string>;
     rssHref?: string;
@@ -73,7 +73,7 @@ const xDefault = alternates['en'];
         <div id="stars" aria-hidden="true"></div>
         <main class="container">
             <slot />
-            <Footer showVisitorCount={showVisitorCount} />
+            <Footer lang={lang} showVisitorCount={showVisitorCount} />
         </main>
         <script>
             import '../scripts/theme';

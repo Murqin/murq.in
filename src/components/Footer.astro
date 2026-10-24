@@ -1,9 +1,14 @@
 ---
+import type { Lang } from '../lib/blog';
+import { ui } from '../lib/i18n';
+
 interface Props {
+    lang?: Lang;
     showVisitorCount?: boolean;
 }
 
-const { showVisitorCount = false } = Astro.props;
+const { lang = 'en', showVisitorCount = false } = Astro.props;
+const t = ui[lang];
 const year = new Date().getFullYear();
 ---
 
@@ -32,19 +37,19 @@ const year = new Date().getFullYear();
                                 <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
                                 <circle cx="12" cy="12" r="3" />
                             </svg>
-                            <span class="count-value">...</span> visits
+                            <span class="count-value">...</span> {t.visits}
                         </span>
                     </>
                 )
             }
         </div>
         <div class="footer-content footer-source">
-            <a href="https://github.com/murqin/murq.in" target="_blank" rel="noopener noreferrer">source</a>
+            <a href="https://github.com/murqin/murq.in" target="_blank" rel="noopener noreferrer">{t.source}</a>
             <span class="footer-separator" aria-hidden="true">•</span>
             <span>MIT</span>
             <span class="footer-separator" aria-hidden="true">•</span>
             <a href="https://github.com/murqin/murq.in/blob/main/LICENSES.md" target="_blank" rel="noopener noreferrer"
-                >third-party notices</a
+                >{t.licenses}</a
             >
         </div>
     </div>

@@ -1,9 +1,32 @@
 import type { Lang } from './blog';
 
-// Only the blog is bilingual; the rest of the site stays English.
+// Every page except the 404 exists in both languages; English stays the default at the root.
 export const ui = {
     en: {
         htmlLang: 'en',
+        homeUrl: '/',
+        homeDescription: "Icarus Murqin's personal site",
+        tagline: "I'm just randomly surfing the web.",
+        diceLabel: 'Generate a new random theme',
+        seedLabel: 'Copy theme seed link',
+        seedCopied: 'seed copied!',
+        socialTitle: 'Social Media',
+        aboutTitle: 'About Me',
+        about:
+            'Just a tech hobbyist who spends most of his time playing video games, listening to music, ' +
+            'watching videos, and casually tinkering with random projects.',
+        copyEmail: 'Copy email address',
+        blogTitle: 'Blog',
+        blogTeaser: "Occasional notes on projects, tools, and whatever I'm tinkering with.",
+        latest: 'latest',
+        allPostsHome: 'all posts →',
+        projectsTitle: 'My Projects',
+        statusActive: 'active',
+        statusWip: 'wip',
+        statusArchived: 'archived',
+        visits: 'visits',
+        source: 'source',
+        licenses: 'third-party notices',
         blogDescription: 'Notes on projects, tools, and tinkering',
         rssDescription: 'Notes on projects, tools, and tinkering by Icarus Murqin',
         noPosts: 'No posts yet.',
@@ -23,6 +46,29 @@ export const ui = {
     },
     tr: {
         htmlLang: 'tr',
+        homeUrl: '/tr/',
+        homeDescription: 'Icarus Murqin’in kişisel sitesi',
+        tagline: 'Webde öylesine geziniyorum.',
+        diceLabel: 'Yeni rastgele tema üret',
+        seedLabel: 'Tema bağlantısını kopyala',
+        seedCopied: 'kopyalandı!',
+        socialTitle: 'Sosyal Medya',
+        aboutTitle: 'Hakkımda',
+        about:
+            'Vaktinin çoğunu oyun oynayarak, müzik dinleyerek, video izleyerek ve rastgele projelerle ' +
+            'kafasına göre uğraşarak geçiren bir teknoloji meraklısıyım.',
+        copyEmail: 'E-posta adresini kopyala',
+        blogTitle: 'Blog',
+        blogTeaser: 'Projeler, araçlar ve o sıralar neyle uğraşıyorsam onun üzerine ara sıra notlar.',
+        latest: 'son yazı',
+        allPostsHome: 'tüm yazılar →',
+        projectsTitle: 'Projelerim',
+        statusActive: 'aktif',
+        statusWip: 'yapım aşamasında',
+        statusArchived: 'arşivlendi',
+        visits: 'ziyaret',
+        source: 'kaynak kod',
+        licenses: 'üçüncü taraf bildirimleri',
         blogDescription: 'Projeler, araçlar ve kurcalamalar üzerine notlar',
         rssDescription: 'Icarus Murqin’den projeler, araçlar ve kurcalamalar üzerine notlar',
         noPosts: 'Henüz yazı yok.',
