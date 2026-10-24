@@ -1,7 +1,7 @@
 ---
 title: Claude Fable 5 ile ilk deneyimim
 date: 2026-07-03
-summary: Fable 5 ile yaşadığım deneyim.
+summary: Fable 5 ile yaptığım 3D sanat müzesi ve bu blog, kota sorunları ve modele dair genel izlenimlerim.
 ---
 
 ## Önce küçük bir açıklama

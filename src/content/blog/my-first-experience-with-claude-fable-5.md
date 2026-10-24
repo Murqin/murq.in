@@ -1,7 +1,7 @@
 ---
 title: My first experience with Claude Fable 5
 date: 2026-07-03
-summary: My experience with Fable 5.
+summary: Building a 3D art museum and this blog with Fable 5, running into quota limits, and my overall impressions of the model.
 ---
 
 ## A quick disclaimer
