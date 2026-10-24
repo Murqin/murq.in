@@ -141,10 +141,29 @@ test('core routes still answer', async () => {
   const post = readdirSync('dist/blog', { withFileTypes: true }).find((d) => d.isDirectory()).name;
   for (const [p, code] of [['/', 200], ['/blog/', 200], [`/blog/${post}/`, 200], ['/rss.xml', 200], ['/sitemap-index.xml', 200],
     ['/1a2b3c4d5e6f', 200], ['/nope', 404], [`/blog?post=${post}`, 301], [`/posts/${post}.md`, 200],
-    ['/tr/blog/', 200], ['/tr/blog', 200], ['/tr/rss.xml', 200]]) {
+    ['/tr/blog/', 200], ['/tr/blog', 200], [`/tr/blog/${post}/`, 200], [`/tr/posts/${post}.md`, 200], ['/tr/rss.xml', 200]]) {
     const r = await fetch(s.url(p), { redirect: 'manual' });
     assert.equal(r.status, code, p);
   }
   await stop(s);
   rmSync(dir, { recursive: true });
+});
+
+test('each language version of a post links to the other, and English stays the default', () => {
+  const post = readdirSync('dist/tr/blog', { withFileTypes: true }).find((d) => d.isDirectory()).name;
+  const en = readFileSync(`dist/blog/${post}/index.html`, 'utf8');
+  const tr = readFileSync(`dist/tr/blog/${post}/index.html`, 'utf8');
+  assert.match(en, /<html lang="en"/);
+  assert.match(tr, /<html lang="tr"/);
+  for (const html of [en, tr]) {
+    assert.ok(html.includes(`hreflang="en" href="https://murq.in/blog/${post}/"`), 'hreflang en');
+    assert.ok(html.includes(`hreflang="tr" href="https://murq.in/tr/blog/${post}/"`), 'hreflang tr');
+    assert.ok(html.includes(`hreflang="x-default" href="https://murq.in/blog/${post}/"`), 'x-default');
+    assert.match(html, /class="ai-badge"/);
+  }
+  assert.ok(en.includes(`href="/tr/blog/${post}/"`), 'EN post links to its Turkish version');
+  assert.ok(tr.includes(`href="/blog/${post}/"`), 'TR post links to its English version');
+  // Separate feeds: the English one must not pick up Turkish posts.
+  assert.ok(!readFileSync('dist/rss.xml', 'utf8').includes('/tr/blog/'));
+  assert.ok(readFileSync('dist/tr/rss.xml', 'utf8').includes(`/tr/blog/${post}/`));
 });
