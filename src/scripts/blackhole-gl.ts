@@ -1,8 +1,10 @@
 // Ray-traced black hole for the dice easter egg. Each pixel's ray is bent by the hole's gravity
 // (the standard Schwarzschild trick: integrate the photon with acceleration -1.5·h²·r̂/r⁴, h being its
 // conserved angular momentum), so the far side of the disk shows up lensed over and under the
-// shadow and the stars behind it smear into arcs. Units: the event horizon has radius 1.
-// Written for this site; returns null where WebGL is missing so the CSS version can stand in.
+// shadow. Units: the event horizon has radius 1. The sky is left transparent: the page's own seeded
+// gradient shows through, so the hole opens inside whatever theme is on screen instead of cutting
+// to a sky of its own. Written for this site; returns null where WebGL is missing so the CSS
+// version can stand in.
 
 const VERTEX = `
 attribute vec2 aPos;
@@ -28,17 +30,6 @@ float fbm(vec2 p) {
     float v = 0.0, a = 0.5;
     for (int i = 0; i < 5; i++) { v += a * noise(p); p *= 2.03; a *= 0.5; }
     return v;
-}
-
-// Sparse point stars on a direction grid, plus a faint violet haze in the site's palette.
-vec3 sky(vec3 d) {
-    vec2 uv = vec2(atan(d.z, d.x), asin(clamp(d.y, -1.0, 1.0))) * 180.0;
-    vec2 cell = floor(uv);
-    float h = hash(cell);
-    vec2 off = vec2(hash(cell + 3.1), hash(cell + 7.7)) - 0.5;
-    float star = step(0.985, h) * smoothstep(0.35, 0.0, length(fract(uv) - 0.5 - off * 0.6));
-    float haze = fbm(uv * 0.02) * 0.12;
-    return vec3(star) * (0.6 + 0.4 * hash(cell + 1.3)) + vec3(0.35, 0.3, 0.6) * haze;
 }
 
 const float DISK_IN = 3.0;   // innermost stable orbit, 3 horizon radii
@@ -83,12 +74,11 @@ void main() {
     float h2 = dot(cross(p, v), cross(p, v));
     vec3 col = vec3(0.0);
     float alpha = 0.0;
-    bool captured = false;
     bool escaped = false;
 
     for (int i = 0; i < 220; i++) {
         float r2 = dot(p, p);
-        if (r2 < 1.0) { captured = true; break; }
+        if (r2 < 1.0) break;
         float r = sqrt(r2);
         float dt = clamp(0.06 * r, 0.02, 0.8);
         vec3 acc = -1.5 * h2 * p / (r2 * r2 * r);
@@ -104,11 +94,11 @@ void main() {
         p = np;
         if (r2 > 900.0 && dot(p, v) > 0.0) { escaped = true; break; }
     }
-    // Rays that ran out of steps were skimming the photon sphere; sampling the sky with their
-    // half-turned direction sprinkled bright specks along the shadow's rim, so they stay dark.
-    if (escaped) col += (1.0 - alpha) * sky(v);
+    // Escaped rays let the page show through; captured ones, and those that ran out of steps
+    // skimming the photon sphere, are the shadow. Colour stays premultiplied by coverage.
+    float cover = escaped ? alpha : 1.0;
     col = 1.0 - exp(-col * 1.4);
-    gl_FragColor = vec4(pow(col, vec3(0.9)), 1.0);
+    gl_FragColor = vec4(pow(col, vec3(0.9)), cover);
 }
 `;
 
@@ -126,7 +116,7 @@ function compile(gl: WebGLRenderingContext, type: number, source: string): WebGL
 
 /** Starts drawing into `canvas`; returns a stop function, or null when WebGL is unavailable. */
 export function startBlackHole(canvas: HTMLCanvasElement): (() => void) | null {
-    const gl = canvas.getContext('webgl', { antialias: false, alpha: false });
+    const gl = canvas.getContext('webgl', { antialias: false, alpha: true, premultipliedAlpha: true });
     if (!gl) return null;
     const vs = compile(gl, gl.VERTEX_SHADER, VERTEX);
     const fs = compile(gl, gl.FRAGMENT_SHADER, FRAGMENT);
