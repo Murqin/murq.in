@@ -1064,6 +1064,11 @@ a.lang-switch-item:hover {
     line-height: 1.5;
 }
 
+.ai-badge a {
+    color: var(--accent);
+    white-space: nowrap;
+}
+
 .ai-badge-mark {
     flex: none;
     font-family: "JetBrains Mono", monospace;

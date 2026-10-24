@@ -1,9 +1,4 @@
-import type { Lang } from '../lib/blog';
-
-export interface NowItem {
-    label: Record<Lang, string>;
-    text: Record<Lang, string>;
-}
+import type { ListItem } from './listItem';
 
 // The /now page (nownownow.com): what I am doing this month. Edit the items and bump `updated`;
 // both language versions are built from this one list so they cannot drift apart.
@@ -35,5 +30,5 @@ export const NOW = {
             label: { en: 'Listening to', tr: 'Dinliyorum' },
             text: { en: 'Voz’mi Moe Serdtse', tr: 'Voz’mi Moe Serdtse' },
         },
-    ] satisfies NowItem[],
+    ] satisfies ListItem[],
 };

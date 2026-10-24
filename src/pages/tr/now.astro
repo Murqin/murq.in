@@ -1,5 +1,6 @@
 ---
-import Now from '../../components/Now.astro';
+import ListPage from '../../components/ListPage.astro';
+import { NOW } from '../../data/now';
 ---
 
-<Now lang="tr" />
+<ListPage lang="tr" page="now" items={NOW.items} updated={NOW.updated} />

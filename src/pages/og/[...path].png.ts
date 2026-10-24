@@ -15,6 +15,7 @@ export const getStaticPaths = (async () => {
         page('home', { title: t.about, kicker: t.tagline });
         page('blog', { title: t.blogTitle, kicker: t.blogDescription });
         page('now', { title: t.nowTitle, kicker: t.nowIntro });
+        page('ai', { title: t.aiTitle, kicker: t.aiIntro });
         for (const post of await getPosts(lang)) {
             page(`blog/${postSlug(post)}`, { title: post.data.title, kicker: `blog · ${formatPostDate(post.data.date, lang)}` });
         }

@@ -1,27 +1,33 @@
 ---
 import Base from '../layouts/Base.astro';
 import LangSwitch from './LangSwitch.astro';
-import { NOW } from '../data/now';
 import { LANGS, type Lang } from '../lib/blog';
 import { formatPostDate } from '../lib/date';
 import { ui } from '../lib/i18n';
 import { ogImageUrl } from '../lib/ogPath';
+import type { ListItem } from '../data/listItem';
 
+// Shared by the slash pages (/now, /ai): a short labelled list that exists in both languages.
 interface Props {
     lang: Lang;
+    page: 'now' | 'ai';
+    items: ListItem[];
+    updated: Date;
 }
 
-const { lang } = Astro.props;
+const { lang, page, items, updated } = Astro.props;
 const t = ui[lang];
-const links = Object.fromEntries(LANGS.map((l) => [l, ui[l].nowUrl]));
+const title = page === 'now' ? t.nowTitle : t.aiTitle;
+const intro = page === 'now' ? t.nowIntro : t.aiIntro;
+const links = Object.fromEntries(LANGS.map((l) => [l, page === 'now' ? ui[l].nowUrl : ui[l].aiUrl]));
 ---
 
 <Base
-    title={`${t.nowTitle} — Icarus Murqin`}
-    description={t.nowIntro}
+    title={`${title} — Icarus Murqin`}
+    description={intro}
     lang={lang}
     alternates={links}
-    ogImagePath={ogImageUrl(lang, 'now')}
+    ogImagePath={ogImageUrl(lang, page)}
 >
     <section class="card blog-card">
         <div class="blog-topbar">
@@ -31,12 +37,12 @@ const links = Object.fromEntries(LANGS.map((l) => [l, ui[l].nowUrl]));
             </div>
         </div>
         <header class="blog-head">
-            <h1 class="blog-heading">{t.nowTitle}</h1>
-            <p class="blog-intro">{t.nowIntro}</p>
+            <h1 class="blog-heading">{title}</h1>
+            <p class="blog-intro">{intro}</p>
         </header>
         <dl class="now-list">
             {
-                NOW.items.map((item) => (
+                items.map((item) => (
                     <div class="now-item">
                         <dt>{item.label[lang]}</dt>
                         <dd>{item.text[lang]}</dd>
@@ -44,6 +50,6 @@ const links = Object.fromEntries(LANGS.map((l) => [l, ui[l].nowUrl]));
                 ))
             }
         </dl>
-        <p class="now-updated">{t.nowUpdated} {formatPostDate(NOW.updated, lang)}</p>
+        <p class="now-updated">{t.updated} {formatPostDate(updated, lang)}</p>
     </section>
 </Base>
