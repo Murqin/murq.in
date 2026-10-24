@@ -13,6 +13,11 @@ interface Props {
     ogType?: 'website' | 'article';
     /** The visitor counter only lives on the home page. */
     showVisitorCount?: boolean;
+    /** Only blog pages come in more than one language. */
+    lang?: string;
+    /** Every language version of this page, the current one included, as hreflang -> path. */
+    alternates?: Record<string, string>;
+    rssHref?: string;
 }
 
 const {
@@ -21,15 +26,22 @@ const {
     ogTitle = title,
     ogType = 'website',
     showVisitorCount = false,
+    lang = 'en',
+    alternates = {},
+    rssHref = '/rss.xml',
 } = Astro.props;
 
 // Absolute URLs: link-preview bots reject relative og:image/og:url values.
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL('/assets/og-image-amethyst.png', Astro.site);
+// A lone hreflang tag is meaningless, so they appear only when a translation exists. English is
+// the x-default because it is the language the site and the old URLs started with.
+const hreflangs = Object.keys(alternates).length > 1 ? Object.entries(alternates) : [];
+const xDefault = alternates['en'];
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -48,7 +60,13 @@ const ogImage = new URL('/assets/og-image-amethyst.png', Astro.site);
         <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-crystal-32.png" />
         <link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-crystal-192.png" />
         <link rel="apple-touch-icon" href="/assets/apple-touch-icon-crystal.png" />
-        <link rel="alternate" type="application/rss+xml" title="murq.in blog" href="/rss.xml" />
+        {hreflangs.map(([hreflang, path]) => (
+            <link rel="alternate" hreflang={hreflang} href={new URL(path, Astro.site)} />
+        ))}
+        {hreflangs.length > 0 && xDefault && (
+            <link rel="alternate" hreflang="x-default" href={new URL(xDefault, Astro.site)} />
+        )}
+        <link rel="alternate" type="application/rss+xml" title="murq.in blog" href={rssHref} />
     </head>
     <body>
         <div id="gradient" aria-hidden="true"></div>

@@ -4,7 +4,13 @@ import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
     site: 'https://murq.in',
-    integrations: [sitemap()],
+    // Only the blog is bilingual. The sitemap pairs /blog/... with /tr/blog/... by
+    // stripping the locale prefix, and emits xhtml:link alternates for each pair.
+    integrations: [
+        sitemap({
+            i18n: { defaultLocale: 'en', locales: { en: 'en', tr: 'tr' } },
+        }),
+    ],
     // Posts are served from /blog/<slug>/ so link-preview bots and crawlers get
     // a real document per post — the old /blog?post=<slug> was a single URL
     // rendered client-side.

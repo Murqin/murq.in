@@ -25,6 +25,10 @@ npm test           # build:all, then tests/server.test.mjs against the built ser
 - Blog posts: `src/content/blog/<slug>.md` with frontmatter `title`, `date`, `summary` (schema in
   `src/content.config.ts`; a missing field fails the build). The list, `/rss.xml`, the sitemap and the
   raw `/posts/<slug>.md` are generated from these files. Do not hand-edit any of them.
+- The blog is bilingual, nothing else is. English posts keep the unprefixed URLs; a Turkish translation
+  is `src/content/blog/tr/<same slug>.md` and is served at `/tr/blog/<slug>/`, `/tr/posts/<slug>.md`,
+  listed at `/tr/blog/` and in `/tr/rss.xml`. Sharing the file name is what pairs the two for the
+  language switch, hreflang and the sitemap. `aiAssisted` (default true) shows the AI-disclosure badge.
 - Projects on the home page: `src/data/projects.ts`. Only list projects whose links resolve publicly.
 - Styles: `src/styles/style.css`, imported in `src/layouts/Base.astro`. Keep it imported, never linked
   from `public/`: Vite gives it a content-hashed `/_astro/` URL, which is what stops Cloudflare from

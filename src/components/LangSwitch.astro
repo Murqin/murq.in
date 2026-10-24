@@ -1,0 +1,37 @@
+---
+import { LANGS, type Lang } from '../lib/blog';
+import { ui } from '../lib/i18n';
+
+interface Props {
+    lang: Lang;
+    /** Path of this page in each language it exists in. */
+    links: Partial<Record<Lang, string>>;
+}
+
+const { lang, links } = Astro.props;
+const available = LANGS.filter((l) => links[l]);
+---
+
+{
+    available.length > 1 && (
+        <nav class="lang-switch" aria-label={ui[lang].switchLabel}>
+            {available.map((l) =>
+                l === lang ? (
+                    <span class="lang-switch-item" aria-current="page">
+                        {l.toUpperCase()}
+                    </span>
+                ) : (
+                    <a
+                        class="lang-switch-item"
+                        href={links[l]}
+                        data-seed-nav={links[l]}
+                        hreflang={l}
+                        lang={l}
+                    >
+                        {l.toUpperCase()}
+                    </a>
+                )
+            )}
+        </nav>
+    )
+}

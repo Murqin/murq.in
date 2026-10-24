@@ -1,0 +1,55 @@
+---
+import Base from '../layouts/Base.astro';
+import LangSwitch from './LangSwitch.astro';
+import { LANGS, blogIndexUrl, getPosts, postSlug, postUrl, rssUrl, type Lang } from '../lib/blog';
+import { formatPostDate } from '../lib/date';
+import { ui } from '../lib/i18n';
+
+interface Props {
+    lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = ui[lang];
+const posts = await getPosts(lang);
+const links = Object.fromEntries(LANGS.map((l) => [l, blogIndexUrl(l)]));
+---
+
+<Base
+    title="Blog — Icarus Murqin"
+    description={t.blogDescription}
+    lang={t.htmlLang}
+    alternates={links}
+    rssHref={rssUrl(lang)}
+>
+    <section class="card blog-card">
+        <div class="blog-topbar">
+            <a href="/" class="blog-nav-link" data-seed-nav="/">← murq.in</a>
+            <div class="blog-topbar-end">
+                <LangSwitch lang={lang} links={links} />
+                <a href={rssUrl(lang)} class="blog-nav-link">RSS</a>
+            </div>
+        </div>
+        <div class="section-title">Blog</div>
+        {
+            posts.length === 0 ? (
+                <p class="blog-empty">{t.noPosts}</p>
+            ) : (
+                posts.map((post) => {
+                    const href = postUrl(lang, postSlug(post));
+                    return (
+                        <a class="post-list-item" href={href} data-seed-nav={href}>
+                            <div class="post-list-header">
+                                <span class="post-list-title">{post.data.title}</span>
+                                <span class="post-list-date">
+                                    {formatPostDate(post.data.date, lang)}
+                                </span>
+                            </div>
+                            <p class="post-list-summary">{post.data.summary}</p>
+                        </a>
+                    );
+                })
+            )
+        }
+    </section>
+</Base>
