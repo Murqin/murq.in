@@ -33,6 +33,11 @@ function swallow(): void {
         layer.className = part;
         hole.append(layer);
     }
+    // The lensed ring needs two masks (ring shape, top-heavy fade). Nesting them instead of
+    // compositing them: Firefox read -webkit-mask-composite differently and showed a hard disc.
+    const ring = document.createElement('div');
+    ring.className = 'bh-lensed-ring';
+    hole.querySelector('.bh-lensed')?.append(ring);
     document.body.append(hole);
     const column = document.querySelector<HTMLElement>('.container');
     if (column) {
