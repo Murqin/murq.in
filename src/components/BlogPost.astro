@@ -59,6 +59,7 @@ const index = blogIndexUrl(lang);
                     data-label={t.copyMd}
                     data-label-copied={t.copied}
                     data-label-failed={t.copyFailed}
+                    data-summary-prompt={t.summaryPrompt}
                 >
                     {t.copyMd}
                 </button>
@@ -88,13 +89,14 @@ const index = blogIndexUrl(lang);
     const btn = document.querySelector<HTMLButtonElement>('.copy-md-btn');
     const url = btn?.dataset['mdUrl'];
     if (btn && url) {
-        const { label = 'copy md', labelCopied = 'copied!', labelFailed = 'failed' } = btn.dataset;
+        const { label = 'copy md', labelCopied = 'copied!', labelFailed = 'failed', summaryPrompt } = btn.dataset;
         let resetTimer: ReturnType<typeof setTimeout> | undefined;
         btn.addEventListener('click', async () => {
             try {
                 const res = await fetch(url);
                 if (!res.ok) throw new Error(`http ${res.status}`);
-                await navigator.clipboard?.writeText(await res.text());
+                const md = await res.text();
+                await navigator.clipboard?.writeText(summaryPrompt ? `${summaryPrompt}\n\n---\n\n${md}` : md);
                 btn.textContent = labelCopied;
             } catch (err) {
                 console.warn('Markdown could not be copied:', err);

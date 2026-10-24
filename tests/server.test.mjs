@@ -161,6 +161,9 @@ test('each language version of a post links to the other, and English stays the 
     assert.ok(html.includes(`hreflang="x-default" href="https://murq.in/blog/${post}/"`), 'x-default');
     assert.match(html, /class="ai-badge"/);
   }
+  // The copy button carries a summarising prompt in the page's own language.
+  assert.match(en, /data-summary-prompt="Below is a blog post/);
+  assert.match(tr, /data-summary-prompt="Aşağıda murq\.in/);
   assert.ok(en.includes(`href="/tr/blog/${post}/"`), 'EN post links to its Turkish version');
   assert.ok(tr.includes(`href="/blog/${post}/"`), 'TR post links to its English version');
   // Separate feeds: the English one must not pick up Turkish posts.
