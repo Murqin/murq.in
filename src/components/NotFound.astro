@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import { blogIndexUrl, type Lang } from '../lib/blog';
 import { ui } from '../lib/i18n';
+import { ogImageUrl } from '../lib/ogPath';
 
 interface Props {
     lang: Lang;
@@ -12,13 +13,14 @@ const t = ui[lang];
 const blog = blogIndexUrl(lang);
 ---
 
-<Base title={t.notFoundTitle} description={t.notFoundText} lang={lang}>
-    <section class="card blog-card">
-        <div class="blog-topbar">
-            <a href={t.homeUrl} class="blog-nav-link" data-seed-nav={t.homeUrl}>← murq.in</a>
-            <a href={blog} class="blog-nav-link" data-seed-nav={blog}>blog</a>
-        </div>
-        <div class="section-title">404</div>
-        <p class="blog-empty">{t.notFoundText}</p>
+<Base title={t.notFoundTitle} description={t.notFoundText} lang={lang} ogImagePath={ogImageUrl(lang, '404')}>
+    <section class="snap-page">
+        <a href={t.homeUrl} class="blog-nav-link page-back bracket" data-seed-nav={t.homeUrl}>murq.in</a>
+        <h1 class="snap-title">404</h1>
+        <p class="snap-text">{t.notFoundText}</p>
+        <ul class="snap-other">
+            <li><a href={t.homeUrl} data-seed-nav={t.homeUrl}>murq.in</a></li>
+            <li><a href={blog} data-seed-nav={blog}>{t.blogTitle}</a></li>
+        </ul>
     </section>
 </Base>

@@ -22,12 +22,13 @@
 
 - **🌀 Seeded PRNG System:** A custom `mulberry32` implementation resolves a unique theme from a 12-character hexadecimal path (`6-char gradient + 6-char starfield`), so `/1a2b3c4d5e6f` always renders the same sky.
 - **🌌 Dynamic Starfield Twinkling:** Twinkling stardust laid out strictly from the active seed, with mouse parallax and the occasional shooting star.
-- **🔮 Glassmorphic UI Aesthetics:** CSS-animated container grid built on transparency, backdrop filters, and Akane-inspired colour variables (`#8B7EFF`).
+- **🧭 Full-screen home:** The home page scrolls in snapping sections (`#about-me`, `#blog`, `#projects`, `#other-pages`), each with its own address. No cards: text sits on the sky, with square corners and an ice-cyan accent.
+- **🌗 Light and dark:** The same seed draws a night sky or a day sky; the theme follows the system until the button picks one, and is set before the first paint.
 - **🌍 English & Turkish:** Every page exists in both languages; English keeps the root URLs, Turkish lives under `/tr/`, with a language switch, `hreflang` links and a feed per language.
 - **📝 Real pages per post:** Every post is a pre-rendered document at `/blog/<slug>/` with a reading time, an AI-disclosure badge and, on long posts, a contents list. "copy md" puts the post on the clipboard with a summarising prompt in front of it.
 - **🖼️ Generated link previews:** Each page and post gets its own Open Graph image, drawn at build time with [Satori](https://github.com/vercel/satori) and sharp.
-- **🗓️ /now page:** What I am up to these days, kept in one data file for both languages.
-- **🌠 Easter eggs:** Some seeds draw a real constellation into the sky. Mash the dice button and a ray-traced WebGL black hole swallows the page, or once in a while it teleports out like an old CRT.
+- **🗓️ Slash pages:** `/now` (what I am up to), `/ai` (how AI is used here) and `/colophon` (how the site is made, licences), each kept in one data file for both languages; `/projects` lists every project, the home page only the pinned ones.
+- **🌠 Easter eggs:** Some seeds draw a real constellation into the sky. Mash the dice button and a ray-traced WebGL black hole swallows the page (in the light theme, a total solar eclipse turns the day to night), or once in a while it teleports out like an old CRT.
 - **👁️ Visitor Counter:** Served by the site's own Node process; the count lives in a JSON file on a mounted volume.
 
 ---
@@ -39,7 +40,7 @@
 - **Frontend:** CSS3 Custom Properties, TypeScript compiled to a single module
 - **Server:** ~400 lines of Node, zero runtime dependencies
 - **Graphics:** link previews with Satori + sharp at build time; the black hole is a raw WebGL1 fragment shader
-- **Typography:** [JetBrains Mono](https://www.jetbrains.com/lp/mono/) & [Inter](https://rsms.me/inter/)
+- **Typography:** [IBM Plex Sans & IBM Plex Mono](https://github.com/IBM/plex)
 - **Infrastructure:** Self-hosted behind [Cosmos Cloud](https://cosmos-cloud.io); image built by GitHub Actions and published to GHCR
 
 ---
@@ -52,14 +53,14 @@ murq.in/
 │   ├── content/blog/       # English posts (markdown + frontmatter)
 │   ├── content/blog/tr/    # Turkish posts, paired with the English one by file name
 │   ├── content.config.ts   # Zod schema: a post missing a field fails the build
-│   ├── data/               # projects.ts, now.ts (both bilingual), constellations.ts
-│   ├── layouts/Base.astro  # The one <head>, background layers and footer
-│   ├── components/         # Home, BlogIndex, BlogPost, Now, NotFound, Projects, Footer, ...
+│   ├── data/               # projects.ts, now.ts, ai.ts, colophon.ts (all bilingual), constellations.ts
+│   ├── layouts/Base.astro  # The one <head> (theme picked before paint) and the background layers
+│   ├── components/         # Home, BlogIndex, BlogPost, ListPage (/now /ai /colophon), ProjectsPage, Controls, ...
 │   ├── lib/                # i18n strings, blog URLs, dates, Open Graph image renderer
-│   ├── scripts/            # theme.ts (seed engine, stars), constellation, black hole + WebGL shader
+│   ├── scripts/            # theme.ts (seed engine, stars, light/dark), snap.ts, constellation, black hole + WebGL shader, eclipse
 │   ├── styles/style.css    # Bundled by Vite into a content-hashed /_astro/ file
 │   └── pages/
-│       ├── index.astro, now.astro, 404.astro
+│       ├── index.astro, now.astro, ai.astro, colophon.astro, projects.astro, 404.astro
 │       ├── rss.xml.ts          # Feed, generated from the collection
 │       ├── posts/[slug].md.ts  # Raw markdown at /posts/<slug>.md
 │       ├── blog/               # Post list and one page per post
@@ -120,7 +121,8 @@ npm test             # build:all, then the test suites
 ```
 
 In `npm run dev`, `?bh=teleport` or `?bh=nogl` forces the teleport instead of the
-black hole for the next dice mash (the switch is compiled out of production).
+black hole for the next dice mash, and `?bh=eclipse` the light theme's eclipse (the
+switch is compiled out of production).
 
 ### Server configuration
 
@@ -140,6 +142,7 @@ rather than silently losing the count on every restart.
 ## 📄 Licensing
 
 - **Codebase:** Distributed under the terms of the MIT License — see [LICENSE](./LICENSE).
+- **Blog posts:** The posts in `src/content/blog/` are dedicated to the public domain under [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/).
 - **Media & Fonts:** Third-party notices and asset licensing are detailed in [LICENSES.md](./LICENSES.md).
 
 ---

@@ -24,17 +24,34 @@ export function showConstellation(rand: () => number, force: boolean, animate: b
     clearConstellation();
     const vw = window.innerWidth;
     const vh = window.innerHeight;
-    // In a gutter beside the 680px column, shrunk to fit it; the cards blur whatever is behind
-    // them, so a full-size figure there was mostly lost. Without a usable gutter (phones) it sits
-    // behind the cards anyway and shows through the gaps between them.
-    const gutter = (vw - 680) / 2;
+    // In a gutter beside the text column, measured from the page itself (the home sections, the
+    // post layout), shrunk to fit it. Text now sits straight on the sky with no card to blur what is
+    // behind it, so a figure drawn across the text tangled with the letters. Without a usable gutter
+    // (phones) it becomes a faint watermark behind the text instead (the .faint class).
+    // The column is measured from the blocks that hold text, not their padded containers. Children,
+    // because on phones the post's two columns are display: contents and measure as zero.
+    let contentLeft = vw;
+    let contentRight = 0;
+    for (const el of document.querySelectorAll('.snap-page > *, .post-aside > *, .post-content > *')) {
+        const box = el.getBoundingClientRect();
+        if (box.width === 0) continue;
+        contentLeft = Math.min(contentLeft, box.left);
+        contentRight = Math.max(contentRight, box.right);
+    }
+    // Nothing measured means no known column: treat it as no room rather than all room.
+    const measured = contentRight > contentLeft;
+    const freeLeft = measured ? contentLeft : 0;
+    const freeRight = measured ? vw - contentRight : 0;
+    // The seed still picks the side, among the sides wide enough to hold a figure.
+    const useRight = freeRight >= 150 && (freeLeft < 150 || side >= 0.5);
+    const gutter = useRight ? freeRight : freeLeft;
     const inGutter = gutter >= 150;
-    const size = inGutter ? Math.min(300, gutter - 30) : Math.min(240, vw * 0.6);
+    const size = inGutter ? Math.min(300, gutter - 30) : Math.min(300, vw * 0.8);
     const left = inGutter
-        ? side < 0.5
-            ? (gutter - size) / 2
-            : vw - gutter + (gutter - size) / 2
-        : 16 + side * Math.max(0, vw - size - 32);
+        ? useRight
+            ? contentRight + (gutter - size) / 2
+            : (gutter - size) / 2
+        : (vw - size) / 2 + (side - 0.5) * Math.max(0, vw - size - 32);
     const top = vh * (0.08 + drift * 0.4);
 
     const svg = document.createElementNS(SVG_NS, 'svg');
@@ -70,6 +87,7 @@ export function showConstellation(rand: () => number, force: boolean, animate: b
 
     layer = document.createElement('div');
     layer.className = animate ? 'constellation drawing' : 'constellation';
+    if (!inGutter) layer.classList.add('faint');
     layer.setAttribute('aria-hidden', 'true');
     layer.style.left = `${left}px`;
     layer.style.top = `${top}px`;

@@ -6,21 +6,14 @@ This file contains notices and licensing information for third-party assets used
 
 ## Assets
 
-### 1. Crystal icon (favicon-crystal-*.png, apple-touch-icon-crystal.png)
+### 1. Eclipse icon (favicon-eclipse-*.png, apple-touch-icon-eclipse.png)
 
-- **File Path**: `assets/favicon-crystal-32.png`, `assets/favicon-crystal-192.png`, `assets/apple-touch-icon-crystal.png`
-- **Source**: Generated with ChatGPT image generation from the owner's own description; resized for icon use
+- **File Path**: `assets/favicon-eclipse-32.png`, `assets/favicon-eclipse-192.png`, `assets/apple-touch-icon-eclipse.png`
+- **Source**: Generated with ChatGPT image generation from the owner's own description, with a screenshot
+  of the site's eclipse as reference; trimmed and resized for icon use
 - **Disclaimer**: Not covered by this repository's MIT License.
 
-### 2. avatar-amethyst.webp
-
-- **File Path**: `assets/avatar-amethyst.webp`
-- **Character**: Original character by Icarus Murqin (an amethyst stained-glass artisan)
-- **Source**: Generated with ChatGPT image generation from the owner's own character description
-- **Usage**: Personal avatar for non-commercial website
-- **Disclaimer**: Not covered by this repository's MIT License.
-
-### 2a. avatar-netrunner.webp
+### 2. avatar-netrunner.webp
 
 - **File Path**: `assets/avatar-netrunner.webp`
 - **Source**: Generated with ChatGPT image generation, steered by reference images the owner supplied
@@ -32,21 +25,22 @@ This file contains notices and licensing information for third-party assets used
 
 ## Fonts
 
-### 3. Inter
+### 3. IBM Plex Sans
 
-- **File Path**: `assets/fonts/inter-*.woff2`
-- **Author**: Rasmus Andersson
-- **Source**: [rsms.me/inter](https://rsms.me/inter/) — files obtained via [Fontsource](https://fontsource.org/)
+- **File Path**: `assets/fonts/ibm-plex-sans-*.woff2`
+- **Author**: IBM Corp.
+- **Source**: [github.com/IBM/plex](https://github.com/IBM/plex) — files obtained via [Fontsource](https://fontsource.org/)
 - **License**: [SIL Open Font License 1.1](https://openfontlicense.org/)
 
-### 4. JetBrains Mono
+### 4. IBM Plex Mono
 
-- **File Path**: `assets/fonts/jetbrains-mono-*.woff2`
-- **Author**: JetBrains
-- **Source**: [jetbrains.com/lp/mono](https://www.jetbrains.com/lp/mono/) — files obtained via [Fontsource](https://fontsource.org/)
+- **File Path**: `assets/fonts/ibm-plex-mono-*.woff2`
+- **Author**: IBM Corp.
+- **Source**: [github.com/IBM/plex](https://github.com/IBM/plex) — files obtained via [Fontsource](https://fontsource.org/)
 - **License**: [SIL Open Font License 1.1](https://openfontlicense.org/)
-The same two fonts are also embedded, as WOFF files from the `@fontsource/inter` and
-`@fontsource/jetbrains-mono` packages, in the link preview images generated at build time (`og/**.png`).
+
+The same two fonts are also embedded, as WOFF files from the `@fontsource/ibm-plex-sans` and
+`@fontsource/ibm-plex-mono` packages, in the link preview images generated at build time (`og/**.png`).
 
 ---
 

@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import LangSwitch from './LangSwitch.astro';
+import Controls from './Controls.astro';
 import RssLink from './RssLink.astro';
 import { LANGS, blogIndexUrl, getPosts, postSlug, postUrl, rssUrl, type Lang } from '../lib/blog';
 import { formatPostDate } from '../lib/date';
@@ -25,32 +25,32 @@ const links = Object.fromEntries(LANGS.map((l) => [l, blogIndexUrl(l)]));
     alternates={links}
     rssHref={rssUrl(lang)}
 >
-    <section class="card blog-card">
-        <div class="blog-topbar">
-            <a href={t.homeUrl} class="blog-nav-link" data-seed-nav={t.homeUrl}>← murq.in</a>
-            <div class="blog-topbar-end">
-                <LangSwitch lang={lang} links={links} />
-                <RssLink lang={lang} />
-            </div>
+    <Controls lang={lang} links={links} />
+    <section class="snap-page">
+        <a href={t.homeUrl} class="blog-nav-link page-back bracket" data-seed-nav={t.homeUrl}>murq.in</a>
+        <div class="page-head">
+            <h1 class="snap-title">{t.blogHomeTitle}</h1>
+            <RssLink lang={lang} />
         </div>
-        <header class="blog-head">
-            <h1 class="blog-heading">Blog</h1>
-            <p class="blog-intro">{t.blogDescription}</p>
-        </header>
+        <p class="snap-text">{t.blogDescription}</p>
         {
             posts.length === 0 ? (
                 <p class="blog-empty">{t.noPosts}</p>
             ) : (
-                posts.map((post) => {
-                    const href = postUrl(lang, postSlug(post));
-                    return (
-                        <a class="post-list-item" href={href} data-seed-nav={href}>
-                            <span class="post-list-title">{post.data.title}</span>
-                            <span class="post-list-date">{formatPostDate(post.data.date, lang)}</span>
-                            <p class="post-list-summary">{post.data.summary}</p>
-                        </a>
-                    );
-                })
+                <ul class="page-posts">
+                    {posts.map((post) => {
+                        const href = postUrl(lang, postSlug(post));
+                        return (
+                            <li>
+                                <a href={href} data-seed-nav={href}>
+                                    <span class="snap-post-date">{formatPostDate(post.data.date, lang)}</span>
+                                    <span class="page-post-title">{post.data.title}</span>
+                                    <span class="page-post-summary">{post.data.summary}</span>
+                                </a>
+                            </li>
+                        );
+                    })}
+                </ul>
             )
         }
     </section>

@@ -142,7 +142,7 @@ test('core routes still answer', async () => {
   for (const [p, code] of [['/', 200], ['/blog/', 200], [`/blog/${post}/`, 200], ['/rss.xml', 200], ['/sitemap-index.xml', 200],
     ['/1a2b3c4d5e6f', 200], ['/nope', 404], [`/blog?post=${post}`, 301], [`/posts/${post}.md`, 200],
     ['/tr/blog/', 200], ['/tr/blog', 200], [`/tr/blog/${post}/`, 200], [`/tr/posts/${post}.md`, 200], ['/tr/rss.xml', 200], ['/tr/', 200], ['/now/', 200], ['/tr/now/', 200],
-    ['/ai/', 200], ['/tr/ai/', 200]]) {
+    ['/ai/', 200], ['/tr/ai/', 200], ['/projects/', 200], ['/tr/projects/', 200], ['/colophon/', 200], ['/tr/colophon/', 200]]) {
     const r = await fetch(s.url(p), { redirect: 'manual' });
     assert.equal(r.status, code, p);
   }
@@ -186,11 +186,39 @@ test('the home page exists in both languages and each links to its own blog', ()
     assert.ok(html.includes('hreflang="en" href="https://murq.in/"'), 'hreflang en');
     assert.ok(html.includes('hreflang="tr" href="https://murq.in/tr/"'), 'hreflang tr');
   }
-  assert.ok(en.includes('href="/blog/" class="source-link"'), 'EN home links to the English blog');
-  assert.ok(tr.includes('href="/tr/blog/" class="source-link"'), 'TR home links to the Turkish blog');
+  assert.match(en, /href="\/blog\/" class="source-link[ "]/, 'EN home links to the English blog');
+  assert.match(tr, /href="\/tr\/blog\/" class="source-link[ "]/, 'TR home links to the Turkish blog');
   assert.match(tr, /Projelerim/);
+  // Snapping home: each section has an id for its address, and the page ends on the hit counter
+  // instead of a footer strip.
+  assert.match(en, /class="snap-page" id="about-me"/);
+  assert.doesNotMatch(en, /<footer/);
+  assert.match(tr, /id="other-pages"[\s\S]*id="visitor-count"/);
+  const count = (re, html = en) => (html.match(re) ?? []).length;
+  // The home page lists only pinned projects, and links the full list (in its own language) only
+  // when that list has more to show.
+  const all = count(/class="project-item"/g, readFileSync('dist/tr/projects/index.html', 'utf8'));
+  assert.equal(/href="\/tr\/projects\/" class="source-link[ "]/.test(tr), all > count(/class="project-item"/g, tr));
+  assert.ok(count(/class="project-item"/g) >= 1 && count(/class="project-item"/g) <= 3, 'one to three projects on the home page');
+  assert.ok(count(/class="snap-post-date"/g) >= 1 && count(/class="snap-post-date"/g) <= 6, 'one to six posts on the home page');
+  assert.doesNotMatch(readFileSync('dist/tr/blog/index.html', 'utf8'), /<footer/);
   // The Turkish blog leads back to the Turkish home, not the English one.
-  assert.ok(readFileSync('dist/tr/blog/index.html', 'utf8').includes('href="/tr/" class="blog-nav-link"'));
+  assert.match(readFileSync('dist/tr/blog/index.html', 'utf8'), /href="\/tr\/" class="blog-nav-link[ "]/);
+});
+
+test('every page picks its light or dark theme in the head, before any stylesheet loads', () => {
+  for (const page of ['dist/index.html', 'dist/tr/blog/index.html', 'dist/blog/opus-cheats-and-sketches/index.html', 'dist/404.html']) {
+    const html = readFileSync(page, 'utf8');
+    const script = html.indexOf("localStorage.getItem('theme')");
+    const css = html.indexOf('rel="stylesheet"');
+    assert.ok(script > 0 && script < html.indexOf('</head>'), `${page}: theme script in head`);
+    assert.ok(css === -1 || script < css, `${page}: theme set before the stylesheet`);
+  }
+  assert.match(readFileSync('dist/index.html', 'utf8'), /class="theme-btn"/);
+  // Every icon the head links to is in the build.
+  for (const [, href] of readFileSync('dist/index.html', 'utf8').matchAll(/rel="(?:icon|apple-touch-icon)"[^>]*href="([^"]+)"/g)) {
+    assert.ok(existsSync(`dist${href}`), href);
+  }
 });
 
 test('a miss under /tr/ gets the Turkish 404 page, any other miss the English one', async () => {
@@ -213,6 +241,14 @@ test('long posts get a contents list and every post a reading time', () => {
   assert.match(html, /href="#from-fable-5-to-opus-55"/);
   assert.match(html, /\d+ min read/);
   assert.match(readFileSync('dist/tr/blog/opus-cheats-and-sketches/index.html', 'utf8'), /\d+ dk okuma/);
+  // Posts are CC0, the rest of the site is not: the notice is on each post and on the colophon,
+  // which carries the site's licences.
+  assert.match(html, /publicdomain\/zero\/1\.0\//);
+  assert.doesNotMatch(readFileSync('dist/index.html', 'utf8'), /publicdomain\/zero/);
+  const colophon = readFileSync('dist/tr/colophon/index.html', 'utf8');
+  for (const needle of ['publicdomain/zero/1.0/', 'blob/main/LICENSE"', 'LICENSES.md', 'github.com/murqin/murq.in"']) {
+    assert.ok(colophon.includes(needle), `colophon links ${needle}`);
+  }
 });
 
 test('the AI badge on a post links to the /ai page in the post language', () => {
@@ -227,6 +263,8 @@ test('every page points og:image at a preview generated for it, in its own langu
     ['/tr/index.html', '/og/tr/home.png'],
     ['/tr/now/index.html', '/og/tr/now.png'],
     ['/ai/index.html', '/og/en/ai.png'],
+    ['/tr/projects/index.html', '/og/tr/projects.png'],
+    ['/404.html', '/og/en/404.png'],
     ['/blog/opus-cheats-and-sketches/index.html', '/og/en/blog/opus-cheats-and-sketches.png'],
     ['/tr/blog/opus-cheats-and-sketches/index.html', '/og/tr/blog/opus-cheats-and-sketches.png'],
   ]) {

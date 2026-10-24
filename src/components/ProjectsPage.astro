@@ -1,0 +1,31 @@
+---
+import Base from '../layouts/Base.astro';
+import Controls from './Controls.astro';
+import Projects from './Projects.astro';
+import { LANGS, type Lang } from '../lib/blog';
+import { ui } from '../lib/i18n';
+import { ogImageUrl } from '../lib/ogPath';
+
+interface Props {
+    lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = ui[lang];
+const links = Object.fromEntries(LANGS.map((l) => [l, ui[l].projectsUrl]));
+---
+
+<Base
+    title={`${t.projectsTitle} — Icarus Murqin`}
+    description={t.projectsIntro}
+    lang={lang}
+    ogImagePath={ogImageUrl(lang, 'projects')}
+    alternates={links}
+>
+    <Controls lang={lang} links={links} />
+    <section class="snap-page">
+        <a href={t.homeUrl} class="blog-nav-link page-back bracket" data-seed-nav={t.homeUrl}>murq.in</a>
+        <h1 class="snap-title">{t.projectsTitle}</h1>
+        <Projects lang={lang} />
+    </section>
+</Base>

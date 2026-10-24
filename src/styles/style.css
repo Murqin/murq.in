@@ -1,66 +1,66 @@
-/* --- Self-hosted Fonts (Inter & JetBrains Mono, SIL OFL 1.1) --- */
+/* --- Self-hosted Fonts (IBM Plex Sans & IBM Plex Mono, SIL OFL 1.1) --- */
 @font-face {
-    font-family: "Inter";
+    font-family: "IBM Plex Sans";
     font-style: normal;
-    font-weight: 300;
+    font-weight: 400;
     font-display: swap;
-    src: url("/assets/fonts/inter-latin-300.woff2") format("woff2");
+    src: url("/assets/fonts/ibm-plex-sans-latin-400.woff2") format("woff2");
     unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2212, U+FEFF, U+FFFD;
 }
 @font-face {
-    font-family: "Inter";
+    font-family: "IBM Plex Sans";
     font-style: normal;
-    font-weight: 300;
+    font-weight: 400;
     font-display: swap;
-    src: url("/assets/fonts/inter-latin-ext-300.woff2") format("woff2");
+    src: url("/assets/fonts/ibm-plex-sans-latin-ext-400.woff2") format("woff2");
     unicode-range: U+0100-02AF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 @font-face {
-    font-family: "Inter";
-    font-style: normal;
-    font-weight: 400;
-    font-display: swap;
-    src: url("/assets/fonts/inter-latin-400.woff2") format("woff2");
-    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2212, U+FEFF, U+FFFD;
-}
-@font-face {
-    font-family: "Inter";
-    font-style: normal;
-    font-weight: 400;
-    font-display: swap;
-    src: url("/assets/fonts/inter-latin-ext-400.woff2") format("woff2");
-    unicode-range: U+0100-02AF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-@font-face {
-    font-family: "JetBrains Mono";
-    font-style: normal;
-    font-weight: 400;
-    font-display: swap;
-    src: url("/assets/fonts/jetbrains-mono-latin-400.woff2") format("woff2");
-    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2212, U+FEFF, U+FFFD;
-}
-@font-face {
-    font-family: "JetBrains Mono";
-    font-style: normal;
-    font-weight: 400;
-    font-display: swap;
-    src: url("/assets/fonts/jetbrains-mono-latin-ext-400.woff2") format("woff2");
-    unicode-range: U+0100-02AF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-@font-face {
-    font-family: "JetBrains Mono";
+    font-family: "IBM Plex Sans";
     font-style: normal;
     font-weight: 600;
     font-display: swap;
-    src: url("/assets/fonts/jetbrains-mono-latin-600.woff2") format("woff2");
+    src: url("/assets/fonts/ibm-plex-sans-latin-600.woff2") format("woff2");
     unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2212, U+FEFF, U+FFFD;
 }
 @font-face {
-    font-family: "JetBrains Mono";
+    font-family: "IBM Plex Sans";
     font-style: normal;
     font-weight: 600;
     font-display: swap;
-    src: url("/assets/fonts/jetbrains-mono-latin-ext-600.woff2") format("woff2");
+    src: url("/assets/fonts/ibm-plex-sans-latin-ext-600.woff2") format("woff2");
+    unicode-range: U+0100-02AF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+    font-family: "IBM Plex Mono";
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url("/assets/fonts/ibm-plex-mono-latin-400.woff2") format("woff2");
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2212, U+FEFF, U+FFFD;
+}
+@font-face {
+    font-family: "IBM Plex Mono";
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url("/assets/fonts/ibm-plex-mono-latin-ext-400.woff2") format("woff2");
+    unicode-range: U+0100-02AF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+    font-family: "IBM Plex Mono";
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+    src: url("/assets/fonts/ibm-plex-mono-latin-600.woff2") format("woff2");
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2212, U+FEFF, U+FFFD;
+}
+@font-face {
+    font-family: "IBM Plex Mono";
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+    src: url("/assets/fonts/ibm-plex-mono-latin-ext-600.woff2") format("woff2");
     unicode-range: U+0100-02AF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 
@@ -73,12 +73,34 @@
 :root {
     --bg: #0b0e1a;
     --card: rgba(16, 20, 39, 0.55);
-    --text: #e8e9f3;
-    --text-dim: #a4a9d6;
-    --text-body: #d3d5ea;
-    --accent: #8b7eff;
-    --accent-2: #5a7fff;
-    --border: rgba(139, 126, 255, 0.12);
+    --text: #e8ecf1;
+    --text-dim: #9aa5b4;
+    --text-body: #d3d9e1;
+    /* Ice cyan from the avatar's hair: it belongs to the cold sky, and stays clear of the yellow
+       project-status colours. Neutral greys replace the old violet-tinted text and borders. */
+    --accent: #67e8f9;
+    --accent-2: #a5f3fc;
+    --border: rgba(255, 255, 255, 0.12);
+    /* Text on a hovered accent tint, the sky's points of light, and the darker panels (code,
+       tooltips). Each has a light-theme counterpart below. */
+    --text-strong: #fff;
+    --star: #fff;
+    --star-glow: rgba(255, 255, 255, 0.6);
+    --panel: #101427;
+    --code-bg: rgba(10, 13, 26, 0.7);
+    --status-active: #7ddba3;
+    --status-wip: #e5c07b;
+    --status-archived: #d29922;
+    color-scheme: dark;
+    /* Near-square corners everywhere: the soft rounded look is what every product UI already uses. */
+    --radius: 2px;
+
+    /* Typefaces by role. One engineering family in two cuts (picked 2026-10-25 over a serif and a
+       mono-led trial): Plex Sans for reading and titles, Plex Mono for labels, dates and controls. */
+    --font-body: "IBM Plex Sans", sans-serif;
+    --font-mono: "IBM Plex Mono", monospace;
+    --font-head: "IBM Plex Sans", sans-serif;
+    --font-display: "IBM Plex Sans", sans-serif;
 
     /* Easing curves — every animation/transition uses these */
     --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
@@ -93,11 +115,34 @@
     --text-xl: 26px;
 }
 
+/* Light theme: a pale day sky over sand-toned paper, like an old star atlas. A shade darker than
+   white on purpose: coming from the night theme, near-white flashed (picked 2026-10-25). Same seed, same layout; the stars become faint
+   graphite marks and the constellations ink lines. Set on <html> before first paint (Base.astro). */
+:root[data-theme="light"] {
+    --bg: #e6e1d5;
+    --text: #1f2328;
+    --text-dim: #5a6068;
+    --text-body: #2b3037;
+    --accent: #0e7490;
+    --accent-2: #155e75;
+    --border: rgba(31, 35, 40, 0.18);
+    --text-strong: #0b0e12;
+    --star: #3a4048;
+    --star-glow: transparent;
+    --panel: #ffffff;
+    --code-bg: rgba(32, 37, 43, 0.05);
+    /* GitHub's light-theme status colours: the dark-theme ones wash out on paper. */
+    --status-active: #1a7f37;
+    --status-wip: #8a6a00;
+    --status-archived: #9a6700;
+    color-scheme: light;
+}
+
 body {
     background: var(--bg);
     color: var(--text);
-    font-family: "Inter", sans-serif;
-    font-weight: 300;
+    font-family: var(--font-body);
+    font-weight: 400;
     line-height: 1.6;
     min-height: 100vh;
     display: flex;
@@ -136,9 +181,9 @@ body {
 
 .star {
     position: absolute;
-    background: #fff;
+    background: var(--star);
     border-radius: 50%;
-    box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+    box-shadow: 0 0 8px var(--star-glow);
     /* Promote to GPU compositor layer for hardware-accelerated transform & opacity twinkling */
     will-change: transform, opacity;
     backface-visibility: hidden;
@@ -163,12 +208,12 @@ body {
 }
 
 .constellation-star {
-    fill: #fff;
-    filter: drop-shadow(0 0 0.01px #fff);
+    fill: var(--star);
+    filter: drop-shadow(0 0 0.01px var(--star));
 }
 
 .constellation-name {
-    font-family: "JetBrains Mono", monospace;
+    font-family: var(--font-mono);
     font-size: var(--text-2xs);
     letter-spacing: 0.14em;
     text-transform: uppercase;
@@ -331,7 +376,7 @@ body {
 }
 ::-webkit-scrollbar-thumb {
     background: var(--border);
-    border-radius: 3px;
+    border-radius: var(--radius);
 }
 ::-webkit-scrollbar-thumb:hover {
     background: var(--accent);
@@ -345,42 +390,7 @@ body {
     gap: 20px;
 }
 
-.card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 24px;
-    padding: 32px;
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
-    animation: fadeIn 0.7s var(--ease-out-expo) backwards;
-    animation-delay: var(--enter-delay, 0ms);
-    transition:
-        transform 0.4s var(--ease-out-expo),
-        border-color 0.4s ease,
-        box-shadow 0.4s ease;
-    text-align: center;
-    /* Hardware acceleration to prevent layer redraws on scroll */
-    transform: translateZ(0);
-    backface-visibility: hidden;
-}
-
-.card:hover {
-    transform: translateY(-4px);
-    border-color: rgba(139, 126, 255, 0.35);
-    box-shadow: 0 12px 40px rgba(139, 126, 255, 0.12);
-}
-
-.hero {
-    position: relative;
-}
-
 /* Top-left, mirroring the dice and seed buttons on the right. */
-.hero-lang {
-    position: absolute;
-    top: 22px;
-    left: 22px;
-}
 
 .seed-star {
     appearance: none;
@@ -414,12 +424,12 @@ body {
     position: absolute;
     top: calc(100% + 8px);
     right: 0;
-    font-family: "JetBrains Mono", monospace;
+    font-family: var(--font-mono);
     font-size: 11px;
     color: var(--text-dim);
-    background: #101427;
+    background: var(--panel);
     border: 1px solid var(--border);
-    border-radius: 6px;
+    border-radius: var(--radius);
     padding: 6px 12px;
     white-space: nowrap;
     opacity: 0;
@@ -461,13 +471,12 @@ body {
     border-radius: 50%;
     margin: 0 auto 20px auto;
     display: block;
-    box-shadow: 0 0 30px rgba(139, 126, 255, 0.15);
     border: 2px solid var(--border);
     /* The avatar has a transparent background: a glass fill lets the seed-driven
        gradient show through, so the circle matches whatever theme the seed draws.
        Tinted with the accent, not white: a white tint turned the circle grey
        against the violet card and border. */
-    background: rgba(139, 126, 255, 0.06);
+    background: color-mix(in srgb, var(--accent) 6%, transparent);
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
     object-fit: cover;
@@ -476,13 +485,8 @@ body {
         border-color 0.3s ease;
 }
 
-.hero:hover .avatar {
-    transform: scale(1.04);
-    border-color: var(--accent);
-}
-
 h1 {
-    font-family: "JetBrains Mono", monospace;
+    font-family: var(--font-display);
     font-weight: 600;
     font-size: var(--text-xl);
     letter-spacing: -0.02em;
@@ -493,59 +497,22 @@ h1 {
 
 .tagline {
     color: var(--text-dim);
-    font-family: "JetBrains Mono", monospace;
+    font-family: var(--font-mono);
     font-size: var(--text-sm);
     margin-bottom: 28px;
     text-wrap: balance;
-}
-
-.section-title {
-    font-family: "JetBrains Mono", monospace;
-    font-size: 12px;
-    color: var(--accent);
-    letter-spacing: 0.14em;
-    margin-bottom: 16px;
-    text-transform: uppercase;
-    font-weight: 600;
-}
-
-.socials {
-    display: flex;
-    gap: 12px;
-    justify-content: center;
-    flex-wrap: wrap;
-}
-
-.social-icon {
-    color: var(--text-dim);
-    background: rgba(139, 126, 255, 0.03);
-    border: 1px solid var(--border);
-    padding: 10px 20px;
-    border-radius: 14px;
-    text-decoration: none;
-    font-family: "JetBrains Mono", monospace;
-    font-size: var(--text-xs);
-    transition: all 0.3s var(--ease-out-expo);
-}
-
-.social-icon:hover {
-    color: #fff;
-    background: rgba(139, 126, 255, 0.12);
-    border-color: var(--accent);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(139, 126, 255, 0.15);
 }
 
 .mail-btn {
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    background: rgba(139, 126, 255, 0.03);
+    background: color-mix(in srgb, var(--accent) 3%, transparent);
     border: 1px solid var(--border);
     color: var(--text);
     padding: 14px 24px;
-    border-radius: 14px;
-    font-family: "JetBrains Mono", monospace;
+    border-radius: var(--radius);
+    font-family: var(--font-mono);
     font-size: var(--text-sm);
     cursor: pointer;
     transition: all 0.3s var(--ease-out-expo);
@@ -557,72 +524,23 @@ h1 {
 
 .mail-btn:hover {
     border-color: var(--accent);
-    background: rgba(139, 126, 255, 0.08);
-    color: #fff;
-    box-shadow: 0 4px 15px rgba(139, 126, 255, 0.1);
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+    color: var(--text-strong);
+    box-shadow: 0 4px 15px color-mix(in srgb, var(--accent) 10%, transparent);
 }
 
-.source-link,
-.source-licenses-link {
+.source-link {
     display: inline-block;
     margin: 12px 8px 0 8px;
     color: var(--accent);
     text-decoration: none;
-    font-family: "JetBrains Mono", monospace;
+    font-family: var(--font-mono);
     font-size: var(--text-xs);
     transition: color 0.2s ease;
 }
 
-.source-link:hover,
-.source-licenses-link:hover {
+.source-link:hover {
     color: var(--accent-2);
-}
-
-footer {
-    margin-top: 24px;
-    font-family: "JetBrains Mono", monospace;
-    font-size: var(--text-2xs);
-    color: var(--text-dim);
-    text-align: center;
-    opacity: 0.6;
-    transition: opacity 0.3s ease;
-    padding-bottom: 20px;
-}
-
-footer:hover {
-    opacity: 1;
-}
-
-.footer-box {
-    display: inline-block;
-    padding: 8px 20px;
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    background: var(--card);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    transition:
-        border-color 0.3s ease,
-        box-shadow 0.3s ease;
-}
-
-footer:hover .footer-box {
-    border-color: rgba(139, 126, 255, 0.25);
-    box-shadow: 0 4px 12px rgba(139, 126, 255, 0.05);
-    color: var(--text);
-}
-
-.footer-content {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-
-.footer-separator {
-    color: var(--border);
-    user-select: none;
 }
 
 .visitor-counter {
@@ -630,11 +548,6 @@ footer:hover .footer-box {
     align-items: center;
     gap: 6px;
     color: var(--accent);
-}
-
-.eye-icon {
-    vertical-align: middle;
-    opacity: 0.8;
 }
 
 /* Projects section */
@@ -648,9 +561,9 @@ footer:hover .footer-box {
 }
 
 .project-item {
-    background: rgba(139, 126, 255, 0.02);
+    background: color-mix(in srgb, var(--accent) 2%, transparent);
     border: 1px solid var(--border);
-    border-radius: 16px;
+    border-radius: var(--radius);
     padding: 20px;
     display: flex;
     flex-direction: column;
@@ -658,10 +571,10 @@ footer:hover .footer-box {
 }
 
 .project-item:hover {
-    border-color: rgba(139, 126, 255, 0.35);
-    background: rgba(139, 126, 255, 0.06);
+    border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+    background: color-mix(in srgb, var(--accent) 6%, transparent);
     transform: translateY(-4px);
-    box-shadow: 0 12px 40px rgba(139, 126, 255, 0.12);
+    box-shadow: 0 12px 40px color-mix(in srgb, var(--accent) 12%, transparent);
 }
 
 .project-header {
@@ -673,7 +586,7 @@ footer:hover .footer-box {
 }
 
 .project-name {
-    font-family: "JetBrains Mono", monospace;
+    font-family: var(--font-mono);
     font-weight: 600;
     font-size: var(--text-md);
     color: var(--text);
@@ -692,98 +605,14 @@ footer:hover .footer-box {
     align-items: center;
     gap: 6px;
     color: var(--text);
-    background: rgba(139, 126, 255, 0.03);
-    border: 1px solid rgba(139, 126, 255, 0.3);
+    background: color-mix(in srgb, var(--accent) 3%, transparent);
+    border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
     padding: 6px 14px;
-    border-radius: 10px;
+    border-radius: var(--radius);
     text-decoration: none;
-    font-family: "JetBrains Mono", monospace;
+    font-family: var(--font-mono);
     font-size: var(--text-2xs);
     transition: all 0.3s ease;
-}
-
-.project-link-arrow {
-    color: var(--accent);
-    transition: transform 0.2s ease;
-}
-
-.project-link-btn:hover .project-link-arrow {
-    transform: translate(1px, -1px);
-}
-
-.mail-btn-icon {
-    width: 14px;
-    height: 14px;
-    flex: none;
-    fill: none;
-    stroke: var(--accent);
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-}
-
-/* Latest post on the home page: a concrete reason to open the blog, not just a "read" link.
-   Left-aligned with an arrow so it reads as one link row; centred, the long mono title broke
-   into a lopsided block that looked like a second card rather than something to click. */
-.latest-post {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    align-items: center;
-    gap: 16px;
-    margin-top: 18px;
-    padding: 14px 18px;
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    background: rgba(139, 126, 255, 0.03);
-    text-align: left;
-    text-decoration: none;
-    transition: border-color 0.25s ease, background 0.25s ease;
-}
-
-.latest-post:hover,
-.latest-post:focus-visible {
-    border-color: rgba(139, 126, 255, 0.4);
-    background: rgba(139, 126, 255, 0.07);
-}
-
-.latest-post-text {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    min-width: 0;
-}
-
-.latest-post-meta {
-    display: flex;
-    gap: 8px;
-    font-family: "JetBrains Mono", monospace;
-    font-size: var(--text-2xs);
-    color: var(--text-dim);
-}
-
-.latest-post-label {
-    color: var(--accent);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-}
-
-.latest-post-title {
-    font-family: "JetBrains Mono", monospace;
-    font-weight: 600;
-    font-size: var(--text-sm);
-    line-height: 1.45;
-    color: var(--text);
-}
-
-.latest-post-arrow {
-    color: var(--accent);
-    font-size: var(--text-md);
-    transition: transform 0.25s ease;
-}
-
-.latest-post:hover .latest-post-arrow,
-.latest-post:focus-visible .latest-post-arrow {
-    transform: translateX(3px);
 }
 
 /* /now: label column beside the text, stacked on narrow screens. */
@@ -800,7 +629,7 @@ footer:hover .footer-box {
 }
 
 .now-item dt {
-    font-family: "JetBrains Mono", monospace;
+    font-family: var(--font-mono);
     font-size: var(--text-xs);
     color: var(--accent);
     padding-top: 2px;
@@ -816,7 +645,7 @@ footer:hover .footer-box {
 
 .now-updated {
     margin: 18px 0 0;
-    font-family: "JetBrains Mono", monospace;
+    font-family: var(--font-mono);
     font-size: var(--text-2xs);
     color: var(--text-dim);
 }
@@ -828,22 +657,9 @@ footer:hover .footer-box {
     }
 }
 
-.footer-source {
-    margin-top: 6px;
-}
-
-.footer-source a {
-    color: inherit;
-    text-decoration: none;
-}
-
-.footer-source a:hover {
-    color: var(--accent);
-}
-
 .project-link-btn:hover {
-    color: #fff;
-    background: rgba(139, 126, 255, 0.15);
+    color: var(--text-strong);
+    background: color-mix(in srgb, var(--accent) 15%, transparent);
     border-color: var(--accent);
 }
 
@@ -859,7 +675,7 @@ footer:hover .footer-box {
     display: inline-flex;
     align-items: center;
     gap: 5px;
-    font-family: "JetBrains Mono", monospace;
+    font-family: var(--font-mono);
     font-size: var(--text-2xs);
     letter-spacing: 0.04em;
 }
@@ -872,9 +688,10 @@ footer:hover .footer-box {
     background: currentColor;
 }
 
-.project-status.active { color: #7ddba3; }
-.project-status.wip { color: #e5c07b; }
-.project-status.archived { color: var(--text-dim); }
+.project-status.active { color: var(--status-active); }
+.project-status.wip { color: var(--status-wip); }
+/* GitHub's "Public archive" yellow (its dark-theme attention colour). */
+.project-status.archived { color: var(--status-archived); }
 
 /* In equal-height grid cells the last child (the bottom row, or the
    description when there is none) anchors to the card bottom */
@@ -901,12 +718,12 @@ footer:hover .footer-box {
 
 /* Borderless flat pill: passive look, distinct from the bordered link buttons */
 .project-tag {
-    font-family: "JetBrains Mono", monospace;
+    font-family: var(--font-mono);
     font-size: var(--text-2xs);
     color: var(--text-dim);
-    background: rgba(139, 126, 255, 0.08);
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
     padding: 4px 10px;
-    border-radius: 6px;
+    border-radius: var(--radius);
 }
 
 /* --- Entrance choreography: hero → grid → blog → projects → source → footer --- */
@@ -918,23 +735,6 @@ footer:hover .footer-box {
 .container > :nth-child(6) { --enter-delay: 350ms; }
 
 /* Hero staging: avatar → title → tagline → section-title → socials */
-.hero .avatar,
-.hero h1,
-.hero .tagline,
-.hero .section-title,
-.hero .socials {
-    animation: fadeIn 0.6s var(--ease-out-expo) backwards;
-}
-.hero .avatar { animation-delay: 60ms; }
-.hero h1 { animation-delay: 130ms; }
-.hero .tagline { animation-delay: 200ms; }
-.hero .section-title { animation-delay: 260ms; }
-.hero .socials { animation-delay: 320ms; }
-
-.footer-box {
-    animation: fadeIn 0.7s var(--ease-out-expo) backwards;
-    animation-delay: var(--enter-delay, 0ms);
-}
 
 @keyframes fadeIn {
     from {
@@ -948,20 +748,6 @@ footer:hover .footer-box {
 }
 
 /* --- Blog --- */
-.blog-card {
-    text-align: left;
-}
-
-/* Blog pages start at the top: centred, the short list sat mid-screen and the content jumped
-   when moving between the list and a post. */
-body:has(.blog-card) {
-    align-items: flex-start;
-}
-
-/* The lift on hover suits short cards; on a long post the whole page would jump under the reader. */
-.blog-card:hover {
-    transform: translateZ(0);
-}
 
 .post-end {
     margin-top: 32px;
@@ -969,17 +755,10 @@ body:has(.blog-card) {
     border-top: 1px solid var(--border);
 }
 
-.blog-topbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 24px;
-}
-
 .blog-nav-link {
     color: var(--text-dim);
     text-decoration: none;
-    font-family: "JetBrains Mono", monospace;
+    font-family: var(--font-mono);
     font-size: var(--text-xs);
     transition: color 0.2s ease;
 }
@@ -988,23 +767,17 @@ body:has(.blog-card) {
     color: var(--accent);
 }
 
-.blog-topbar-end {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-}
-
 /* Sized and bordered like .copy-md-btn so it reads as a control, not as a label. */
 .rss-link {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    background: rgba(139, 126, 255, 0.03);
+    background: color-mix(in srgb, var(--accent) 3%, transparent);
     border: 1px solid var(--border);
-    border-radius: 8px;
+    border-radius: var(--radius);
     padding: 4px 10px;
     color: var(--text-dim);
-    font-family: "JetBrains Mono", monospace;
+    font-family: var(--font-mono);
     font-size: var(--text-2xs);
     text-decoration: none;
     transition: all 0.3s ease;
@@ -1012,8 +785,8 @@ body:has(.blog-card) {
 
 .rss-link:hover,
 .rss-link:focus-visible {
-    color: #fff;
-    background: rgba(139, 126, 255, 0.15);
+    color: var(--text-strong);
+    background: color-mix(in srgb, var(--accent) 15%, transparent);
     border-color: var(--accent);
 }
 
@@ -1029,7 +802,7 @@ body:has(.blog-card) {
 .lang-switch {
     display: flex;
     gap: 2px;
-    font-family: "JetBrains Mono", monospace;
+    font-family: var(--font-mono);
     font-size: var(--text-2xs);
 }
 
@@ -1037,7 +810,7 @@ body:has(.blog-card) {
     color: var(--text-dim);
     text-decoration: none;
     padding: 3px 8px;
-    border-radius: 6px;
+    border-radius: var(--radius);
     transition: color 0.2s ease, background 0.2s ease;
 }
 
@@ -1047,7 +820,7 @@ a.lang-switch-item:hover {
 
 .lang-switch-item[aria-current="page"] {
     color: var(--text);
-    background: rgba(139, 126, 255, 0.12);
+    background: color-mix(in srgb, var(--accent) 12%, transparent);
 }
 
 /* Same flat pill family as .project-tag: a statement about the text, not a control. */
@@ -1055,10 +828,10 @@ a.lang-switch-item:hover {
     display: flex;
     align-items: baseline;
     gap: 10px;
-    margin: -8px 0 22px;
-    padding: 10px 14px;
-    border-radius: 10px;
-    background: rgba(139, 126, 255, 0.06);
+    /* A plain line, not a tinted band, and no negative margin: it starts level with the side
+       column's back link. */
+    margin: 0 0 20px;
+    padding: 0;
     color: var(--text-dim);
     font-size: var(--text-xs);
     line-height: 1.5;
@@ -1071,85 +844,18 @@ a.lang-switch-item:hover {
 
 .ai-badge-mark {
     flex: none;
-    font-family: "JetBrains Mono", monospace;
+    font-family: var(--font-mono);
     font-size: var(--text-2xs);
     font-weight: 600;
     color: var(--accent);
     border: 1px solid var(--border);
     padding: 1px 6px;
-    border-radius: 5px;
+    border-radius: var(--radius);
 }
 
 .blog-empty {
     color: var(--text-dim);
     font-size: var(--text-xs);
-}
-
-/* Post list */
-/* A divided list rather than a card per post: cards inside the page card stacked two borders
-   around every entry. */
-.blog-head {
-    margin-bottom: 20px;
-}
-
-.blog-heading {
-    font-size: var(--text-xl);
-    line-height: 1.3;
-    margin: 0 0 6px;
-}
-
-.blog-intro {
-    color: var(--text-dim);
-    font-size: var(--text-sm);
-    font-weight: 400;
-    margin: 0;
-}
-
-.post-list-item {
-    display: block;
-    margin: 0 -12px;
-    padding: 18px 12px;
-    border-top: 1px solid var(--border);
-    border-radius: 10px;
-    text-decoration: none;
-    transition: background 0.25s ease;
-}
-
-.post-list-item:hover,
-.post-list-item:focus-visible {
-    background: rgba(139, 126, 255, 0.06);
-}
-
-.post-list-title {
-    display: block;
-    font-family: "JetBrains Mono", monospace;
-    font-weight: 600;
-    font-size: var(--text-md);
-    line-height: 1.4;
-    color: var(--text);
-    transition: color 0.25s ease;
-}
-
-.post-list-item:hover .post-list-title,
-.post-list-item:focus-visible .post-list-title {
-    color: var(--accent);
-}
-
-/* Under the title, not beside it: beside it, the date squeezed long titles onto two lines. */
-.post-list-date {
-    display: block;
-    margin: 4px 0 8px;
-    font-family: "JetBrains Mono", monospace;
-    font-size: var(--text-2xs);
-    color: var(--text-dim);
-}
-
-.post-list-summary {
-    color: var(--text-dim);
-    font-size: var(--text-sm);
-    font-weight: 400;
-    line-height: 1.6;
-    margin: 0;
 }
 
 /* Single-post view */
@@ -1172,16 +878,9 @@ a.lang-switch-item:hover {
 }
 
 /* Date on the left, "copy md" button on the right */
-.post-actions {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 22px;
-}
 
 .post-meta {
-    font-family: "JetBrains Mono", monospace;
+    font-family: var(--font-mono);
     font-size: var(--text-2xs);
     color: var(--text-dim);
     margin: 0;
@@ -1190,37 +889,36 @@ a.lang-switch-item:hover {
 .copy-md-btn {
     appearance: none;
     -webkit-appearance: none;
-    background: rgba(139, 126, 255, 0.03);
+    background: color-mix(in srgb, var(--accent) 3%, transparent);
     border: 1px solid var(--border);
     color: var(--text-dim);
-    font-family: "JetBrains Mono", monospace;
+    font-family: var(--font-mono);
     font-size: var(--text-2xs);
     padding: 5px 12px;
-    border-radius: 8px;
+    border-radius: var(--radius);
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
 .copy-md-btn:hover {
-    color: #fff;
-    background: rgba(139, 126, 255, 0.15);
+    color: var(--text-strong);
+    background: color-mix(in srgb, var(--accent) 15%, transparent);
     border-color: var(--accent);
 }
 
 /* Long-form text gets its own size, weight and colour: the 14px light dim text that works for
    short card captions tired readers out over a whole post (all three UI reviews, 2026-10-24). */
-/* Collapsed by default so a long list does not push the opening paragraph off screen. */
 .post-toc {
     margin: 0 0 26px;
     padding: 12px 16px;
     border: 1px solid var(--border);
-    border-radius: 12px;
-    background: rgba(139, 126, 255, 0.03);
+    border-radius: var(--radius);
+    background: color-mix(in srgb, var(--accent) 3%, transparent);
 }
 
 .post-toc summary {
     cursor: pointer;
-    font-family: "JetBrains Mono", monospace;
+    font-family: var(--font-mono);
     font-size: var(--text-xs);
     color: var(--accent);
 }
@@ -1261,14 +959,15 @@ a.lang-switch-item:hover {
 .post-body h4,
 .post-body h5,
 .post-body h6 {
-    font-family: "JetBrains Mono", monospace;
+    font-family: var(--font-mono);
     font-weight: 600;
     color: var(--text);
     line-height: 1.35;
     margin: 30px 0 12px;
 }
 
-.post-body h2 { font-size: var(--text-lg); margin-top: 40px; color: var(--accent); }
+/* Accent is kept for links and states; headings stay in the text colour. */
+.post-body h2 { font-size: var(--text-lg); margin-top: 40px; }
 .post-body h3 { font-size: var(--text-md); }
 .post-body h4,
 .post-body h5,
@@ -1294,7 +993,7 @@ a.lang-switch-item:hover {
     text-decoration: underline;
     text-decoration-thickness: 1px;
     text-underline-offset: 3px;
-    text-decoration-color: rgba(139, 126, 255, 0.5);
+    text-decoration-color: color-mix(in srgb, var(--accent) 50%, transparent);
     transition: color 0.2s ease, text-decoration-color 0.2s ease;
 }
 
@@ -1304,18 +1003,18 @@ a.lang-switch-item:hover {
 }
 
 .post-body code {
-    font-family: "JetBrains Mono", monospace;
+    font-family: var(--font-mono);
     font-size: 0.85em;
     color: var(--text);
-    background: rgba(139, 126, 255, 0.08);
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
     padding: 2px 6px;
-    border-radius: 5px;
+    border-radius: var(--radius);
 }
 
 .post-body pre {
-    background: rgba(10, 13, 26, 0.7);
+    background: var(--code-bg);
     border: 1px solid var(--border);
-    border-radius: 12px;
+    border-radius: var(--radius);
     padding: 14px 16px;
     overflow-x: auto;
     margin: 0 0 14px;
@@ -1348,7 +1047,7 @@ a.lang-switch-item:hover {
 
 .post-body img {
     max-width: 100%;
-    border-radius: 12px;
+    border-radius: var(--radius);
     border: 1px solid var(--border);
 }
 
@@ -1374,15 +1073,15 @@ a.lang-switch-item:hover {
 @keyframes seedPulse {
     0% {
         transform: scale(1);
-        text-shadow: 0 0 0 rgba(139, 126, 255, 0);
+        text-shadow: 0 0 0 color-mix(in srgb, var(--accent) 0%, transparent);
     }
     40% {
         transform: scale(1.35);
-        text-shadow: 0 0 12px rgba(139, 126, 255, 0.8);
+        text-shadow: 0 0 12px color-mix(in srgb, var(--accent) 80%, transparent);
     }
     100% {
         transform: scale(1);
-        text-shadow: 0 0 0 rgba(139, 126, 255, 0);
+        text-shadow: 0 0 0 color-mix(in srgb, var(--accent) 0%, transparent);
     }
 }
 
@@ -1409,8 +1108,8 @@ a.lang-switch-item:hover {
     width: 2px;
     height: 2px;
     border-radius: 50%;
-    background: #fff;
-    box-shadow: 0 0 6px 1px rgba(255, 255, 255, 0.5);
+    background: var(--star);
+    box-shadow: 0 0 6px 1px var(--star-glow);
     opacity: 0;
     pointer-events: none;
     animation: shoot 1.4s ease-out forwards;
@@ -1425,7 +1124,7 @@ a.lang-switch-item:hover {
     width: 80px;
     height: 1px;
     transform: translateY(-50%);
-    background: linear-gradient(to left, rgba(255, 255, 255, 0.6), transparent);
+    background: linear-gradient(to left, var(--star), transparent);
 }
 
 @keyframes shoot {
@@ -1443,16 +1142,14 @@ a.lang-switch-item:hover {
 }
 
 ::selection {
-    background: rgba(139, 126, 255, 0.35);
-    color: #fff;
+    background: color-mix(in srgb, var(--accent) 35%, transparent);
+    color: var(--text-strong);
 }
 
 /* Press feedback */
 .mail-btn:active,
-.social-icon:active,
 .project-link-btn:active,
-.source-link:active,
-.source-licenses-link:active {
+.source-link:active {
     transform: scale(0.97);
 }
 
@@ -1492,13 +1189,6 @@ a.lang-switch-item:hover {
 @media (prefers-reduced-motion: reduce) {
     .star,
     .seed-star,
-    .card,
-    .hero .avatar,
-    .hero h1,
-    .hero .tagline,
-    .hero .section-title,
-    .hero .socials,
-    .footer-box,
     .shooting-star {
         animation: none !important;
     }
@@ -1510,13 +1200,6 @@ a.lang-switch-item:hover {
 @media (max-width: 600px) {
     body {
         padding: 20px 16px;
-    }
-    .card {
-        padding: 24px;
-        /* Reduce blur from 16px to 6px on mobile to achieve buttery-smooth 60fps scrolling */
-        backdrop-filter: blur(6px);
-        -webkit-backdrop-filter: blur(6px);
-        background: rgba(16, 20, 39, 0.78); /* Slightly higher opacity to retain perfect glass contrast */
     }
     .star {
         /* Remove heavy box-shadow on mobile to optimize GPU render speed */
@@ -1537,5 +1220,781 @@ a.lang-switch-item:hover {
     .project-link-btn {
         flex: 1;
         text-align: center;
+    }
+}
+
+/* Snapping home page: one screen per section on the sky, no cards. The controls stay fixed while
+   the pages move under them. */
+html.snap {
+    scroll-snap-type: y mandatory;
+}
+
+/* Pages without snapping (the blog list) reuse the same layout, just at their natural height. */
+html.chrome:not(.snap) .snap-page {
+    min-height: 0;
+    justify-content: flex-start;
+    padding-top: 96px;
+    padding-bottom: 120px;
+}
+
+html.chrome body {
+    display: block;
+    padding: 0;
+}
+
+html.chrome .container {
+    max-width: none;
+    display: block;
+}
+
+.snap-page {
+    min-height: 100vh;
+    min-height: 100svh;
+    scroll-snap-align: start;
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 88px clamp(16px, 5vw, 56px) 96px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 18px;
+}
+
+.snap-page h2,
+.snap-title {
+    font-family: var(--font-head);
+    font-size: clamp(28px, 4vw, 40px);
+    font-weight: 400;
+    line-height: 1.15;
+    color: var(--text);
+}
+
+.snap-text {
+    max-width: 62ch;
+    font-size: var(--text-lg);
+    color: var(--text-body);
+}
+
+.snap-hero {
+    display: flex;
+    align-items: center;
+    gap: clamp(16px, 3vw, 32px);
+}
+
+.snap-hero .avatar {
+    width: clamp(88px, 14vw, 140px);
+    height: auto;
+    margin: 0;
+    flex: none;
+}
+
+.snap-hero h1 {
+    font-size: clamp(34px, 6vw, 60px);
+    font-weight: 400;
+    line-height: 1.1;
+}
+
+.snap-realname {
+    font-size: 0.4em;
+    color: var(--text-dim);
+    white-space: nowrap;
+}
+
+.snap-hero .tagline {
+    font-size: clamp(var(--text-md), 2vw, 24px);
+    color: var(--text-body);
+    margin: 10px 0 0;
+}
+
+.snap-socials {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 8px 22px;
+    font-size: var(--text-lg);
+    margin: 18px 0;
+}
+
+.snap-page a {
+    color: var(--text);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.snap-page a:hover {
+    color: var(--accent);
+}
+
+.snap-contact {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    color: var(--text-dim);
+}
+
+.snap-posts {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 380px), 1fr));
+    gap: 4px 32px;
+}
+
+.snap-posts a {
+    display: flex;
+    flex-direction: column;
+    padding: 10px 0;
+    border-top: 1px solid var(--border);
+}
+
+.snap-post-date {
+    font-family: var(--font-mono);
+    font-size: var(--text-2xs);
+    color: var(--text-dim);
+}
+
+.snap-page .projects-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+    gap: 20px 28px;
+    text-align: left;
+}
+
+.snap-other {
+    list-style: none;
+    font-size: var(--text-lg);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.page-controls {
+    position: fixed;
+    top: 18px;
+    right: clamp(16px, 3vw, 32px);
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    html.snap {
+        scroll-behavior: smooth;
+    }
+}
+
+.snap-contact .mail-btn {
+    margin: 0;
+    padding: 8px 16px;
+}
+
+/* Fixed over the sky on every page, so it cannot fade like the old card footer. */
+
+.page-back {
+    align-self: flex-start;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+}
+
+.page-controls .rss-link {
+    margin-top: 2px;
+}
+
+.page-posts {
+    list-style: none;
+}
+
+.page-posts a {
+    display: grid;
+    grid-template-columns: 120px minmax(0, 1fr);
+    gap: 4px 24px;
+    padding: 18px 0;
+    border-top: 1px solid var(--border);
+}
+
+.page-posts .snap-post-date {
+    padding-top: 5px;
+}
+
+.page-post-title {
+    font-size: var(--text-lg);
+}
+
+.page-post-summary {
+    grid-column: 2;
+    color: var(--text-dim);
+    font-size: var(--text-sm);
+}
+
+@media (max-width: 560px) {
+    .page-posts a {
+        grid-template-columns: 1fr;
+    }
+
+    .page-post-summary {
+        grid-column: 1;
+    }
+}
+
+/* The global h1 is the monospace name style; page titles match the section headings instead. */
+.snap-title {
+    font-family: var(--font-head);
+}
+
+/* Language top-right, the sky's controls top-left: the two corners mirror each other, and each
+   cluster sits on one line at the same height. */
+.page-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.sky-controls {
+    position: fixed;
+    top: 18px;
+    left: clamp(16px, 3vw, 32px);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    height: 24px;
+}
+
+.sky-controls .dice-btn,
+.sky-controls .seed-star {
+    position: relative;
+    top: auto;
+    right: auto;
+}
+
+/* The seed tooltip opens toward the page, now that the star sits on the left edge. */
+.sky-controls .seed-star::after {
+    right: auto;
+    left: 0;
+}
+
+/* Post page: back link and contents in a sticky side column, the text in a readable measure. */
+.post-layout {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 88px clamp(16px, 5vw, 56px) 120px;
+    display: grid;
+    grid-template-columns: 200px minmax(0, 68ch);
+    gap: 48px;
+    justify-content: center;
+}
+
+.post-aside {
+    position: sticky;
+    top: 88px;
+    align-self: start;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    font-size: var(--text-sm);
+}
+
+html.chrome .post-toc {
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: none;
+}
+
+.post-toc-title {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--accent);
+    margin-bottom: 8px;
+}
+
+html.chrome .post-toc ol {
+    margin: 0;
+    padding-left: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+html.chrome .post-header {
+    text-align: left;
+}
+
+html.chrome .post-title {
+    font-family: var(--font-head);
+    font-weight: 400;
+    font-size: clamp(28px, 4vw, 40px);
+    line-height: 1.15;
+}
+
+html.chrome .post-body h2 {
+    scroll-margin-top: 88px;
+}
+
+@media (max-width: 860px) {
+    .post-layout {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 24px;
+    }
+
+    .post-aside {
+        position: static;
+    }
+}
+
+/* Under the contents: two equal buttons side by side, matching the two-column controls. */
+.post-tools {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+.post-tools > * {
+    justify-content: center;
+    text-align: center;
+    white-space: nowrap;
+}
+
+/* A page title with its feed link on the far right of the same line. */
+.page-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+}
+
+/* Typography: sharp size contrast between titles and text, digits that line up in date columns,
+   and small labels set as spaced capitals, like signage. */
+body {
+    font-variant-numeric: tabular-nums;
+}
+
+.snap-page h2,
+.snap-title,
+html.chrome .post-title,
+.snap-hero h1 {
+    font-weight: 600;
+}
+
+.snap-page h2,
+.snap-title,
+html.chrome .post-title {
+    font-size: clamp(34px, 5.5vw, 64px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+}
+
+.post-toc-title,
+.snap-post-date,
+.post-meta {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.post-body h2 {
+    font-family: var(--font-head);
+}
+
+/* Phones: fixed controls would sit on top of the text; they scroll away with the first screen. */
+@media (max-width: 860px) {
+    .page-controls,
+    .sky-controls {
+        position: absolute;
+    }
+}
+
+/* --- Review pass (Astra + Argon, 2026-10-25) --- */
+
+/* Projects as one ruled table: the cells share 1px lines (the list draws top and left, every cell
+   right and bottom), so the block stays a single symmetric grid. Inside, tags are plain mono text and
+   links plain links; the old boxes-inside-boxes were the template look. */
+.projects-list,
+.snap-page .projects-list {
+    gap: 0;
+    border-top: 1px solid var(--border);
+    border-left: 1px solid var(--border);
+}
+
+.project-item {
+    background: none;
+    border: none;
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 22px 24px;
+}
+
+.project-item:hover {
+    transform: none;
+    box-shadow: none;
+    border-color: var(--border);
+    background: color-mix(in srgb, var(--accent) 4%, transparent);
+}
+
+.project-tags {
+    gap: 4px 14px;
+}
+
+.project-tag {
+    background: none;
+    padding: 0;
+}
+
+.project-links {
+    gap: 6px 18px;
+}
+
+.project-link-btn,
+.project-link-btn:hover {
+    background: none;
+    border: none;
+    padding: 0;
+    box-shadow: none;
+    font-size: var(--text-xs);
+}
+
+.project-link-btn:hover {
+    color: var(--accent);
+}
+
+/* Hierarchy: the name leads, page and section titles come second, the first screen's "About me" is
+   a subheading under the name rather than a rival to it. */
+.snap-page h2,
+.snap-title {
+    font-size: clamp(30px, 4.2vw, 48px);
+    line-height: 1.1;
+}
+
+#about-me h2 {
+    font-size: clamp(24px, 2.6vw, 32px);
+}
+
+html.chrome .post-title {
+    font-size: clamp(30px, 4vw, 48px);
+}
+
+.snap-page .source-link {
+    margin: 8px 0 0;
+}
+
+/* Every row is closed by its own rule and the first row opens with one, so a short second column
+   never hangs open (in two columns the first row is two items, in one column it is one). */
+.snap-posts {
+    row-gap: 0;
+    /* Fixed column count tied to the same breakpoint as the rules below; auto-fill switched at a
+       width of its own and left a doubled rule in between. */
+    grid-template-columns: 1fr 1fr;
+}
+
+.snap-posts a {
+    border-top: none;
+    border-bottom: 1px solid var(--border);
+}
+
+.snap-posts li:nth-child(-n + 2) a {
+    border-top: 1px solid var(--border);
+}
+
+@media (max-width: 860px) {
+    .snap-posts {
+        grid-template-columns: 1fr;
+    }
+
+    .snap-posts li:nth-child(2) a {
+        border-top: none;
+    }
+}
+
+.page-posts li:last-child a {
+    border-bottom: 1px solid var(--border);
+}
+
+/* Slash pages on the last home screen: a name and one line on what it is, as slashpages.net lists them. */
+.snap-other {
+    gap: 0;
+    max-width: 640px;
+}
+
+.snap-other a {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 14px 0;
+    border-top: 1px solid var(--border);
+}
+
+.snap-other li:last-child a {
+    border-bottom: 1px solid var(--border);
+}
+
+.snap-other-desc {
+    color: var(--text-dim);
+    font-size: var(--text-sm);
+}
+
+/* Touch screens get finger-sized targets around the small icons. */
+@media (pointer: coarse) {
+    .page-controls .lang-switch-item,
+    .sky-controls .dice-btn,
+    .sky-controls .seed-star {
+        min-width: 44px;
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 560px) {
+
+    .snap-socials {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px 16px;
+    }
+}
+
+/* Post page on narrow screens: one column in reading order (back link, title, date, AI note,
+   contents, tools, text). display: contents lets the two columns' children be reordered as one list. */
+@media (max-width: 860px) {
+    .post-layout {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .post-aside,
+    .post-content {
+        display: contents;
+    }
+
+    .post-aside > .blog-nav-link { order: 1; margin-bottom: 24px; }
+    .post-header { order: 2; }
+    .ai-badge { order: 3; }
+    /* html.chrome in front: the desktop rule that zeroes the contents' margin is that specific. */
+    html.chrome .post-aside > .post-toc { order: 4; margin-bottom: 20px; }
+    .post-tools { order: 5; margin-bottom: 12px; }
+    html.chrome .post-license { order: 6; margin-bottom: 36px; }
+    .post-body { order: 7; }
+    .post-end { order: 8; }
+}
+
+html.chrome .post-toc > summary {
+    cursor: pointer;
+    list-style: none;
+}
+
+html.chrome .post-toc > summary::-webkit-details-marker {
+    display: none;
+}
+
+/* /now and /ai in the shared layout: the label column already lines up, just give it a measure. */
+html.chrome .now-list {
+    max-width: 760px;
+}
+
+html.chrome .now-item {
+    grid-template-columns: 140px minmax(0, 1fr);
+}
+
+html.chrome .post-toc > summary::after {
+    content: " +";
+}
+
+html.chrome .post-toc[open] > summary::after {
+    content: " −";
+}
+
+/* Standalone links are set in square brackets instead of trailing arrows (→ after every link is a
+   template tic). The brackets come from CSS so the link text in the markup, the RSS feed and the
+   copied markdown stays plain. */
+.bracket::before,
+.bracket::after {
+    font-family: var(--font-mono);
+    color: var(--text-dim);
+    transition: color 0.2s ease;
+}
+
+.bracket::before {
+    content: "[";
+    margin-right: 0.2em;
+}
+
+.bracket::after {
+    content: "]";
+    margin-left: 0.2em;
+}
+
+.bracket:hover::before,
+.bracket:hover::after {
+    color: var(--accent);
+}
+
+.theme-btn {
+    appearance: none;
+    background: none;
+    border: none;
+    padding: 0;
+    line-height: 1;
+    color: var(--accent);
+    opacity: 0.5;
+    cursor: pointer;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.theme-btn:hover {
+    opacity: 1;
+    transform: rotate(180deg);
+}
+
+.theme-btn:focus-visible {
+    outline: 1px solid var(--accent);
+    outline-offset: 4px;
+}
+
+/* Colours ease across instead of snapping when the theme flips. */
+body,
+.star,
+.constellation-line,
+.constellation-star {
+    transition: background-color 0.4s ease, color 0.4s ease, fill 0.4s ease, stroke 0.4s ease;
+}
+
+@media (pointer: coarse) {
+    .sky-controls .theme-btn {
+        min-width: 44px;
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+/* Total solar eclipse (eclipse.ts), the light theme's easter egg. All parts share one box in the
+   upper sky; the night overlay sits between the day gradient and the stars, the disc above the
+   stars and below the page. */
+.eclipse-night {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    pointer-events: none;
+    background: radial-gradient(circle at 50% 30%, #1b2140 0%, #0b0e1a 55%);
+    opacity: 0;
+}
+
+.eclipse {
+    --size: clamp(90px, 15vmin, 170px);
+    position: fixed;
+    /* Upper right: the open part of the sky on every page, clear of the name and the titles. */
+    left: 76%;
+    top: 26%;
+    width: var(--size);
+    height: var(--size);
+    margin: calc(var(--size) / -2) 0 0 calc(var(--size) / -2);
+    z-index: -1;
+    pointer-events: none;
+}
+
+.eclipse > * {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    opacity: 0;
+}
+
+.eclipse-sun {
+    background: radial-gradient(circle, #fffdf4 0%, #fff4d6 60%, #ffe7a8 100%);
+    box-shadow: 0 0 40px 12px rgba(255, 236, 170, 0.7), 0 0 120px 40px rgba(255, 236, 170, 0.35);
+}
+
+.eclipse-moon {
+    opacity: 1;
+    background: #0b0e1a;
+    transform: translateX(-135%);
+}
+
+/* The corona: a bright inner rim fading into pearly streamers, larger than the moon. */
+.eclipse-corona {
+    inset: -60%;
+    background:
+        radial-gradient(circle, transparent 30%, rgba(255, 255, 255, 0.95) 31.5%, rgba(214, 228, 255, 0.45) 38%, transparent 62%),
+        repeating-conic-gradient(from 10deg, rgba(220, 232, 255, 0.16) 0deg 4deg, transparent 4deg 13deg);
+    mask: radial-gradient(circle, #000 35%, transparent 70%);
+}
+
+.eclipse-ring {
+    inset: auto;
+    top: 10%;
+    left: 82%;
+    width: 14px;
+    height: 14px;
+    background: #fff;
+    box-shadow: 0 0 18px 8px #fff, 0 0 70px 26px rgba(255, 255, 255, 0.65);
+}
+
+/* Footer: the visitor number on the left like an old hit counter, where you are on the right, both
+   in plain sentence case. "You are here:" is kept for screen readers only. */
+
+.visitor-counter {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: var(--text-2xs);
+    color: var(--text-dim);
+}
+
+.post-license {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: var(--text-2xs);
+}
+
+.post-license a {
+    color: var(--text-dim);
+}
+
+/* The hit counter closing the home page. */
+.snap-page .visitor-counter {
+    margin-top: 32px;
+    font-family: var(--font-mono);
+    font-size: var(--text-2xs);
+    color: var(--text-dim);
+}
+
+/* The reticle sits still like the dice and theme buttons; only the old star twinkled. */
+.sky-controls .seed-star {
+    display: inline-flex;
+    animation: none;
+}
+
+/* Phones: no free gutter, so the figure lies behind the text as a faint watermark, nameless, and
+   the text stays readable over it. */
+/* On the svg, not the layer: the layer's own opacity is animated by the black hole (.swallowed). */
+.constellation.faint svg {
+    opacity: 0.32;
+}
+
+.constellation.faint .constellation-name {
+    display: none;
+}
+
+/* Snapping is a desktop experience. On phones and narrow tablets it fought ordinary thumb scrolling
+   (even soft snapping), so there the home page is one plain page: sections at their natural height,
+   spaced like the rest of the site. The section addresses (#blog...) still update. */
+@media (max-width: 860px) {
+    html.snap {
+        scroll-snap-type: none;
+    }
+
+    html.snap .snap-page {
+        min-height: 0;
+        justify-content: flex-start;
+        padding-top: 48px;
+        padding-bottom: 48px;
+    }
+
+    html.snap .snap-page:first-child,
+    html.snap #about-me {
+        padding-top: 96px;
     }
 }

@@ -1,13 +1,14 @@
 ---
-import { PROJECTS, type ProjectStatus } from '../data/projects';
+import { PROJECTS, type Project, type ProjectStatus } from '../data/projects';
 import type { Lang } from '../lib/blog';
 import { ui } from '../lib/i18n';
 
 interface Props {
     lang: Lang;
+    projects?: Project[];
 }
 
-const { lang } = Astro.props;
+const { lang, projects = PROJECTS } = Astro.props;
 const t = ui[lang];
 const statusLabel: Record<ProjectStatus, string> = {
     active: t.statusActive,
@@ -18,7 +19,7 @@ const statusLabel: Record<ProjectStatus, string> = {
 
 <div class="projects-list">
     {
-        PROJECTS.map((project) => (
+        projects.map((project) => (
             <div class="project-item">
                 <div class="project-header">
                     <span class="project-name">{project.name}</span>
@@ -38,15 +39,12 @@ const statusLabel: Record<ProjectStatus, string> = {
                             <div class="project-links">
                                 {project.links.map((link) => (
                                     <a
-                                        class="project-link-btn"
+                                        class="project-link-btn bracket"
                                         href={link.url}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                     >
                                         {link.label}
-                                        <span class="project-link-arrow" aria-hidden="true">
-                                            ↗
-                                        </span>
                                     </a>
                                 ))}
                             </div>

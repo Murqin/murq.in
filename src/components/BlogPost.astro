@@ -1,7 +1,7 @@
 ---
 import { render } from 'astro:content';
 import Base from '../layouts/Base.astro';
-import LangSwitch from './LangSwitch.astro';
+import Controls from './Controls.astro';
 import RssLink from './RssLink.astro';
 import {
     blogIndexUrl,
@@ -49,76 +49,85 @@ const index = blogIndexUrl(lang);
     alternates={links}
     rssHref={rssUrl(lang)}
 >
-    <section class="card blog-card">
-        <div class="blog-topbar">
-            <a href={index} class="blog-nav-link" data-seed-nav={index}>{t.allPosts}</a>
-            <div class="blog-topbar-end">
-                <LangSwitch lang={lang} links={links} />
+    <Controls lang={lang} links={links} />
+    <div class="post-layout">
+        <aside class="post-aside">
+            <a href={index} class="blog-nav-link bracket" data-seed-nav={index}>{t.allPosts}</a>
+            {
+                showToc && (
+                    <details class="post-toc" open>
+                        <summary class="post-toc-title">{t.contents}</summary>
+                        <ol>
+                            {toc.map((h) => (
+                                <li>
+                                    <a href={`#${h.slug}`}>{h.text}</a>
+                                </li>
+                            ))}
+                        </ol>
+                    </details>
+                )
+            }
+            <div class="post-tools">
+                <button
+                    type="button"
+                    class="copy-md-btn"
+                    data-md-url={rawPostUrl(lang, slug)}
+                    data-label={t.copyMd}
+                    data-label-copied={t.copied}
+                    data-label-failed={t.copyFailed}
+                    data-summary-prompt={t.summaryPrompt}
+                >
+                    {t.copyMd}
+                </button>
                 <RssLink lang={lang} />
             </div>
-        </div>
+            <p class="post-license">
+                <a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank" rel="noopener noreferrer license">
+                    {t.postLicense}
+                </a>
+            </p>
+        </aside>
         <article class="post-content">
+            {
+                post.data.aiAssisted && (
+                    <p class="ai-badge">
+                        <span class="ai-badge-mark" aria-hidden="true">
+                            AI
+                        </span>
+                        <span>
+                            {t.aiNote}{' '}
+                            <a class="bracket" href={t.aiUrl} data-seed-nav={t.aiUrl}>
+                                {t.aiMore}
+                            </a>
+                        </span>
+                    </p>
+                )
+            }
             <header class="post-header">
                 <h1 class="post-title">{post.data.title}</h1>
-                <div class="post-actions">
-                    <p class="post-meta">
-                        {formatPostDate(post.data.date, lang)}
-                        <span aria-hidden="true"> · </span>
-                        {t.readingTime.replace('{n}', String(minutes))}
-                    </p>
-                    <button
-                        type="button"
-                        class="copy-md-btn"
-                        data-md-url={rawPostUrl(lang, slug)}
-                        data-label={t.copyMd}
-                        data-label-copied={t.copied}
-                        data-label-failed={t.copyFailed}
-                        data-summary-prompt={t.summaryPrompt}
-                    >
-                        {t.copyMd}
-                    </button>
-                </div>
-                {
-                    post.data.aiAssisted && (
-                        <p class="ai-badge">
-                            <span class="ai-badge-mark" aria-hidden="true">
-                                AI
-                            </span>
-                            <span>
-                                {t.aiNote}{' '}
-                                <a href={t.aiUrl} data-seed-nav={t.aiUrl}>
-                                    {t.aiMore}
-                                </a>
-                            </span>
-                        </p>
-                    )
-                }
-                {
-                    showToc && (
-                        <details class="post-toc">
-                            <summary>{t.contents}</summary>
-                            <ol>
-                                {toc.map((h) => (
-                                    <li>
-                                        <a href={`#${h.slug}`}>{h.text}</a>
-                                    </li>
-                                ))}
-                            </ol>
-                        </details>
-                    )
-                }
+                <p class="post-meta">
+                    {formatPostDate(post.data.date, lang)}
+                    <span aria-hidden="true"> · </span>
+                    {t.readingTime.replace('{n}', String(minutes))}
+                </p>
             </header>
             <div class="post-body">
                 <Content />
             </div>
+            <nav class="post-end">
+                <a href={index} class="blog-nav-link bracket" data-seed-nav={index}>{t.allPosts}</a>
+            </nav>
         </article>
-        <nav class="post-end">
-            <a href={index} class="blog-nav-link" data-seed-nav={index}>{t.allPosts}</a>
-        </nav>
-    </section>
+    </div>
 </Base>
 
 <script>
+    // The contents list is open in the desktop side column; on a phone it sits above the text, where an
+    // open eleven-item list pushes the post to the second screen.
+    if (window.matchMedia('(max-width: 860px)').matches) {
+        document.querySelector('details.post-toc')?.removeAttribute('open');
+    }
+
     // Raw markdown lives at /posts/<slug>.md (generated by posts/[slug].md.ts),
     // the same URL the pre-Astro site published, so existing links still resolve.
     // Labels come from data attributes because this script is bundled once for

@@ -54,6 +54,10 @@ function resolveSeeds(): Seeds {
     return randomSeeds();
 }
 
+const isLight = (): boolean => document.documentElement.dataset['theme'] === 'light';
+
+// The same seed draws the same sky in both themes: positions and hues come from the stream in
+// the same order, so a seed link keeps its layout whichever theme the reader uses.
 function gradientCSS(gradSeed: number): string {
     const randGrad = mulberry32(gradSeed);
     const x1 = Math.floor(randGrad() * 30) + 5;
@@ -63,6 +67,17 @@ function gradientCSS(gradSeed: number): string {
     const x3 = Math.floor(randGrad() * 60) + 20;
     const hue1 = Math.floor(randGrad() * 60) + 210;
     const hue2 = Math.floor(randGrad() * 60) + 260;
+    if (isLight()) {
+        // Day sky: the first spot stays a sky blue, the second turns from night violet (260-320)
+        // to a dawn peach (0-60) by the same seed value, so each seed still draws its own sky. Kept
+        // strong enough to read against the paper; washed out, every seed looked the same.
+        const dawn = (hue2 + 100) % 360;
+        return [
+            `radial-gradient(at ${x1}% ${y1}%, hsl(${hue1}, 55%, 74%) 0px, transparent 55%)`,
+            `radial-gradient(at ${x2}% ${y2}%, hsl(${dawn}, 70%, 80%) 0px, transparent 55%)`,
+            `radial-gradient(circle at ${x3}% 0%, rgba(14, 116, 144, 0.08) 0px, transparent 40%)`,
+        ].join(', ');
+    }
     return [
         `radial-gradient(at ${x1}% ${y1}%, hsl(${hue1}, 38%, 16%) 0px, transparent 50%)`,
         `radial-gradient(at ${x2}% ${y2}%, hsl(${hue2}, 38%, 16%) 0px, transparent 50%)`,
@@ -258,7 +273,7 @@ function scheduleShootingStar(): void {
 // --- Visitor counter count-up ---
 function animateCount(el: HTMLElement, target: number): void {
     if (reduceMotion.matches || !Number.isFinite(target) || target <= 0) {
-        el.textContent = Number.isFinite(target) ? target.toLocaleString() : '---';
+        el.textContent = Number.isFinite(target) ? target.toLocaleString(document.documentElement.lang) : '---';
         return;
     }
     const duration = 800;
@@ -266,7 +281,7 @@ function animateCount(el: HTMLElement, target: number): void {
     function frame(now: number): void {
         const t = Math.min((now - start) / duration, 1);
         const eased = 1 - Math.pow(1 - t, 3); // ease-out cubic
-        el.textContent = Math.round(target * eased).toLocaleString();
+        el.textContent = Math.round(target * eased).toLocaleString(document.documentElement.lang);
         if (t < 1) requestAnimationFrame(frame);
     }
     requestAnimationFrame(frame);
@@ -355,6 +370,19 @@ document.querySelector<HTMLElement>('.dice-btn')?.addEventListener('click', () =
     registerRerollClick(reduceMotion.matches);
 });
 document.querySelector<HTMLElement>('.seed-star')?.addEventListener('click', copySeed);
+
+// Light/dark: the head script already picked one before paint; the button flips it, remembers the
+// choice and redraws the sky gradient (stars and lines follow through CSS variables).
+document.querySelector<HTMLElement>('.theme-btn')?.addEventListener('click', () => {
+    const next = isLight() ? 'dark' : 'light';
+    document.documentElement.dataset['theme'] = next;
+    try {
+        localStorage.setItem('theme', next);
+    } catch {
+        // Private mode or blocked storage: the switch still works for this page.
+    }
+    if (currentSeeds) applyGradient(currentSeeds.gradSeed, !reduceMotion.matches);
+});
 
 const mailBtn = document.querySelector<HTMLElement>('.mail-btn');
 mailBtn?.addEventListener('click', () => copyMail(mailBtn));
