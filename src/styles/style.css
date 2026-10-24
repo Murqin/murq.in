@@ -233,6 +233,12 @@ body {
 
 /* Every layer shrinks toward the centre of the screen; for the long column that point is set
    from script (blackhole.ts), since its own centre is usually far below the fold. */
+/* #stars carries an inline opacity from the dice crossfade (theme.ts), which would otherwise win
+   over this class and leave the stars hanging in place while everything else is swallowed. */
+.swallowed #stars {
+    opacity: 0 !important;
+}
+
 .swallowed .container,
 .swallowed #stars,
 .swallowed .constellation {

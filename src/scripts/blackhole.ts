@@ -1,4 +1,4 @@
-// Easter egg: mashing the seed button opens a black hole that swallows the page, then lets it go.
+// Easter egg: mashing the dice (new theme) button opens a black hole that swallows the page, then lets it go.
 // Pure CSS transforms on existing layers (no WebGL): the page is only animated, never rebuilt,
 // so nothing has to be restored beyond removing two classes.
 const CLICKS = 7;
@@ -9,8 +9,8 @@ const RELEASE_MS = 1400;
 let clicks: number[] = [];
 let busy = false;
 
-/** Call on every seed-button click; triggers once the clicks come fast enough. */
-export function registerSeedClick(reduceMotion: boolean): void {
+/** Call on every dice click; triggers once the clicks come fast enough. */
+export function registerRerollClick(reduceMotion: boolean): void {
     if (busy || reduceMotion) return;
     const now = performance.now();
     clicks = clicks.filter((t) => now - t < WINDOW_MS);
