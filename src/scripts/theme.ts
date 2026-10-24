@@ -2,6 +2,8 @@
 // 6 for the star field) reproduces the exact same background on every visit.
 // The project list used to be rendered here too; it is built at build time now.
 
+import { clearConstellation, showConstellation } from './constellation';
+
 interface Seeds {
     gradSeed: number;
     starSeed: number;
@@ -146,7 +148,17 @@ function updateSeedLinks(hex: string): void {
     }
 }
 
+// A stream of its own, so adding the easter egg did not shift where any existing star lands.
+function constellationRand(seeds: Seeds): () => number {
+    return mulberry32(seeds.starSeed ^ 0x5bd1e995);
+}
+
+let currentSeeds: Seeds | undefined;
+
 function applyCombinedSystem(seeds: Seeds): void {
+    currentSeeds = seeds;
+    clearConstellation();
+    showConstellation(constellationRand(seeds), false, !reduceMotion.matches);
     applyGradient(seeds.gradSeed, false);
     updateSeedStar(seeds.hex);
     updateSeedLinks(seeds.hex);
@@ -167,6 +179,8 @@ function rerollTheme(): void {
         return;
     }
 
+    currentSeeds = seeds;
+    clearConstellation();
     // Gradient: the new layer fades in on top (~700ms)
     applyGradient(seeds.gradSeed, true);
     updateSeedStar(seeds.hex);
@@ -179,6 +193,7 @@ function rerollTheme(): void {
         starsRebuildTimer = setTimeout(() => {
             buildStars(seeds.starSeed, starsContainer);
             starsContainer.style.opacity = '1';
+            showConstellation(constellationRand(seeds), false, true);
         }, 320);
     }
 }
@@ -271,6 +286,7 @@ function copySeed(): void {
     const hex = star.dataset['hex'];
     if (!hex) return;
     void navigator.clipboard?.writeText(window.location.origin + homeSeedPath(hex));
+    if (currentSeeds) showConstellation(constellationRand(currentSeeds), true, !reduceMotion.matches);
     star.dataset['seed'] = star.dataset['copied'] ?? 'seed copied!';
     // Make the pulse retriggerable: drop the class, force a reflow, re-add it
     star.classList.remove('copied');

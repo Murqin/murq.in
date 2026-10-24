@@ -144,6 +144,62 @@ body {
     backface-visibility: hidden;
 }
 
+/* Constellation easter egg (src/scripts/constellation.ts): behind the cards, above the stars. */
+.constellation {
+    position: fixed;
+    z-index: -1;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.constellation-line {
+    stroke: var(--accent);
+    stroke-width: 0.006;
+    stroke-linecap: round;
+    opacity: 0.55;
+}
+
+.constellation-star {
+    fill: #fff;
+    filter: drop-shadow(0 0 0.01px #fff);
+}
+
+.constellation-name {
+    font-family: "JetBrains Mono", monospace;
+    font-size: var(--text-2xs);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    opacity: 0.6;
+}
+
+/* pathLength=1 on each line makes the dash maths length-independent. */
+.constellation.drawing .constellation-line {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: constellation-draw 2.4s var(--ease-out-expo) forwards;
+}
+
+.constellation.drawing .constellation-star,
+.constellation.drawing .constellation-name {
+    animation: constellation-fade 1.2s ease-out backwards;
+}
+
+.constellation.drawing .constellation-name {
+    animation-delay: 1.4s;
+}
+
+@keyframes constellation-draw {
+    to { stroke-dashoffset: 0; }
+}
+
+@keyframes constellation-fade {
+    from { opacity: 0; }
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
     width: 6px;
