@@ -5,19 +5,23 @@ import sharp from 'sharp';
 
 // Link-preview images, drawn at build time so every page gets one without anyone exporting a PNG
 // by hand. Satori only reads TTF/OTF/WOFF, not the WOFF2 files the site serves, hence @fontsource.
-// Both the latin and latin-ext subsets are loaded under one name: Satori falls back across fonts
-// glyph by glyph, which is how Turkish letters (ı, ş, ğ) find the ext file.
+// The latin and latin-ext subsets get separate names and are listed together in font-family:
+// under one shared name Satori only ever used the first file, so ş and ğ (latin-ext) came out as
+// empty boxes. A family list is what makes it fall back glyph by glyph.
 const require = createRequire(import.meta.url);
 const font = (pkg: string, file: string): Buffer => readFileSync(require.resolve(`${pkg}/files/${file}`));
 
 const FONTS = [
     { name: 'Mono', data: font('@fontsource/jetbrains-mono', 'jetbrains-mono-latin-600-normal.woff'), weight: 600 },
-    { name: 'Mono', data: font('@fontsource/jetbrains-mono', 'jetbrains-mono-latin-ext-600-normal.woff'), weight: 600 },
+    { name: 'MonoExt', data: font('@fontsource/jetbrains-mono', 'jetbrains-mono-latin-ext-600-normal.woff'), weight: 600 },
     { name: 'Mono', data: font('@fontsource/jetbrains-mono', 'jetbrains-mono-latin-400-normal.woff'), weight: 400 },
-    { name: 'Mono', data: font('@fontsource/jetbrains-mono', 'jetbrains-mono-latin-ext-400-normal.woff'), weight: 400 },
+    { name: 'MonoExt', data: font('@fontsource/jetbrains-mono', 'jetbrains-mono-latin-ext-400-normal.woff'), weight: 400 },
     { name: 'Inter', data: font('@fontsource/inter', 'inter-latin-400-normal.woff'), weight: 400 },
-    { name: 'Inter', data: font('@fontsource/inter', 'inter-latin-ext-400-normal.woff'), weight: 400 },
+    { name: 'InterExt', data: font('@fontsource/inter', 'inter-latin-ext-400-normal.woff'), weight: 400 },
 ] as const;
+
+const MONO = 'Mono, MonoExt';
+const SANS = 'Inter, InterExt';
 
 const WIDTH = 1200;
 const HEIGHT = 630;
@@ -35,11 +39,12 @@ function avatar(): Promise<string> {
     return avatarUri;
 }
 
-// Long titles shrink instead of overflowing; three steps keep the look consistent across posts.
+// Long titles shrink instead of overflowing; a few fixed steps keep the look consistent across cards.
 function titleSize(title: string): number {
     if (title.length <= 40) return 72;
     if (title.length <= 70) return 58;
-    return 48;
+    if (title.length <= 110) return 48;
+    return 40;
 }
 
 type Node = { type: string; props: Record<string, unknown> };
@@ -72,10 +77,10 @@ export async function renderOg({ title, kicker }: OgCard): Promise<Buffer> {
                 'radial-gradient(circle at 85% 15%, rgba(139,126,255,0.35), transparent 45%), ' +
                 'radial-gradient(circle at 10% 95%, rgba(90,127,255,0.25), transparent 40%)',
             color: '#e8e9f3',
-            fontFamily: 'Inter',
+            fontFamily: SANS,
         },
         [
-            el('div', { display: 'flex', alignItems: 'center', gap: 20, fontFamily: 'Mono', fontSize: 28 }, [
+            el('div', { display: 'flex', alignItems: 'center', gap: 20, fontFamily: MONO, fontSize: 28 }, [
                 el('span', { color: '#8b7eff', fontWeight: 600 }, 'murq.in'),
                 el('span', { color: '#4b4f7a' }, '/'),
                 el('span', { color: '#a4a9d6', fontWeight: 400 }, kicker),
@@ -84,7 +89,7 @@ export async function renderOg({ title, kicker }: OgCard): Promise<Buffer> {
                 'div',
                 {
                     display: 'flex',
-                    fontFamily: 'Mono',
+                    fontFamily: MONO,
                     fontWeight: 600,
                     fontSize: titleSize(title),
                     lineHeight: 1.2,

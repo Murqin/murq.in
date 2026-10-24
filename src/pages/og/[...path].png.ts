@@ -11,7 +11,8 @@ export const getStaticPaths = (async () => {
     for (const lang of LANGS) {
         const t = ui[lang];
         const page = (id: string, card: OgCard) => pages.push({ params: { path: ogPath(lang, id) }, props: card });
-        page('home', { title: 'Icarus Murqin', kicker: t.tagline });
+        // The name is already beside the avatar on every card, so the home card leads with the bio.
+        page('home', { title: t.about, kicker: t.tagline });
         page('blog', { title: t.blogTitle, kicker: t.blogDescription });
         page('now', { title: t.nowTitle, kicker: t.nowIntro });
         for (const post of await getPosts(lang)) {

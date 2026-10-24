@@ -227,3 +227,14 @@ test('every page points og:image at a preview generated for it, in its own langu
     assert.ok(png(image), `${image} is a PNG`);
   }
 });
+
+test('preview images draw Turkish letters, not empty boxes', async () => {
+  // Node 22 strips the types itself, so the real renderer is exercised, not a copy of its config.
+  const { renderOg } = await import('../src/lib/og.ts');
+  // Cyrillic is in neither subset: in a monospace font its empty box matches a missing ş exactly.
+  const missing = await renderOg({ title: 'Ж', kicker: '' });
+  for (const letter of ['ş', 'ğ', 'ı', 'İ', 'Ş', 'Ğ']) {
+    const png = await renderOg({ title: letter, kicker: '' });
+    assert.ok(!png.equals(missing), `${letter} is drawn`);
+  }
+});
