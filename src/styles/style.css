@@ -351,13 +351,6 @@ h1 {
     box-shadow: 0 4px 12px rgba(139, 126, 255, 0.15);
 }
 
-.grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    width: 100%;
-}
-
 .mail-btn {
     display: inline-flex;
     align-items: center;
@@ -672,8 +665,6 @@ footer:hover .footer-box {
 .container > :nth-child(4) { --enter-delay: 210ms; }
 .container > :nth-child(5) { --enter-delay: 280ms; }
 .container > :nth-child(6) { --enter-delay: 350ms; }
-/* the second card inside the grid follows the first by 60ms */
-.grid > .card:nth-child(2) { --enter-delay: 130ms; }
 
 /* Hero staging: avatar → title → tagline → section-title → socials */
 .hero .avatar,
@@ -1210,10 +1201,6 @@ a.lang-switch-item:hover {
 }
 
 @media (max-width: 600px) {
-    .grid {
-        grid-template-columns: 1fr;
-        gap: 16px;
-    }
     body {
         padding: 20px 16px;
     }
