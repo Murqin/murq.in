@@ -20,6 +20,13 @@ interface Props {
     rssHref?: string;
     /** Site-relative path of the generated preview image (see src/lib/ogPath.ts). */
     ogImagePath?: string;
+    /** Full-screen pages that snap on scroll, with fixed controls and footer (the home page). */
+    snap?: boolean;
+    /** Redesigned pages: fixed controls and footer, no cards. The footer names the page as "Here: …";
+     *  on the snapping home page snap.ts fills it in as you scroll. */
+    here?: string;
+    /** Shows the posts' CC0 notice in the footer. */
+    postLicense?: boolean;
 }
 
 const {
@@ -32,7 +39,11 @@ const {
     alternates = {},
     rssHref = '/rss.xml',
     ogImagePath = '/assets/og-image-amethyst.png',
+    snap = false,
+    here,
+    postLicense = false,
 } = Astro.props;
+const chrome = snap || here !== undefined;
 
 // Absolute URLs: link-preview bots reject relative og:image/og:url values.
 const canonical = new URL(Astro.url.pathname, Astro.site);
@@ -44,7 +55,7 @@ const xDefault = alternates['en'];
 ---
 
 <!doctype html>
-<html lang={lang}>
+<html lang={lang} class:list={[{ snap, chrome }]}>
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -76,7 +87,7 @@ const xDefault = alternates['en'];
         <div id="stars" aria-hidden="true"></div>
         <main class="container">
             <slot />
-            <Footer lang={lang} showVisitorCount={showVisitorCount} />
+            <Footer lang={lang} showVisitorCount={showVisitorCount} chrome={chrome} here={here} postLicense={postLicense} />
         </main>
         <script>
             import '../scripts/theme';

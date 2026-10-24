@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import LangSwitch from './LangSwitch.astro';
+import Controls from './Controls.astro';
 import { LANGS, type Lang } from '../lib/blog';
 import { formatPostDate } from '../lib/date';
 import { ui } from '../lib/i18n';
@@ -28,18 +28,13 @@ const links = Object.fromEntries(LANGS.map((l) => [l, page === 'now' ? ui[l].now
     lang={lang}
     alternates={links}
     ogImagePath={ogImageUrl(lang, page)}
+    here={title}
 >
-    <section class="card blog-card">
-        <div class="blog-topbar">
-            <a href={t.homeUrl} class="blog-nav-link" data-seed-nav={t.homeUrl}>← murq.in</a>
-            <div class="blog-topbar-end">
-                <LangSwitch lang={lang} links={links} />
-            </div>
-        </div>
-        <header class="blog-head">
-            <h1 class="blog-heading">{title}</h1>
-            <p class="blog-intro">{intro}</p>
-        </header>
+    <Controls lang={lang} links={links} />
+    <section class="snap-page">
+        <a href={t.homeUrl} class="blog-nav-link page-back" data-seed-nav={t.homeUrl}>← murq.in</a>
+        <h1 class="snap-title">{title}</h1>
+        <p class="snap-text">{intro}</p>
         <dl class="now-list">
             {
                 items.map((item) => (

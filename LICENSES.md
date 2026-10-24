@@ -32,21 +32,22 @@ This file contains notices and licensing information for third-party assets used
 
 ## Fonts
 
-### 3. Inter
+### 3. IBM Plex Sans
 
-- **File Path**: `assets/fonts/inter-*.woff2`
-- **Author**: Rasmus Andersson
-- **Source**: [rsms.me/inter](https://rsms.me/inter/) — files obtained via [Fontsource](https://fontsource.org/)
+- **File Path**: `assets/fonts/ibm-plex-sans-*.woff2`
+- **Author**: IBM Corp.
+- **Source**: [github.com/IBM/plex](https://github.com/IBM/plex) — files obtained via [Fontsource](https://fontsource.org/)
 - **License**: [SIL Open Font License 1.1](https://openfontlicense.org/)
 
-### 4. JetBrains Mono
+### 4. IBM Plex Mono
 
-- **File Path**: `assets/fonts/jetbrains-mono-*.woff2`
-- **Author**: JetBrains
-- **Source**: [jetbrains.com/lp/mono](https://www.jetbrains.com/lp/mono/) — files obtained via [Fontsource](https://fontsource.org/)
+- **File Path**: `assets/fonts/ibm-plex-mono-*.woff2`
+- **Author**: IBM Corp.
+- **Source**: [github.com/IBM/plex](https://github.com/IBM/plex) — files obtained via [Fontsource](https://fontsource.org/)
 - **License**: [SIL Open Font License 1.1](https://openfontlicense.org/)
-The same two fonts are also embedded, as WOFF files from the `@fontsource/inter` and
-`@fontsource/jetbrains-mono` packages, in the link preview images generated at build time (`og/**.png`).
+
+The same two fonts are also embedded, as WOFF files from the `@fontsource/ibm-plex-sans` and
+`@fontsource/ibm-plex-mono` packages, in the link preview images generated at build time (`og/**.png`).
 
 ---
 

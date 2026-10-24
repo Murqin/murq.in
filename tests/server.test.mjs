@@ -142,7 +142,7 @@ test('core routes still answer', async () => {
   for (const [p, code] of [['/', 200], ['/blog/', 200], [`/blog/${post}/`, 200], ['/rss.xml', 200], ['/sitemap-index.xml', 200],
     ['/1a2b3c4d5e6f', 200], ['/nope', 404], [`/blog?post=${post}`, 301], [`/posts/${post}.md`, 200],
     ['/tr/blog/', 200], ['/tr/blog', 200], [`/tr/blog/${post}/`, 200], [`/tr/posts/${post}.md`, 200], ['/tr/rss.xml', 200], ['/tr/', 200], ['/now/', 200], ['/tr/now/', 200],
-    ['/ai/', 200], ['/tr/ai/', 200]]) {
+    ['/ai/', 200], ['/tr/ai/', 200], ['/projects/', 200], ['/tr/projects/', 200]]) {
     const r = await fetch(s.url(p), { redirect: 'manual' });
     assert.equal(r.status, code, p);
   }
@@ -189,8 +189,20 @@ test('the home page exists in both languages and each links to its own blog', ()
   assert.ok(en.includes('href="/blog/" class="source-link"'), 'EN home links to the English blog');
   assert.ok(tr.includes('href="/tr/blog/" class="source-link"'), 'TR home links to the Turkish blog');
   assert.match(tr, /Projelerim/);
+  // Snapping home: each page names itself for the footer's "Here:" label.
+  assert.match(en, /class="snap-page" id="about-me" data-here="About Me"/);
+  const count = (re, html = en) => (html.match(re) ?? []).length;
+  // The home page lists only pinned projects, and links the full list (in its own language) only
+  // when that list has more to show.
+  const all = count(/class="project-item"/g, readFileSync('dist/tr/projects/index.html', 'utf8'));
+  assert.equal(tr.includes('href="/tr/projects/" class="source-link"'), all > count(/class="project-item"/g, tr));
+  assert.ok(count(/class="project-item"/g) >= 1 && count(/class="project-item"/g) <= 3, 'one to three projects on the home page');
+  assert.ok(count(/class="snap-post-date"/g) >= 1 && count(/class="snap-post-date"/g) <= 6, 'one to six posts on the home page');
+  assert.match(tr, /<span id="here"/);
+  // The blog list shares the fixed chrome and names itself without any script.
+  assert.match(readFileSync('dist/tr/blog/index.html', 'utf8'), /<span id="here">Blog<\/span>/);
   // The Turkish blog leads back to the Turkish home, not the English one.
-  assert.ok(readFileSync('dist/tr/blog/index.html', 'utf8').includes('href="/tr/" class="blog-nav-link"'));
+  assert.match(readFileSync('dist/tr/blog/index.html', 'utf8'), /href="\/tr\/" class="blog-nav-link[ "]/);
 });
 
 test('a miss under /tr/ gets the Turkish 404 page, any other miss the English one', async () => {
@@ -213,6 +225,9 @@ test('long posts get a contents list and every post a reading time', () => {
   assert.match(html, /href="#from-fable-5-to-opus-55"/);
   assert.match(html, /\d+ min read/);
   assert.match(readFileSync('dist/tr/blog/opus-cheats-and-sketches/index.html', 'utf8'), /\d+ dk okuma/);
+  // Posts are CC0, the rest of the site is not: the notice belongs on posts only.
+  assert.match(html, /publicdomain\/zero\/1\.0\//);
+  assert.doesNotMatch(readFileSync('dist/index.html', 'utf8'), /publicdomain\/zero/);
 });
 
 test('the AI badge on a post links to the /ai page in the post language', () => {
@@ -227,6 +242,7 @@ test('every page points og:image at a preview generated for it, in its own langu
     ['/tr/index.html', '/og/tr/home.png'],
     ['/tr/now/index.html', '/og/tr/now.png'],
     ['/ai/index.html', '/og/en/ai.png'],
+    ['/tr/projects/index.html', '/og/tr/projects.png'],
     ['/blog/opus-cheats-and-sketches/index.html', '/og/en/blog/opus-cheats-and-sketches.png'],
     ['/tr/blog/opus-cheats-and-sketches/index.html', '/og/tr/blog/opus-cheats-and-sketches.png'],
   ]) {

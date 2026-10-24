@@ -12,16 +12,18 @@ const require = createRequire(import.meta.url);
 const font = (pkg: string, file: string): Buffer => readFileSync(require.resolve(`${pkg}/files/${file}`));
 
 const FONTS = [
-    { name: 'Mono', data: font('@fontsource/jetbrains-mono', 'jetbrains-mono-latin-600-normal.woff'), weight: 600 },
-    { name: 'MonoExt', data: font('@fontsource/jetbrains-mono', 'jetbrains-mono-latin-ext-600-normal.woff'), weight: 600 },
-    { name: 'Mono', data: font('@fontsource/jetbrains-mono', 'jetbrains-mono-latin-400-normal.woff'), weight: 400 },
-    { name: 'MonoExt', data: font('@fontsource/jetbrains-mono', 'jetbrains-mono-latin-ext-400-normal.woff'), weight: 400 },
-    { name: 'Inter', data: font('@fontsource/inter', 'inter-latin-400-normal.woff'), weight: 400 },
-    { name: 'InterExt', data: font('@fontsource/inter', 'inter-latin-ext-400-normal.woff'), weight: 400 },
+    { name: 'Mono', data: font('@fontsource/ibm-plex-mono', 'ibm-plex-mono-latin-600-normal.woff'), weight: 600 },
+    { name: 'MonoExt', data: font('@fontsource/ibm-plex-mono', 'ibm-plex-mono-latin-ext-600-normal.woff'), weight: 600 },
+    { name: 'Mono', data: font('@fontsource/ibm-plex-mono', 'ibm-plex-mono-latin-400-normal.woff'), weight: 400 },
+    { name: 'MonoExt', data: font('@fontsource/ibm-plex-mono', 'ibm-plex-mono-latin-ext-400-normal.woff'), weight: 400 },
+    { name: 'Sans', data: font('@fontsource/ibm-plex-sans', 'ibm-plex-sans-latin-600-normal.woff'), weight: 600 },
+    { name: 'SansExt', data: font('@fontsource/ibm-plex-sans', 'ibm-plex-sans-latin-ext-600-normal.woff'), weight: 600 },
+    { name: 'Sans', data: font('@fontsource/ibm-plex-sans', 'ibm-plex-sans-latin-400-normal.woff'), weight: 400 },
+    { name: 'SansExt', data: font('@fontsource/ibm-plex-sans', 'ibm-plex-sans-latin-ext-400-normal.woff'), weight: 400 },
 ] as const;
 
 const MONO = 'Mono, MonoExt';
-const SANS = 'Inter, InterExt';
+const SANS = 'Sans, SansExt';
 
 const WIDTH = 1200;
 const HEIGHT = 630;
@@ -81,15 +83,15 @@ export async function renderOg({ title, kicker }: OgCard): Promise<Buffer> {
         },
         [
             el('div', { display: 'flex', alignItems: 'center', gap: 20, fontFamily: MONO, fontSize: 28 }, [
-                el('span', { color: '#8b7eff', fontWeight: 600 }, 'murq.in'),
+                el('span', { color: '#67e8f9', fontWeight: 600 }, 'murq.in'),
                 el('span', { color: '#4b4f7a' }, '/'),
-                el('span', { color: '#a4a9d6', fontWeight: 400 }, kicker),
+                el('span', { color: '#9aa5b4', fontWeight: 400 }, kicker),
             ]),
             el(
                 'div',
                 {
                     display: 'flex',
-                    fontFamily: MONO,
+                    fontFamily: SANS,
                     fontWeight: 600,
                     fontSize: titleSize(title),
                     lineHeight: 1.2,
@@ -103,7 +105,7 @@ export async function renderOg({ title, kicker }: OgCard): Promise<Buffer> {
                     width: 72,
                     height: 72,
                 }),
-                el('span', { fontSize: 30, color: '#a4a9d6' }, 'Icarus Murqin'),
+                el('span', { fontSize: 30, color: '#9aa5b4' }, 'Icarus Murqin'),
             ]),
         ],
     );

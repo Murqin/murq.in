@@ -39,7 +39,7 @@
 - **Frontend:** CSS3 Custom Properties, TypeScript compiled to a single module
 - **Server:** ~400 lines of Node, zero runtime dependencies
 - **Graphics:** link previews with Satori + sharp at build time; the black hole is a raw WebGL1 fragment shader
-- **Typography:** [JetBrains Mono](https://www.jetbrains.com/lp/mono/) & [Inter](https://rsms.me/inter/)
+- **Typography:** [IBM Plex Sans & IBM Plex Mono](https://github.com/IBM/plex)
 - **Infrastructure:** Self-hosted behind [Cosmos Cloud](https://cosmos-cloud.io); image built by GitHub Actions and published to GHCR
 
 ---
@@ -140,6 +140,7 @@ rather than silently losing the count on every restart.
 ## 📄 Licensing
 
 - **Codebase:** Distributed under the terms of the MIT License — see [LICENSE](./LICENSE).
+- **Blog posts:** The posts in `src/content/blog/` are dedicated to the public domain under [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/).
 - **Media & Fonts:** Third-party notices and asset licensing are detailed in [LICENSES.md](./LICENSES.md).
 
 ---

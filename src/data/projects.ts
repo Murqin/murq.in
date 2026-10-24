@@ -15,6 +15,8 @@ export interface Project {
     /** Rendered in order, left to right. */
     links: ProjectLink[];
     status: ProjectStatus;
+    /** Shown on the home page; at most three are, in list order. Every project is on /projects/. */
+    pinned?: boolean;
 }
 
 // Project data — adding a record here is all it takes to add a project.
@@ -34,6 +36,7 @@ export const PROJECTS: Project[] = [
         tags: ['Astro', 'TypeScript'],
         links: [{ label: 'GitHub', url: 'https://github.com/murqin/murq.in' }],
         status: 'active',
+        pinned: true,
     },
     {
         name: 'No Crop Trample',
@@ -48,6 +51,7 @@ export const PROJECTS: Project[] = [
             { label: 'GitHub', url: 'https://github.com/Murqin/NoCropTrample' },
         ],
         status: 'active',
+        pinned: true,
     },
     {
         name: 'Scribo',
@@ -62,5 +66,8 @@ export const PROJECTS: Project[] = [
         tags: ['Go', 'Docker'],
         links: [{ label: 'GitHub', url: 'https://github.com/Murqin/Scribo' }],
         status: 'archived',
+        pinned: true,
     },
 ];
+
+export const PINNED_PROJECTS = PROJECTS.filter((p) => p.pinned).slice(0, 3);

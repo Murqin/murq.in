@@ -5,9 +5,15 @@ import { ui } from '../lib/i18n';
 interface Props {
     lang?: Lang;
     showVisitorCount?: boolean;
+    /** Redesigned pages: the footer is fixed and names the page; /now and /ai are listed on the last
+     *  home page instead. */
+    chrome?: boolean;
+    here?: string;
+    /** Posts are CC0; the code stays MIT. */
+    postLicense?: boolean;
 }
 
-const { lang = 'en', showVisitorCount = false } = Astro.props;
+const { lang = 'en', showVisitorCount = false, chrome = false, here = '', postLicense = false } = Astro.props;
 const t = ui[lang];
 const year = new Date().getFullYear();
 ---
@@ -44,10 +50,16 @@ const year = new Date().getFullYear();
             }
         </div>
         <div class="footer-content footer-source">
-            <a href={t.nowUrl} data-seed-nav={t.nowUrl}>{t.now}</a>
-            <span class="footer-separator" aria-hidden="true">•</span>
-            <a href={t.aiUrl} data-seed-nav={t.aiUrl}>{t.ai}</a>
-            <span class="footer-separator" aria-hidden="true">•</span>
+            {
+                !chrome && (
+                    <>
+                        <a href={t.nowUrl} data-seed-nav={t.nowUrl}>{t.now}</a>
+                        <span class="footer-separator" aria-hidden="true">•</span>
+                        <a href={t.aiUrl} data-seed-nav={t.aiUrl}>{t.ai}</a>
+                        <span class="footer-separator" aria-hidden="true">•</span>
+                    </>
+                )
+            }
             <a href="https://github.com/murqin/murq.in" target="_blank" rel="noopener noreferrer">{t.source}</a>
             <span class="footer-separator" aria-hidden="true">•</span>
             <span>MIT</span>
@@ -55,6 +67,23 @@ const year = new Date().getFullYear();
             <a href="https://github.com/murqin/murq.in/blob/main/LICENSES.md" target="_blank" rel="noopener noreferrer"
                 >{t.licenses}</a
             >
+            {
+                postLicense && (
+                    <>
+                        <span class="footer-separator" aria-hidden="true">•</span>
+                        <a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank" rel="noopener noreferrer license">
+                            {t.postLicense}
+                        </a>
+                    </>
+                )
+            }
         </div>
+        {
+            chrome && (
+                <div class="footer-here">
+                    {t.here} <span id="here">{here}</span><span id="here-count" class="here-count" />
+                </div>
+            )
+        }
     </div>
 </footer>
