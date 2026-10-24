@@ -25,7 +25,13 @@ const { post } = Astro.props;
 const lang = postLang(post);
 const slug = postSlug(post);
 const t = ui[lang];
-const { Content } = await render(post);
+const { Content, headings } = await render(post);
+// Section headings only; a contents list earns its place on long posts, on a short one it is noise.
+const toc = headings.filter((h) => h.depth === 2);
+const showToc = toc.length >= 4;
+// ~200 words a minute, rounded up so a short post never reads "0 min".
+const words = (post.body ?? '').split(/\s+/).filter(Boolean).length;
+const minutes = Math.max(1, Math.ceil(words / 200));
 const links: Partial<Record<Lang, string>> = Object.fromEntries(
     Object.keys(await getTranslations(slug)).map((l) => [l, postUrl(l as Lang, slug)])
 );
@@ -50,31 +56,51 @@ const index = blogIndexUrl(lang);
             </div>
         </div>
         <article class="post-content">
-            <h1 class="post-title">{post.data.title}</h1>
-            <div class="post-actions">
-                <p class="post-meta">{formatPostDate(post.data.date, lang)}</p>
-                <button
-                    type="button"
-                    class="copy-md-btn"
-                    data-md-url={rawPostUrl(lang, slug)}
-                    data-label={t.copyMd}
-                    data-label-copied={t.copied}
-                    data-label-failed={t.copyFailed}
-                    data-summary-prompt={t.summaryPrompt}
-                >
-                    {t.copyMd}
-                </button>
-            </div>
-            {
-                post.data.aiAssisted && (
-                    <p class="ai-badge">
-                        <span class="ai-badge-mark" aria-hidden="true">
-                            AI
-                        </span>
-                        <span>{t.aiNote}</span>
+            <header class="post-header">
+                <h1 class="post-title">{post.data.title}</h1>
+                <div class="post-actions">
+                    <p class="post-meta">
+                        {formatPostDate(post.data.date, lang)}
+                        <span aria-hidden="true"> · </span>
+                        {t.readingTime.replace('{n}', String(minutes))}
                     </p>
-                )
-            }
+                    <button
+                        type="button"
+                        class="copy-md-btn"
+                        data-md-url={rawPostUrl(lang, slug)}
+                        data-label={t.copyMd}
+                        data-label-copied={t.copied}
+                        data-label-failed={t.copyFailed}
+                        data-summary-prompt={t.summaryPrompt}
+                    >
+                        {t.copyMd}
+                    </button>
+                </div>
+                {
+                    post.data.aiAssisted && (
+                        <p class="ai-badge">
+                            <span class="ai-badge-mark" aria-hidden="true">
+                                AI
+                            </span>
+                            <span>{t.aiNote}</span>
+                        </p>
+                    )
+                }
+                {
+                    showToc && (
+                        <details class="post-toc">
+                            <summary>{t.contents}</summary>
+                            <ol>
+                                {toc.map((h) => (
+                                    <li>
+                                        <a href={`#${h.slug}`}>{h.text}</a>
+                                    </li>
+                                ))}
+                            </ol>
+                        </details>
+                    )
+                }
+            </header>
             <div class="post-body">
                 <Content />
             </div>

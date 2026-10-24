@@ -205,3 +205,11 @@ test('a miss under /tr/ gets the Turkish 404 page, any other miss the English on
   await stop(s);
   rmSync(dir, { recursive: true });
 });
+
+test('long posts get a contents list and every post a reading time', () => {
+  const html = readFileSync('dist/blog/opus-cheats-and-sketches/index.html', 'utf8');
+  assert.match(html, /class="post-toc"/);
+  assert.match(html, /href="#from-fable-5-to-opus-55"/);
+  assert.match(html, /\d+ min read/);
+  assert.match(readFileSync('dist/tr/blog/opus-cheats-and-sketches/index.html', 'utf8'), /\d+ dk okuma/);
+});
