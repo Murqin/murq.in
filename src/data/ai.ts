@@ -29,8 +29,8 @@ export const AI = {
         {
             label: { en: 'Tools', tr: 'Araçlar' },
             text: {
-                en: 'Claude Code with Opus 5.5 for most things, Codex now and then, ChatGPT, and ComfyUI for images with local models.',
-                tr: 'İşlerin çoğunda Claude Code ve Opus 5.5, ara sıra Codex, ChatGPT ve yerel modellerle görsel için ComfyUI.',
+                en: 'Claude Code with Opus 5.5 for most things and Codex now and then. For images, ChatGPT in the cloud and ComfyUI with local models.',
+                tr: 'İşlerin çoğunda Claude Code ve Opus 5.5, ara sıra Codex. Görsel için bulutta ChatGPT, yerel modellerle ComfyUI.',
             },
         },
     ] satisfies ListItem[],
