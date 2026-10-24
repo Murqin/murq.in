@@ -280,11 +280,13 @@ function copySeed(): void {
 // --- Copy e-mail ---
 const MAIL = 'murqin@proton.me';
 
+// Only the label changes, so the copy icon beside it survives the swap.
 function copyMail(btn: HTMLElement): void {
+    const label = btn.querySelector<HTMLElement>('.mail-btn-text') ?? btn;
     void navigator.clipboard?.writeText(MAIL);
-    btn.textContent = 'copied!';
+    label.textContent = 'copied!';
     setTimeout(() => {
-        btn.textContent = MAIL;
+        label.textContent = MAIL;
     }, 1500);
 }
 

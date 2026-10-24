@@ -1,6 +1,11 @@
 ---
 import Base from '../layouts/Base.astro';
 import Projects from '../components/Projects.astro';
+import { getPosts, postSlug, postUrl } from '../lib/blog';
+import { formatPostDate } from '../lib/date';
+
+const [latest] = await getPosts('en');
+const latestHref = latest ? postUrl('en', postSlug(latest)) : undefined;
 ---
 
 <Base
@@ -43,42 +48,40 @@ import Projects from '../components/Projects.astro';
         </div>
     </section>
 
-    <div class="grid">
-        <section class="card">
-            <div class="section-title">About Me</div>
-            <p>
-                Just a tech hobbyist who spends most of his time playing video games,
-                listening to music, watching videos, and casually tinkering with random
-                projects.
-            </p>
-        </section>
-        <section class="card">
-            <div class="section-title">Contact Me</div>
-            <button type="button" class="mail-btn">murqin@proton.me</button>
-        </section>
-    </div>
+    <!-- One card: the contact card held a single button and stood half empty beside About. -->
+    <section class="card">
+        <div class="section-title">About Me</div>
+        <p>
+            Just a tech hobbyist who spends most of his time playing video games,
+            listening to music, watching videos, and casually tinkering with random
+            projects.
+        </p>
+        <button type="button" class="mail-btn" title="Copy email address">
+            <svg class="mail-btn-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <rect x="9" y="9" width="12" height="12" rx="2"></rect>
+                <path d="M5 15V5a2 2 0 0 1 2-2h10"></path>
+            </svg>
+            <span class="mail-btn-text">murqin@proton.me</span>
+        </button>
+    </section>
 
     <section class="card">
         <div class="section-title">Blog</div>
         <p>Occasional notes on projects, tools, and whatever I'm tinkering with.</p>
-        <a href="/blog" class="source-link" data-seed-nav="/blog">read the blog</a>
+        {
+            latest && latestHref && (
+                <a href={latestHref} class="latest-post" data-seed-nav={latestHref}>
+                    <span class="latest-post-label">latest</span>
+                    <span class="latest-post-title">{latest.data.title}</span>
+                    <span class="latest-post-date">{formatPostDate(latest.data.date, 'en')}</span>
+                </a>
+            )
+        }
+        <a href="/blog" class="source-link" data-seed-nav="/blog">all posts →</a>
     </section>
 
     <section class="card">
         <div class="section-title">My Projects</div>
         <Projects />
-    </section>
-
-    <section class="card">
-        <div class="section-title">Source Code</div>
-        <p>Code is MIT licensed. Third-party assets are their respective owners.</p>
-        <a
-            href="https://github.com/murqin/murq.in/blob/main/LICENSES.md"
-            class="source-licenses-link"
-            target="_blank">third-party notices</a
-        >
-        <a href="https://github.com/murqin/murq.in" class="source-link" target="_blank"
-            >view on github</a
-        >
     </section>
 </Base>
