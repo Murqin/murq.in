@@ -37,3 +37,19 @@ This file contains notices and licensing information for third-party assets used
 - **Author**: JetBrains
 - **Source**: [jetbrains.com/lp/mono](https://www.jetbrains.com/lp/mono/) — files obtained via [Fontsource](https://fontsource.org/)
 - **License**: [SIL Open Font License 1.1](https://openfontlicense.org/)
+The same two fonts are also embedded, as WOFF files from the `@fontsource/inter` and
+`@fontsource/jetbrains-mono` packages, in the link preview images generated at build time (`og/**.png`).
+
+---
+
+## Data
+
+### 5. Constellation figures
+
+- **File Path**: `src/data/constellations.ts`
+- **Source**: Star positions and line figures from `data/constellations.lines.json` in
+  [d3-celestial](https://github.com/ofrohn/d3-celestial), projected and rescaled for this site
+- **License**: BSD 3-Clause — Copyright (c) 2015, Olaf Frohn. All rights reserved.
+  Redistribution and use in source and binary forms, with or without modification, are permitted
+  provided that the conditions of the [BSD 3-Clause license](https://github.com/ofrohn/d3-celestial/blob/master/LICENSE)
+  are met; the data is provided "as is", without warranty of any kind.
