@@ -98,6 +98,6 @@ Daha önce de "kapatıyorum" deyip kapatmıştım galiba, ama gerçek kapanış 
 
 Bu yazıyı içinde ne var diye merak edip yapay zekâya özetlettiyseniz, öncelikle teşekkür ederim. Okuduğunuz için de teşekkürler. Tamamını okumak zorunda değilsiniz; ne anlattığımı, neler yaşadığımı yapay zekâ özetleyebilir. Bunun için sayfadaki "md kopyala" düğmesine bir prompt ekledim: Kendi prompt'unuzu yazmanıza gerek kalmadan her modelde çalışan standart bir özetleme prompt'u. Düğmeye basıp yapıştırmanız yeterli.
 
-Normalde adım Muratcan ama herkes beni Murqin olarak bilir. Yakın arkadaşlarımdan biri bana resmen "Muq" diyor. Okuyorsa bu yazıyı da okuyordur, umarım. Bu yazının İngilizce sürümü de var; İngilizce okumaya üşeniyorsa diye artık bütün yazılarımı hem İngilizce hem Türkçe yayınlayacağım, çünkü çoğu şeyim zaten yapay zekâ destekli.
+Normalde adım Muratcan ama herkes beni Murqin olarak bilir. Yakın arkadaşlarımdan biri bana resmen "Muq" diyor. Okuyorsa bu yazıyı da okuyordur, umarım. Eskiden yazılarımı yalnızca İngilizce yayınlıyordum; İngilizce okumaya üşeniyorsa diye artık hepsini Türkçe de yayınlayacağım, çünkü çoğu şeyim zaten yapay zekâ destekli.
 
 Murqin kaçov. Bay bay.

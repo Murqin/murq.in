@@ -98,6 +98,6 @@ I think I already said "I'm wrapping up" once before, but this is the real endin
 
 If you were curious about what's in this post and had AI summarize it for you, thank you first of all. And thanks for reading. You don't have to read the whole thing; AI can summarize what I talked about and what I went through. That's why I added a prompt to the "copy md" button on this page: a standard summarizing prompt that works with any model, so you don't have to write your own. Just press the button and paste.
 
-My name is actually Muratcan, but everyone knows me as Murqin. One of my close friends straight up calls me "Muq." If he's reading, he's reading this post too, I hope. This post has a Turkish version as well; if he can't be bothered to read English, from now on I'll publish all my posts in both English and Turkish, since most of what I do is AI-assisted anyway.
+My name is actually Muratcan, but everyone knows me as Murqin. One of my close friends straight up calls me "Muq." If he's reading, he's reading this post too, I hope. I used to publish only in English; in case he can't be bothered to read English, from now on I'll publish everything in Turkish too, since most of what I do is AI-assisted anyway.
 
 Murqin out. Bye bye.
