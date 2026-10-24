@@ -141,7 +141,7 @@ test('core routes still answer', async () => {
   const post = readdirSync('dist/blog', { withFileTypes: true }).find((d) => d.isDirectory()).name;
   for (const [p, code] of [['/', 200], ['/blog/', 200], [`/blog/${post}/`, 200], ['/rss.xml', 200], ['/sitemap-index.xml', 200],
     ['/1a2b3c4d5e6f', 200], ['/nope', 404], [`/blog?post=${post}`, 301], [`/posts/${post}.md`, 200],
-    ['/tr/blog/', 200], ['/tr/blog', 200], [`/tr/blog/${post}/`, 200], [`/tr/posts/${post}.md`, 200], ['/tr/rss.xml', 200]]) {
+    ['/tr/blog/', 200], ['/tr/blog', 200], [`/tr/blog/${post}/`, 200], [`/tr/posts/${post}.md`, 200], ['/tr/rss.xml', 200], ['/tr/', 200]]) {
     const r = await fetch(s.url(p), { redirect: 'manual' });
     assert.equal(r.status, code, p);
   }
@@ -190,4 +190,18 @@ test('the home page exists in both languages and each links to its own blog', ()
   assert.match(tr, /Projelerim/);
   // The Turkish blog leads back to the Turkish home, not the English one.
   assert.ok(readFileSync('dist/tr/blog/index.html', 'utf8').includes('href="/tr/" class="blog-nav-link"'));
+});
+
+test('a miss under /tr/ gets the Turkish 404 page, any other miss the English one', async () => {
+  const dir = tmp();
+  const s = start(dir);
+  await s.ready;
+  const tr = await fetch(s.url('/tr/nope'));
+  assert.equal(tr.status, 404);
+  assert.match(await tr.text(), /<html lang="tr"/);
+  const en = await fetch(s.url('/nope'));
+  assert.equal(en.status, 404);
+  assert.match(await en.text(), /<html lang="en"/);
+  await stop(s);
+  rmSync(dir, { recursive: true });
 });

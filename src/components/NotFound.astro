@@ -1,0 +1,24 @@
+---
+import Base from '../layouts/Base.astro';
+import { blogIndexUrl, type Lang } from '../lib/blog';
+import { ui } from '../lib/i18n';
+
+interface Props {
+    lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = ui[lang];
+const blog = blogIndexUrl(lang);
+---
+
+<Base title={t.notFoundTitle} description={t.notFoundText} lang={lang}>
+    <section class="card blog-card">
+        <div class="blog-topbar">
+            <a href={t.homeUrl} class="blog-nav-link" data-seed-nav={t.homeUrl}>← murq.in</a>
+            <a href={blog} class="blog-nav-link" data-seed-nav={blog}>blog</a>
+        </div>
+        <div class="section-title">404</div>
+        <p class="blog-empty">{t.notFoundText}</p>
+    </section>
+</Base>

@@ -544,16 +544,20 @@ footer:hover .footer-box {
     stroke-linejoin: round;
 }
 
-/* Latest post on the home page: a concrete reason to open the blog, not just a "read" link. */
+/* Latest post on the home page: a concrete reason to open the blog, not just a "read" link.
+   Left-aligned with an arrow so it reads as one link row; centred, the long mono title broke
+   into a lopsided block that looked like a second card rather than something to click. */
 .latest-post {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    margin-top: 16px;
-    padding: 14px 16px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 16px;
+    margin-top: 18px;
+    padding: 14px 18px;
     border: 1px solid var(--border);
     border-radius: 14px;
     background: rgba(139, 126, 255, 0.03);
+    text-align: left;
     text-decoration: none;
     transition: border-color 0.25s ease, background 0.25s ease;
 }
@@ -564,8 +568,16 @@ footer:hover .footer-box {
     background: rgba(139, 126, 255, 0.07);
 }
 
-.latest-post-label,
-.latest-post-date {
+.latest-post-text {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+}
+
+.latest-post-meta {
+    display: flex;
+    gap: 8px;
     font-family: "JetBrains Mono", monospace;
     font-size: var(--text-2xs);
     color: var(--text-dim);
@@ -581,7 +593,19 @@ footer:hover .footer-box {
     font-family: "JetBrains Mono", monospace;
     font-weight: 600;
     font-size: var(--text-sm);
+    line-height: 1.45;
     color: var(--text);
+}
+
+.latest-post-arrow {
+    color: var(--accent);
+    font-size: var(--text-md);
+    transition: transform 0.25s ease;
+}
+
+.latest-post:hover .latest-post-arrow,
+.latest-post:focus-visible .latest-post-arrow {
+    transform: translateX(3px);
 }
 
 .footer-source {

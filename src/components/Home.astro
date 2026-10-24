@@ -82,9 +82,15 @@ const latestHref = latest ? postUrl(lang, postSlug(latest)) : undefined;
         {
             latest && latestHref && (
                 <a href={latestHref} class="latest-post" data-seed-nav={latestHref}>
-                    <span class="latest-post-label">{t.latest}</span>
-                    <span class="latest-post-title">{latest.data.title}</span>
-                    <span class="latest-post-date">{formatPostDate(latest.data.date, lang)}</span>
+                    <span class="latest-post-text">
+                        <span class="latest-post-meta">
+                            <span class="latest-post-label">{t.latest}</span>
+                            <span aria-hidden="true">·</span>
+                            {formatPostDate(latest.data.date, lang)}
+                        </span>
+                        <span class="latest-post-title">{latest.data.title}</span>
+                    </span>
+                    <span class="latest-post-arrow" aria-hidden="true">→</span>
                 </a>
             )
         }

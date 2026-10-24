@@ -1,10 +1,12 @@
 import type { Lang } from './blog';
 
-// Every page except the 404 exists in both languages; English stays the default at the root.
+// Every page exists in both languages; English stays the default at the root.
 export const ui = {
     en: {
         htmlLang: 'en',
         homeUrl: '/',
+        notFoundTitle: 'Not found — Icarus Murqin',
+        notFoundText: 'Nothing here. The page may have moved, or the link may be wrong.',
         homeDescription: "Icarus Murqin's personal site",
         tagline: "I'm just randomly surfing the web.",
         diceLabel: 'Generate a new random theme',
@@ -47,6 +49,8 @@ export const ui = {
     tr: {
         htmlLang: 'tr',
         homeUrl: '/tr/',
+        notFoundTitle: 'Bulunamadı — Icarus Murqin',
+        notFoundText: 'Burada bir şey yok. Sayfa taşınmış ya da link yanlış olabilir.',
         homeDescription: 'Icarus Murqin’in kişisel sitesi',
         tagline: 'Webde öylesine geziniyorum.',
         diceLabel: 'Yeni rastgele tema üret',

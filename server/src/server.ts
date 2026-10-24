@@ -264,11 +264,15 @@ async function sendFile(
     }
 }
 
-async function sendNotFound(req: IncomingMessage, res: ServerResponse): Promise<void> {
-    const page = await resolveFile('/404.html');
-    if (page) {
-        await sendFile(req, res, page, '/404.html', 404);
-        return;
+// A miss under /tr/ gets the Turkish page; the English one stays the fallback for everything else.
+async function sendNotFound(req: IncomingMessage, res: ServerResponse, pathname: string): Promise<void> {
+    const candidates = pathname.startsWith('/tr/') ? ['/tr/404.html', '/404.html'] : ['/404.html'];
+    for (const candidate of candidates) {
+        const page = await resolveFile(candidate);
+        if (page) {
+            await sendFile(req, res, page, candidate, 404);
+            return;
+        }
     }
     res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
     res.end('Not found');
@@ -347,7 +351,7 @@ async function handle(req: IncomingMessage, res: ServerResponse): Promise<void> 
         return;
     }
 
-    await sendNotFound(req, res);
+    await sendNotFound(req, res, pathname);
 }
 
 /* --------------------------------- boot -------------------------------- */
