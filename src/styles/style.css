@@ -247,7 +247,9 @@ body {
     height: 100%;
     mask: radial-gradient(closest-side, transparent 30%, #000 33%, #000 62%, transparent 100%);
     -webkit-mask: radial-gradient(closest-side, transparent 30%, #000 33%, #000 62%, transparent 100%);
-    transform: rotate(-9deg) scaleY(0.2);
+    /* Nearly edge-on and nearly level: at 9° and 0.2 the band across the shadow curved up into
+       what looked like a grin. */
+    transform: rotate(-3deg) scaleY(0.12);
     filter: blur(1.5px) drop-shadow(0 0 18px rgba(255, 170, 90, 0.6));
 }
 
@@ -259,8 +261,16 @@ body {
 .bh-lensed {
     width: 52%;
     height: 52%;
-    mask: radial-gradient(closest-side, transparent 64%, #000 70%, #000 80%, transparent 100%);
-    -webkit-mask: radial-gradient(closest-side, transparent 64%, #000 70%, #000 80%, transparent 100%);
+    /* Ring intersected with a top-heavy fade: the lensed image of the disk's far side is a thick
+       arc over the shadow and only a thin one under it. */
+    mask:
+        radial-gradient(closest-side, transparent 64%, #000 70%, #000 80%, transparent 100%),
+        linear-gradient(to bottom, #000 0 45%, rgba(0, 0, 0, 0.25) 60%, rgba(0, 0, 0, 0.25));
+    mask-composite: intersect;
+    -webkit-mask:
+        radial-gradient(closest-side, transparent 64%, #000 70%, #000 80%, transparent 100%),
+        linear-gradient(to bottom, #000 0 45%, rgba(0, 0, 0, 0.25) 60%, rgba(0, 0, 0, 0.25));
+    -webkit-mask-composite: source-in;
     filter: blur(2px) drop-shadow(0 0 22px rgba(255, 170, 90, 0.55));
     opacity: 0.9;
 }
