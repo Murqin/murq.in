@@ -26,6 +26,13 @@ function swallow(): void {
     const hole = document.createElement('div');
     hole.className = 'black-hole';
     hole.setAttribute('aria-hidden', 'true');
+    // Back to front: the far side of the disk, the light from it bent over and under the hole,
+    // the shadow with its photon ring, then the near side of the disk crossing in front.
+    for (const part of ['bh-disk bh-disk-back', 'bh-lensed', 'bh-shadow', 'bh-disk bh-disk-front']) {
+        const layer = document.createElement('div');
+        layer.className = part;
+        hole.append(layer);
+    }
     document.body.append(hole);
     const column = document.querySelector<HTMLElement>('.container');
     if (column) {
