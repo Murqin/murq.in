@@ -2,6 +2,7 @@
 // 6 for the star field) reproduces the exact same background on every visit.
 // The project list used to be rendered here too; it is built at build time now.
 
+import { registerSeedClick } from './blackhole';
 import { clearConstellation, showConstellation } from './constellation';
 
 interface Seeds {
@@ -350,7 +351,10 @@ async function fetchVisitorCount(): Promise<void> {
 applyCombinedSystem(resolveSeeds());
 
 document.querySelector<HTMLElement>('.dice-btn')?.addEventListener('click', rerollTheme);
-document.querySelector<HTMLElement>('.seed-star')?.addEventListener('click', copySeed);
+document.querySelector<HTMLElement>('.seed-star')?.addEventListener('click', () => {
+    copySeed();
+    registerSeedClick(reduceMotion.matches);
+});
 
 const mailBtn = document.querySelector<HTMLElement>('.mail-btn');
 mailBtn?.addEventListener('click', () => copyMail(mailBtn));
