@@ -1747,11 +1747,6 @@ html.chrome .post-title {
 }
 
 @media (max-width: 560px) {
-    /* Hard snapping fights a section taller than the phone screen (projects); soft snapping still
-       settles on each section without trapping the reader inside one. */
-    html.snap {
-        scroll-snap-type: y proximity;
-    }
 
     .snap-socials {
         display: grid;
@@ -1968,4 +1963,36 @@ body,
 .sky-controls .seed-star {
     display: inline-flex;
     animation: none;
+}
+
+/* Phones: no free gutter, so the figure lies behind the text as a faint watermark, nameless, and
+   the text stays readable over it. */
+/* On the svg, not the layer: the layer's own opacity is animated by the black hole (.swallowed). */
+.constellation.faint svg {
+    opacity: 0.32;
+}
+
+.constellation.faint .constellation-name {
+    display: none;
+}
+
+/* Snapping is a desktop experience. On phones and narrow tablets it fought ordinary thumb scrolling
+   (even soft snapping), so there the home page is one plain page: sections at their natural height,
+   spaced like the rest of the site. The section addresses (#blog...) still update. */
+@media (max-width: 860px) {
+    html.snap {
+        scroll-snap-type: none;
+    }
+
+    html.snap .snap-page {
+        min-height: 0;
+        justify-content: flex-start;
+        padding-top: 48px;
+        padding-bottom: 48px;
+    }
+
+    html.snap .snap-page:first-child,
+    html.snap #about-me {
+        padding-top: 96px;
+    }
 }
