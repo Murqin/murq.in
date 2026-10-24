@@ -115,16 +115,17 @@
     --text-xl: 26px;
 }
 
-/* Light theme: a pale day sky over warm paper. Same seed, same layout; the stars become faint
+/* Light theme: a pale day sky over sand-toned paper, like an old star atlas. A shade darker than
+   white on purpose: coming from the night theme, near-white flashed (picked 2026-10-25). Same seed, same layout; the stars become faint
    graphite marks and the constellations ink lines. Set on <html> before first paint (Base.astro). */
 :root[data-theme="light"] {
-    --bg: #f3f2ed;
-    --text: #20252b;
-    --text-dim: #5b6470;
-    --text-body: #2e343c;
+    --bg: #e6e1d5;
+    --text: #1f2328;
+    --text-dim: #5a6068;
+    --text-body: #2b3037;
     --accent: #0e7490;
     --accent-2: #155e75;
-    --border: rgba(32, 37, 43, 0.16);
+    --border: rgba(31, 35, 40, 0.18);
     --text-strong: #0b0e12;
     --star: #3a4048;
     --star-glow: transparent;

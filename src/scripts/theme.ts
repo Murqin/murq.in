@@ -67,7 +67,7 @@ function gradientCSS(gradSeed: number): string {
     const x3 = Math.floor(randGrad() * 60) + 20;
     const hue1 = Math.floor(randGrad() * 60) + 210;
     const hue2 = Math.floor(randGrad() * 60) + 260;
-    const [sat, light, glow] = isLight() ? [28, 87, 'rgba(14, 116, 144, 0.06)'] : [38, 16, 'rgba(139, 126, 255, 0.08)'];
+    const [sat, light, glow] = isLight() ? [22, 80, 'rgba(14, 116, 144, 0.06)'] : [38, 16, 'rgba(139, 126, 255, 0.08)'];
     return [
         `radial-gradient(at ${x1}% ${y1}%, hsl(${hue1}, ${sat}%, ${light}%) 0px, transparent 50%)`,
         `radial-gradient(at ${x2}% ${y2}%, hsl(${hue2}, ${sat}%, ${light}%) 0px, transparent 50%)`,
