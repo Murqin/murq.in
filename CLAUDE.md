@@ -27,7 +27,9 @@ npm test           # build:all, then tests/server.test.mjs against the built ser
   raw `/posts/<slug>.md` are generated from these files. Do not hand-edit any of them.
 - The whole site is bilingual. English keeps the unprefixed URLs, Turkish lives under `/tr/` (home,
   blog, `/now/`, 404). UI strings are in `src/lib/i18n.ts`; project descriptions are `{ en, tr }` in
-  `src/data/projects.ts`; the `/now` items are in `src/data/now.ts`. A Turkish post is
+  `src/data/projects.ts` (`pinned: true` puts up to three on the home page; all are on `/projects`);
+  the `/now`, `/ai` and `/colophon` items are in `src/data/{now,ai,colophon}.ts`, rendered by
+  `ListPage.astro`. A Turkish post is
   `src/content/blog/tr/<same slug>.md`, served at `/tr/blog/<slug>/` and `/tr/posts/<slug>.md`; sharing
   the file name pairs the two for the language switch, hreflang and the sitemap. `aiAssisted` (default
   true) shows the AI-disclosure badge. The Turkish home carries its seed as `/tr/?s=<hex>`; the bare
@@ -38,7 +40,11 @@ npm test           # build:all, then tests/server.test.mjs against the built ser
 - Styles: `src/styles/style.css`, imported in `src/layouts/Base.astro`. Keep it imported, never linked
   from `public/`: Vite gives it a content-hashed `/_astro/` URL, which is what stops Cloudflare from
   pairing new HTML with an old stylesheet. Anything under `public/` is served as-is and cached for an hour.
-- Theme engine, star field, counter fetch: `src/scripts/theme.ts`.
+- Theme engine, star field, light/dark switch, counter fetch: `src/scripts/theme.ts`. The light or
+  dark theme is set by an inline script in `Base.astro`'s head, before the stylesheet, so a light-theme
+  reader never sees a dark flash; colours are CSS variables with a `:root[data-theme="light"]` block.
+- Easter eggs: `blackhole.ts` picks the black hole (dark), the eclipse (light, `eclipse.ts`) or the
+  CRT teleport; in dev `?bh=teleport|nogl|eclipse` forces one.
 
 ## Rules
 

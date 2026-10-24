@@ -13,15 +13,7 @@ This file contains notices and licensing information for third-party assets used
   of the site's eclipse as reference; trimmed and resized for icon use
 - **Disclaimer**: Not covered by this repository's MIT License.
 
-### 2. avatar-amethyst.webp
-
-- **File Path**: `assets/avatar-amethyst.webp`
-- **Character**: Original character by Icarus Murqin (an amethyst stained-glass artisan)
-- **Source**: Generated with ChatGPT image generation from the owner's own character description
-- **Usage**: Personal avatar for non-commercial website
-- **Disclaimer**: Not covered by this repository's MIT License.
-
-### 2a. avatar-netrunner.webp
+### 2. avatar-netrunner.webp
 
 - **File Path**: `assets/avatar-netrunner.webp`
 - **Source**: Generated with ChatGPT image generation, steered by reference images the owner supplied
