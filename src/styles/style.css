@@ -2087,3 +2087,65 @@ body,
         justify-content: center;
     }
 }
+
+/* Total solar eclipse (eclipse.ts), the light theme's easter egg. All parts share one box in the
+   upper sky; the night overlay sits between the day gradient and the stars, the disc above the
+   stars and below the page. */
+.eclipse-night {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    pointer-events: none;
+    background: radial-gradient(circle at 50% 30%, #1b2140 0%, #0b0e1a 55%);
+    opacity: 0;
+}
+
+.eclipse {
+    --size: clamp(90px, 15vmin, 170px);
+    position: fixed;
+    /* Upper right: the open part of the sky on every page, clear of the name and the titles. */
+    left: 76%;
+    top: 26%;
+    width: var(--size);
+    height: var(--size);
+    margin: calc(var(--size) / -2) 0 0 calc(var(--size) / -2);
+    z-index: -1;
+    pointer-events: none;
+}
+
+.eclipse > * {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    opacity: 0;
+}
+
+.eclipse-sun {
+    background: radial-gradient(circle, #fffdf4 0%, #fff4d6 60%, #ffe7a8 100%);
+    box-shadow: 0 0 40px 12px rgba(255, 236, 170, 0.7), 0 0 120px 40px rgba(255, 236, 170, 0.35);
+}
+
+.eclipse-moon {
+    opacity: 1;
+    background: #0b0e1a;
+    transform: translateX(-135%);
+}
+
+/* The corona: a bright inner rim fading into pearly streamers, larger than the moon. */
+.eclipse-corona {
+    inset: -60%;
+    background:
+        radial-gradient(circle, transparent 30%, rgba(255, 255, 255, 0.95) 31.5%, rgba(214, 228, 255, 0.45) 38%, transparent 62%),
+        repeating-conic-gradient(from 10deg, rgba(220, 232, 255, 0.16) 0deg 4deg, transparent 4deg 13deg);
+    mask: radial-gradient(circle, #000 35%, transparent 70%);
+}
+
+.eclipse-ring {
+    inset: auto;
+    top: 10%;
+    left: 82%;
+    width: 14px;
+    height: 14px;
+    background: #fff;
+    box-shadow: 0 0 18px 8px #fff, 0 0 70px 26px rgba(255, 255, 255, 0.65);
+}

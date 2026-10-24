@@ -2,7 +2,10 @@
 // ray-traced black hole swallows it (blackhole-gl.ts); TELEPORT_CHANCE of the time, and always where
 // WebGL is unavailable, it teleports out like an old CRT switching off. The page is only animated
 // with CSS, never rebuilt, so nothing has to be restored beyond removing classes.
+// In the light theme the black hole gives way to a total solar eclipse (eclipse.ts): a day sky has
+// no black hole to show, but it can go dark for a moment. The teleport is the same in both.
 import { startBlackHole } from './blackhole-gl';
+import { startEclipse } from './eclipse';
 
 const CLICKS = 7;
 const WINDOW_MS = 3000;
@@ -26,8 +29,8 @@ export function registerRerollClick(reduceMotion: boolean): void {
     }
 }
 
-// Dev-only switch to see each version on demand: ?bh=nogl (no WebGL, so the teleport) or
-// ?bh=teleport. import.meta.env.DEV is false in the production build, so it is compiled out. Read
+// Dev-only switch to see each version on demand: ?bh=nogl (no WebGL, so the teleport),
+// ?bh=teleport or ?bh=eclipse (the light theme's version, in either theme). import.meta.env.DEV is false in the production build, so it is compiled out. Read
 // at load: every dice click rewrites the URL to the new seed and drops the query.
 const FORCED = import.meta.env.DEV ? new URLSearchParams(window.location.search).get('bh') : null;
 
@@ -45,6 +48,13 @@ function sendAway(): void {
     canvas.className = 'bh-canvas';
     canvas.setAttribute('aria-hidden', 'true');
     const teleport = FORCED === 'nogl' || FORCED === 'teleport' || Math.random() < TELEPORT_CHANCE;
+    if (!teleport && (FORCED === 'eclipse' || root.dataset['theme'] === 'light')) {
+        column?.style.removeProperty('transform-origin');
+        void startEclipse().then(() => {
+            busy = false;
+        });
+        return;
+    }
     let stopGl: (() => void) | null = null;
     if (!teleport) {
         document.body.append(canvas);
