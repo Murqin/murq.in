@@ -265,8 +265,9 @@ async function sendFile(
 }
 
 // A miss under /tr/ gets the Turkish page; the English one stays the fallback for everything else.
+// Astro writes only the root 404 as 404.html; src/pages/tr/404.astro builds to tr/404/index.html.
 async function sendNotFound(req: IncomingMessage, res: ServerResponse, pathname: string): Promise<void> {
-    const candidates = pathname.startsWith('/tr/') ? ['/tr/404.html', '/404.html'] : ['/404.html'];
+    const candidates = pathname.startsWith('/tr/') ? ['/tr/404/index.html', '/404.html'] : ['/404.html'];
     for (const candidate of candidates) {
         const page = await resolveFile(candidate);
         if (page) {
