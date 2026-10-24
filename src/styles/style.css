@@ -75,6 +75,7 @@
     --card: rgba(16, 20, 39, 0.55);
     --text: #e8e9f3;
     --text-dim: #a4a9d6;
+    --text-body: #d3d5ea;
     --accent: #8b7eff;
     --accent-2: #5a7fff;
     --border: rgba(139, 126, 255, 0.12);
@@ -88,6 +89,7 @@
     --text-xs: 13px;
     --text-sm: 14px;
     --text-md: 16px;
+    --text-lg: 20px;
     --text-xl: 26px;
 }
 
@@ -630,6 +632,23 @@ footer:hover .footer-box {
     text-align: left;
 }
 
+/* Blog pages start at the top: centred, the short list sat mid-screen and the content jumped
+   when moving between the list and a post. */
+body:has(.blog-card) {
+    align-items: flex-start;
+}
+
+/* The lift on hover suits short cards; on a long post the whole page would jump under the reader. */
+.blog-card:hover {
+    transform: translateZ(0);
+}
+
+.post-end {
+    margin-top: 32px;
+    padding-top: 18px;
+    border-top: 1px solid var(--border);
+}
+
 .blog-topbar {
     display: flex;
     justify-content: space-between;
@@ -742,62 +761,77 @@ a.lang-switch-item:hover {
 }
 
 /* Post list */
+/* A divided list rather than a card per post: cards inside the page card stacked two borders
+   around every entry. */
+.blog-head {
+    margin-bottom: 20px;
+}
+
+.blog-heading {
+    font-size: var(--text-xl);
+    line-height: 1.3;
+    margin: 0 0 6px;
+}
+
+.blog-intro {
+    color: var(--text-dim);
+    font-size: var(--text-sm);
+    font-weight: 400;
+    margin: 0;
+}
+
 .post-list-item {
     display: block;
-    background: rgba(139, 126, 255, 0.02);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 18px 20px;
+    margin: 0 -12px;
+    padding: 18px 12px;
+    border-top: 1px solid var(--border);
+    border-radius: 10px;
     text-decoration: none;
-    transition: all 0.3s var(--ease-out-expo);
+    transition: background 0.25s ease;
 }
 
-.post-list-item + .post-list-item {
-    margin-top: 12px;
-}
-
-.post-list-item:hover {
-    border-color: rgba(139, 126, 255, 0.35);
+.post-list-item:hover,
+.post-list-item:focus-visible {
     background: rgba(139, 126, 255, 0.06);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(139, 126, 255, 0.1);
-}
-
-/* Grid, not wrapping flex: a long title wraps inside its own column, so the date stays on the
-   right, level with the title's first line, whatever the title's length. */
-.post-list-header {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    align-items: baseline;
-    gap: 12px;
-    margin-bottom: 6px;
 }
 
 .post-list-title {
+    display: block;
     font-family: "JetBrains Mono", monospace;
     font-weight: 600;
     font-size: var(--text-md);
+    line-height: 1.4;
     color: var(--text);
+    transition: color 0.25s ease;
 }
 
+.post-list-item:hover .post-list-title,
+.post-list-item:focus-visible .post-list-title {
+    color: var(--accent);
+}
+
+/* Under the title, not beside it: beside it, the date squeezed long titles onto two lines. */
 .post-list-date {
+    display: block;
+    margin: 4px 0 8px;
     font-family: "JetBrains Mono", monospace;
     font-size: var(--text-2xs);
     color: var(--text-dim);
-    white-space: nowrap;
 }
 
 .post-list-summary {
     color: var(--text-dim);
-    font-size: var(--text-xs);
-    line-height: 1.5;
+    font-size: var(--text-sm);
+    font-weight: 400;
+    line-height: 1.6;
     margin: 0;
 }
 
 /* Single-post view */
 .post-title {
-    font-size: 22px;
-    margin-bottom: 6px;
+    font-size: var(--text-xl);
+    line-height: 1.3;
+    margin-bottom: 8px;
 }
 
 /* Date on the left, "copy md" button on the right */
@@ -836,11 +870,14 @@ a.lang-switch-item:hover {
     border-color: var(--accent);
 }
 
+/* Long-form text gets its own size, weight and colour: the 14px light dim text that works for
+   short card captions tired readers out over a whole post (all three UI reviews, 2026-10-24). */
 .post-body p {
-    color: var(--text-dim);
-    font-size: var(--text-sm);
-    line-height: 1.7;
-    margin: 0 0 14px;
+    color: var(--text-body);
+    font-size: var(--text-md);
+    font-weight: 400;
+    line-height: 1.75;
+    margin: 0 0 18px;
 }
 
 .post-body h2,
@@ -851,21 +888,23 @@ a.lang-switch-item:hover {
     font-family: "JetBrains Mono", monospace;
     font-weight: 600;
     color: var(--text);
-    margin: 26px 0 10px;
+    line-height: 1.35;
+    margin: 30px 0 12px;
 }
 
-.post-body h2 { font-size: var(--text-md); }
-.post-body h3 { font-size: var(--text-sm); }
+.post-body h2 { font-size: var(--text-lg); margin-top: 40px; }
+.post-body h3 { font-size: var(--text-md); }
 .post-body h4,
 .post-body h5,
-.post-body h6 { font-size: var(--text-xs); }
+.post-body h6 { font-size: var(--text-sm); }
 
 .post-body ul,
 .post-body ol {
-    color: var(--text-dim);
-    font-size: var(--text-sm);
-    line-height: 1.7;
-    margin: 0 0 14px;
+    color: var(--text-body);
+    font-size: var(--text-md);
+    font-weight: 400;
+    line-height: 1.75;
+    margin: 0 0 18px;
     padding-left: 22px;
 }
 
@@ -873,20 +912,24 @@ a.lang-switch-item:hover {
     margin-bottom: 4px;
 }
 
+/* Underlined, not colour-only: the purple alone barely separates a link from body text. */
 .post-body a {
     color: var(--accent);
-    text-decoration: none;
-    transition: color 0.2s ease;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    text-decoration-color: rgba(139, 126, 255, 0.5);
+    transition: color 0.2s ease, text-decoration-color 0.2s ease;
 }
 
 .post-body a:hover {
     color: var(--accent-2);
-    text-decoration: underline;
+    text-decoration-color: currentColor;
 }
 
 .post-body code {
     font-family: "JetBrains Mono", monospace;
-    font-size: 12px;
+    font-size: 0.85em;
     color: var(--text);
     background: rgba(139, 126, 255, 0.08);
     padding: 2px 6px;

@@ -31,7 +31,10 @@ const links = Object.fromEntries(LANGS.map((l) => [l, blogIndexUrl(l)]));
                 <RssLink lang={lang} />
             </div>
         </div>
-        <div class="section-title">Blog</div>
+        <header class="blog-head">
+            <h1 class="blog-heading">Blog</h1>
+            <p class="blog-intro">{t.blogDescription}</p>
+        </header>
         {
             posts.length === 0 ? (
                 <p class="blog-empty">{t.noPosts}</p>
@@ -40,12 +43,8 @@ const links = Object.fromEntries(LANGS.map((l) => [l, blogIndexUrl(l)]));
                     const href = postUrl(lang, postSlug(post));
                     return (
                         <a class="post-list-item" href={href} data-seed-nav={href}>
-                            <div class="post-list-header">
-                                <span class="post-list-title">{post.data.title}</span>
-                                <span class="post-list-date">
-                                    {formatPostDate(post.data.date, lang)}
-                                </span>
-                            </div>
+                            <span class="post-list-title">{post.data.title}</span>
+                            <span class="post-list-date">{formatPostDate(post.data.date, lang)}</span>
                             <p class="post-list-summary">{post.data.summary}</p>
                         </a>
                     );
