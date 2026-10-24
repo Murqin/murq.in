@@ -7,7 +7,7 @@
 [![Live Site](https://img.shields.io/badge/Live-murq.in-%238B7EFF?style=for-the-badge)](https://murq.in)
 [![License: MIT](https://img.shields.io/badge/License-MIT-%235A7FFF?style=for-the-badge)](./LICENSE)
 
-<img src="./docs/preview.png" alt="murq.in website preview" width="600" style="border-radius: 12px; border: 1px solid rgba(139, 126, 255, 0.2); box-shadow: 0 12px 40px rgba(0,0,0,0.5);"/>
+<img src="./docs/preview.png" alt="murq.in home page in the dark and the light theme, side by side" width="800"/>
 
 </div>
 
