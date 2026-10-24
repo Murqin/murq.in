@@ -7,7 +7,7 @@ import { startBlackHole } from './blackhole-gl';
 const CLICKS = 7;
 const WINDOW_MS = 3000;
 const TELEPORT_CHANCE = 0.15;
-// The ray-traced hole falls in from afar for two seconds, so it is held longer than the teleport.
+// The ray-traced camera needs time to approach and settle, so it is held longer than the teleport.
 const AWAY_MS = { blackHole: 4600, teleport: 2400 };
 const RETURN_MS = { blackHole: 1400, teleport: 1000 };
 
