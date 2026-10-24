@@ -10,16 +10,22 @@ import type { ListItem } from '../data/listItem';
 // Shared by the slash pages (/now, /ai): a short labelled list that exists in both languages.
 interface Props {
     lang: Lang;
-    page: 'now' | 'ai';
+    page: 'now' | 'ai' | 'colophon';
     items: ListItem[];
     updated: Date;
 }
 
 const { lang, page, items, updated } = Astro.props;
 const t = ui[lang];
-const title = page === 'now' ? t.nowTitle : t.aiTitle;
-const intro = page === 'now' ? t.nowIntro : t.aiIntro;
-const links = Object.fromEntries(LANGS.map((l) => [l, page === 'now' ? ui[l].nowUrl : ui[l].aiUrl]));
+const pages = {
+    now: (l: Lang) => ({ title: ui[l].nowTitle, intro: ui[l].nowIntro, url: ui[l].nowUrl }),
+    ai: (l: Lang) => ({ title: ui[l].aiTitle, intro: ui[l].aiIntro, url: ui[l].aiUrl }),
+    colophon: (l: Lang) => ({ title: ui[l].colophonTitle, intro: ui[l].colophonIntro, url: ui[l].colophonUrl }),
+};
+const { title, intro } = pages[page](lang);
+const links = Object.fromEntries(LANGS.map((l) => [l, pages[page](l).url]));
+// "ai" in a list item means this language's /ai page; anything else is a full URL.
+const href = (target: string) => (target === 'ai' ? t.aiUrl : target);
 ---
 
 <Base
@@ -40,7 +46,27 @@ const links = Object.fromEntries(LANGS.map((l) => [l, page === 'now' ? ui[l].now
                 items.map((item) => (
                     <div class="now-item">
                         <dt>{item.label[lang]}</dt>
-                        <dd>{item.text[lang]}</dd>
+                        <dd>
+                            {item.text[lang]}
+                            {item.links?.map((link) => {
+                                const url = href(link.href);
+                                const external = url.startsWith('http');
+                                return (
+                                    <>
+                                        {' '}
+                                        <a
+                                            class="bracket"
+                                            href={url}
+                                            {...(external
+                                                ? { target: '_blank', rel: 'noopener noreferrer' }
+                                                : { 'data-seed-nav': url })}
+                                        >
+                                            {link.label[lang]}
+                                        </a>
+                                    </>
+                                );
+                            })}
+                        </dd>
                     </div>
                 ))
             }

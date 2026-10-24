@@ -2,88 +2,32 @@
 import type { Lang } from '../lib/blog';
 import { ui } from '../lib/i18n';
 
+// Only what the footer is for: where you are, and on the home page the visitor number. Licences,
+// source and how the site is made live on /colophon; a "© year · source · MIT" row is the template
+// footer every generated site has.
 interface Props {
     lang?: Lang;
     showVisitorCount?: boolean;
-    /** Redesigned pages: the footer is fixed and names the page; /now and /ai are listed on the last
-     *  home page instead. */
-    chrome?: boolean;
     here?: string;
-    /** Posts are CC0; the code stays MIT. */
-    postLicense?: boolean;
 }
 
-const { lang = 'en', showVisitorCount = false, chrome = false, here = '', postLicense = false } = Astro.props;
+const { lang = 'en', showVisitorCount = false, here = '' } = Astro.props;
 const t = ui[lang];
-const year = new Date().getFullYear();
 ---
 
 <footer>
     <div class="footer-box">
-        <div class="footer-content">
-            <span class="copyright">&copy; {year} Icarus Murqin</span>
-            {
-                showVisitorCount && (
-                    <>
-                        <span class="footer-separator" aria-hidden="true">
-                            •
-                        </span>
-                        <span id="visitor-count" class="visitor-counter">
-                            <svg
-                                class="eye-icon"
-                                viewBox="0 0 24 24"
-                                width="12"
-                                height="12"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                            >
-                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                                <circle cx="12" cy="12" r="3" />
-                            </svg>
-                            <span class="count-value">...</span> {t.visits}
-                        </span>
-                    </>
-                )
-            }
-        </div>
-        <div class="footer-content footer-source">
-            {
-                !chrome && (
-                    <>
-                        <a href={t.nowUrl} data-seed-nav={t.nowUrl}>{t.now}</a>
-                        <span class="footer-separator" aria-hidden="true">•</span>
-                        <a href={t.aiUrl} data-seed-nav={t.aiUrl}>{t.ai}</a>
-                        <span class="footer-separator" aria-hidden="true">•</span>
-                    </>
-                )
-            }
-            <a href="https://github.com/murqin/murq.in" target="_blank" rel="noopener noreferrer">{t.source}</a>
-            <span class="footer-separator" aria-hidden="true">•</span>
-            <span>MIT</span>
-            <span class="footer-separator" aria-hidden="true">•</span>
-            <a href="https://github.com/murqin/murq.in/blob/main/LICENSES.md" target="_blank" rel="noopener noreferrer"
-                >{t.licenses}</a
-            >
-            {
-                postLicense && (
-                    <>
-                        <span class="footer-separator" aria-hidden="true">•</span>
-                        <a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank" rel="noopener noreferrer license">
-                            {t.postLicense}
-                        </a>
-                    </>
-                )
-            }
-        </div>
         {
-            chrome && (
-                <div class="footer-here">
-                    {t.here} <span id="here">{here}</span><span id="here-count" class="here-count" />
-                </div>
+            showVisitorCount && (
+                <p id="visitor-count" class="visitor-counter">
+                    {t.visitorPrefix}<span class="count-value">…</span>
+                </p>
             )
         }
+        <p class="footer-here">
+            <span class="visually-hidden">{t.here} </span>
+            <span id="here">{here}</span>
+            <span id="here-count" class="here-count" />
+        </p>
     </div>
 </footer>

@@ -49,7 +49,6 @@ const index = blogIndexUrl(lang);
     alternates={links}
     rssHref={rssUrl(lang)}
     here={`${t.blogTitle} / ${post.data.title}`}
-    postLicense={true}
 >
     <Controls lang={lang} links={links} />
     <div class="post-layout">
@@ -83,6 +82,11 @@ const index = blogIndexUrl(lang);
                 </button>
                 <RssLink lang={lang} />
             </div>
+            <p class="post-license">
+                <a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank" rel="noopener noreferrer license">
+                    {t.postLicense}
+                </a>
+            </p>
         </aside>
         <article class="post-content">
             {

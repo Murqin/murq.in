@@ -24,6 +24,7 @@ const posts = (await getPosts(lang)).slice(0, 6);
 const otherPages = [
     { label: t.aiTitle, href: t.aiUrl, desc: t.aiIntro },
     { label: t.nowTitle, href: t.nowUrl, desc: t.nowIntro },
+    { label: t.colophonTitle, href: t.colophonUrl, desc: t.colophonIntro },
 ].sort((a, b) => a.label.localeCompare(b.label, lang));
 ---
 

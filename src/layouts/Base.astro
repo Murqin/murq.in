@@ -25,8 +25,6 @@ interface Props {
     /** Redesigned pages: fixed controls and footer, no cards. The footer names the page as "Here: …";
      *  on the snapping home page snap.ts fills it in as you scroll. */
     here?: string;
-    /** Shows the posts' CC0 notice in the footer. */
-    postLicense?: boolean;
 }
 
 const {
@@ -41,7 +39,6 @@ const {
     ogImagePath = '/assets/og-image-amethyst.png',
     snap = false,
     here,
-    postLicense = false,
 } = Astro.props;
 const chrome = snap || here !== undefined;
 
@@ -99,7 +96,7 @@ const xDefault = alternates['en'];
         <div id="stars" aria-hidden="true"></div>
         <main class="container">
             <slot />
-            <Footer lang={lang} showVisitorCount={showVisitorCount} chrome={chrome} here={here} postLicense={postLicense} />
+            <Footer lang={lang} showVisitorCount={showVisitorCount} here={here} />
         </main>
         <script>
             import '../scripts/theme';

@@ -142,7 +142,7 @@ test('core routes still answer', async () => {
   for (const [p, code] of [['/', 200], ['/blog/', 200], [`/blog/${post}/`, 200], ['/rss.xml', 200], ['/sitemap-index.xml', 200],
     ['/1a2b3c4d5e6f', 200], ['/nope', 404], [`/blog?post=${post}`, 301], [`/posts/${post}.md`, 200],
     ['/tr/blog/', 200], ['/tr/blog', 200], [`/tr/blog/${post}/`, 200], [`/tr/posts/${post}.md`, 200], ['/tr/rss.xml', 200], ['/tr/', 200], ['/now/', 200], ['/tr/now/', 200],
-    ['/ai/', 200], ['/tr/ai/', 200], ['/projects/', 200], ['/tr/projects/', 200]]) {
+    ['/ai/', 200], ['/tr/ai/', 200], ['/projects/', 200], ['/tr/projects/', 200], ['/colophon/', 200], ['/tr/colophon/', 200]]) {
     const r = await fetch(s.url(p), { redirect: 'manual' });
     assert.equal(r.status, code, p);
   }
@@ -236,9 +236,14 @@ test('long posts get a contents list and every post a reading time', () => {
   assert.match(html, /href="#from-fable-5-to-opus-55"/);
   assert.match(html, /\d+ min read/);
   assert.match(readFileSync('dist/tr/blog/opus-cheats-and-sketches/index.html', 'utf8'), /\d+ dk okuma/);
-  // Posts are CC0, the rest of the site is not: the notice belongs on posts only.
+  // Posts are CC0, the rest of the site is not: the notice is on each post and on the colophon,
+  // which now carries the licences the footer used to list.
   assert.match(html, /publicdomain\/zero\/1\.0\//);
   assert.doesNotMatch(readFileSync('dist/index.html', 'utf8'), /publicdomain\/zero/);
+  const colophon = readFileSync('dist/tr/colophon/index.html', 'utf8');
+  for (const needle of ['publicdomain/zero/1.0/', 'blob/main/LICENSE"', 'LICENSES.md', 'github.com/murqin/murq.in"']) {
+    assert.ok(colophon.includes(needle), `colophon links ${needle}`);
+  }
 });
 
 test('the AI badge on a post links to the /ai page in the post language', () => {
