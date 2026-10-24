@@ -259,8 +259,11 @@ body {
     animation: teleport-out 0.9s cubic-bezier(0.6, 0, 0.8, 0.4) forwards;
 }
 
+/* A separate keyframes name, not teleport-out with direction: reverse. Swapping .teleported for
+   .returning keeps the same animation-name on the same element, so browsers do not restart it: the
+   column jumped straight back without the reverse animation. */
 .returning .container {
-    animation: teleport-out 0.9s cubic-bezier(0.2, 0.6, 0.4, 1) reverse both;
+    animation: teleport-in 0.9s cubic-bezier(0.2, 0.6, 0.4, 1) both;
 }
 
 @keyframes teleport-out {
@@ -288,6 +291,34 @@ body {
         transform: scale(0, 0);
         filter: brightness(5) blur(2px);
         opacity: 0;
+    }
+}
+
+@keyframes teleport-in {
+    0% {
+        transform: scale(0, 0);
+        filter: brightness(5) blur(2px);
+        opacity: 0;
+    }
+    15% {
+        transform: scale(0.004, 0.006);
+        filter: brightness(5) saturate(0) drop-shadow(0 0 8px #fff) drop-shadow(0 0 24px var(--accent));
+        opacity: 1;
+    }
+    40% {
+        transform: scale(1, 0.006);
+        filter: brightness(4) saturate(0) drop-shadow(0 0 6px #fff) drop-shadow(0 0 18px var(--accent));
+        opacity: 1;
+    }
+    75% {
+        transform: scale(1.03, 1.03);
+        filter: brightness(1.8) saturate(0.4);
+        opacity: 1;
+    }
+    100% {
+        transform: none;
+        filter: none;
+        opacity: 1;
     }
 }
 
