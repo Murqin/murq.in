@@ -543,63 +543,11 @@ h1 {
     color: var(--accent-2);
 }
 
-footer {
-    margin-top: 24px;
-    font-family: var(--font-mono);
-    font-size: var(--text-2xs);
-    color: var(--text-dim);
-    text-align: center;
-    opacity: 0.6;
-    transition: opacity 0.3s ease;
-    padding-bottom: 20px;
-}
-
-footer:hover {
-    opacity: 1;
-}
-
-.footer-box {
-    display: inline-block;
-    padding: 8px 20px;
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    background: var(--card);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    transition:
-        border-color 0.3s ease,
-        box-shadow 0.3s ease;
-}
-
-footer:hover .footer-box {
-    border-color: color-mix(in srgb, var(--accent) 25%, transparent);
-    box-shadow: 0 4px 12px color-mix(in srgb, var(--accent) 5%, transparent);
-    color: var(--text);
-}
-
-.footer-content {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-
-.footer-separator {
-    color: var(--border);
-    user-select: none;
-}
-
 .visitor-counter {
     display: inline-flex;
     align-items: center;
     gap: 6px;
     color: var(--accent);
-}
-
-.eye-icon {
-    vertical-align: middle;
-    opacity: 0.8;
 }
 
 /* Projects section */
@@ -709,19 +657,6 @@ footer:hover .footer-box {
     }
 }
 
-.footer-source {
-    margin-top: 6px;
-}
-
-.footer-source a {
-    color: inherit;
-    text-decoration: none;
-}
-
-.footer-source a:hover {
-    color: var(--accent);
-}
-
 .project-link-btn:hover {
     color: var(--text-strong);
     background: color-mix(in srgb, var(--accent) 15%, transparent);
@@ -800,11 +735,6 @@ footer:hover .footer-box {
 .container > :nth-child(6) { --enter-delay: 350ms; }
 
 /* Hero staging: avatar → title → tagline → section-title → socials */
-
-.footer-box {
-    animation: fadeIn 0.7s var(--ease-out-expo) backwards;
-    animation-delay: var(--enter-delay, 0ms);
-}
 
 @keyframes fadeIn {
     from {
@@ -1259,7 +1189,6 @@ a.lang-switch-item:hover {
 @media (prefers-reduced-motion: reduce) {
     .star,
     .seed-star,
-    .footer-box,
     .shooting-star {
         animation: none !important;
     }
@@ -1294,8 +1223,8 @@ a.lang-switch-item:hover {
     }
 }
 
-/* Snapping home page: one screen per section on the sky, no cards. The controls and the footer stay
-   fixed while the pages move under them. */
+/* Snapping home page: one screen per section on the sky, no cards. The controls stay fixed while
+   the pages move under them. */
 html.snap {
     scroll-snap-type: y mandatory;
 }
@@ -1454,41 +1383,6 @@ html.chrome .container {
     gap: 8px;
 }
 
-html.chrome footer {
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 10;
-    margin: 0;
-    padding: 0 clamp(16px, 3vw, 32px) 14px;
-    text-align: left;
-    opacity: 0.8;
-}
-
-html.chrome .footer-box {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 6px 16px;
-    flex-wrap: wrap;
-    border: none;
-    background: none;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-    padding: 0;
-}
-
-html.chrome .footer-content {
-    justify-content: flex-start;
-}
-
-.footer-here {
-    margin-left: auto;
-    font-size: var(--text-xs);
-    color: var(--text);
-}
-
 @media (prefers-reduced-motion: no-preference) {
     html.snap {
         scroll-behavior: smooth;
@@ -1501,15 +1395,6 @@ html.chrome .footer-content {
 }
 
 /* Fixed over the sky on every page, so it cannot fade like the old card footer. */
-html.chrome footer,
-html.chrome footer:hover {
-    opacity: 1;
-}
-
-html.chrome footer a,
-html.chrome .footer-content {
-    color: var(--text-dim);
-}
 
 .page-back {
     align-self: flex-start;
@@ -1594,31 +1479,6 @@ html.chrome .footer-content {
     left: 0;
 }
 
-/* One footer line: both groups on the same baseline with the same separator between them. */
-html.chrome .footer-box {
-    gap: 6px 10px;
-}
-
-html.chrome .footer-content {
-    line-height: 1;
-}
-
-html.chrome .footer-source {
-    margin-top: 0;
-}
-
-html.chrome .footer-source::before {
-    content: "•";
-    color: var(--border);
-}
-
-.footer-here {
-    max-width: 50%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
 /* Post page: back link and contents in a sticky side column, the text in a readable measure. */
 .post-layout {
     max-width: 1080px;
@@ -1688,14 +1548,6 @@ html.chrome .post-body h2 {
     }
 }
 
-/* Long pages scroll text under the fixed footer; a fade from the page colour keeps it readable
-   without bringing back a box. */
-html.chrome footer {
-    padding-top: 28px;
-    background: linear-gradient(to bottom, transparent, var(--bg) 55%);
-}
-
-
 /* Under the contents: two equal buttons side by side, matching the two-column controls. */
 .post-tools {
     display: grid;
@@ -1707,17 +1559,6 @@ html.chrome footer {
     justify-content: center;
     text-align: center;
     white-space: nowrap;
-}
-
-/* When the links and a long "Here:" no longer share a line, "Here:" takes the top line on its own
-   and the links stay together below, instead of wrapping into a ragged second row. */
-@media (max-width: 1200px) {
-    .footer-here {
-        order: -1;
-        flex-basis: 100%;
-        max-width: 100%;
-        text-align: right;
-    }
 }
 
 /* A page title with its feed link on the far right of the same line. */
@@ -1761,32 +1602,11 @@ html.chrome .post-title {
     font-family: var(--font-head);
 }
 
-/* Phones: fixed controls would sit on top of the text and a fixed three-line footer would eat the
-   bottom of every screen. The controls scroll away with the first screen, the links move to the
-   end of the page, and only "Here:" stays pinned. */
+/* Phones: fixed controls would sit on top of the text; they scroll away with the first screen. */
 @media (max-width: 860px) {
     .page-controls,
     .sky-controls {
         position: absolute;
-    }
-}
-
-@media (max-width: 560px) {
-    html.chrome footer {
-        position: static;
-        padding-top: 24px;
-        padding-bottom: 56px;
-        background: none;
-    }
-
-    html.chrome .footer-here {
-        position: fixed;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        max-width: none;
-        padding: 20px 16px 12px;
-        background: linear-gradient(to bottom, transparent, var(--bg) 55%);
     }
 }
 
@@ -1918,18 +1738,6 @@ html.chrome .post-title {
     font-size: var(--text-sm);
 }
 
-/* Fixed footer as a thin ruled strip on solid page colour: the old fade darkened the text under it. */
-html.chrome footer {
-    padding: 10px clamp(16px, 3vw, 32px) calc(10px + env(safe-area-inset-bottom));
-    background: color-mix(in srgb, var(--bg) 92%, transparent);
-    border-top: 1px solid var(--border);
-}
-
-.here-count {
-    color: var(--text-dim);
-    margin-left: 10px;
-}
-
 /* Touch screens get finger-sized targets around the small icons. */
 @media (pointer: coarse) {
     .page-controls .lang-switch-item,
@@ -1960,17 +1768,6 @@ html.chrome footer {
         grid-column: 1 / -1;
         font-family: var(--font-mono);
         font-size: var(--text-xs);
-    }
-
-    html.chrome .footer-here {
-        padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
-        background: color-mix(in srgb, var(--bg) 92%, transparent);
-        border-top: 1px solid var(--border);
-    }
-
-    html.chrome footer {
-        border-top: none;
-        background: none;
     }
 }
 
@@ -2152,34 +1949,12 @@ body,
 
 /* Footer: the visitor number on the left like an old hit counter, where you are on the right, both
    in plain sentence case. "You are here:" is kept for screen readers only. */
-html.chrome .footer-box {
-    justify-content: space-between;
-    min-height: 20px;
-}
 
 .visitor-counter {
     margin: 0;
     font-family: var(--font-mono);
     font-size: var(--text-2xs);
     color: var(--text-dim);
-}
-
-.footer-here {
-    margin: 0 0 0 auto;
-    font-family: var(--font-body);
-    font-size: var(--text-xs);
-    color: var(--text-body);
-    text-transform: none;
-    letter-spacing: 0;
-}
-
-.visually-hidden {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
 }
 
 .post-license {
@@ -2189,5 +1964,13 @@ html.chrome .footer-box {
 }
 
 .post-license a {
+    color: var(--text-dim);
+}
+
+/* The hit counter closing the home page. */
+.snap-page .visitor-counter {
+    margin-top: 32px;
+    font-family: var(--font-mono);
+    font-size: var(--text-2xs);
     color: var(--text-dim);
 }

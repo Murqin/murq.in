@@ -24,7 +24,6 @@ const links = Object.fromEntries(LANGS.map((l) => [l, blogIndexUrl(l)]));
     ogImagePath={ogImageUrl(lang, 'blog')}
     alternates={links}
     rssHref={rssUrl(lang)}
-    here={t.blogTitle}
 >
     <Controls lang={lang} links={links} />
     <section class="snap-page">

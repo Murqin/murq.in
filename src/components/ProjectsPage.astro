@@ -21,7 +21,6 @@ const links = Object.fromEntries(LANGS.map((l) => [l, ui[l].projectsUrl]));
     lang={lang}
     ogImagePath={ogImageUrl(lang, 'projects')}
     alternates={links}
-    here={t.projectsTitle}
 >
     <Controls lang={lang} links={links} />
     <section class="snap-page">

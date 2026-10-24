@@ -189,8 +189,11 @@ test('the home page exists in both languages and each links to its own blog', ()
   assert.match(en, /href="\/blog\/" class="source-link[ "]/, 'EN home links to the English blog');
   assert.match(tr, /href="\/tr\/blog\/" class="source-link[ "]/, 'TR home links to the Turkish blog');
   assert.match(tr, /Projelerim/);
-  // Snapping home: each page names itself for the footer's "Here:" label.
-  assert.match(en, /class="snap-page" id="about-me" data-here="About Me"/);
+  // Snapping home: each section has an id for its address, and the page ends on the hit counter
+  // instead of a footer strip.
+  assert.match(en, /class="snap-page" id="about-me"/);
+  assert.doesNotMatch(en, /<footer/);
+  assert.match(tr, /id="other-pages"[\s\S]*id="visitor-count"/);
   const count = (re, html = en) => (html.match(re) ?? []).length;
   // The home page lists only pinned projects, and links the full list (in its own language) only
   // when that list has more to show.
@@ -198,9 +201,7 @@ test('the home page exists in both languages and each links to its own blog', ()
   assert.equal(/href="\/tr\/projects\/" class="source-link[ "]/.test(tr), all > count(/class="project-item"/g, tr));
   assert.ok(count(/class="project-item"/g) >= 1 && count(/class="project-item"/g) <= 3, 'one to three projects on the home page');
   assert.ok(count(/class="snap-post-date"/g) >= 1 && count(/class="snap-post-date"/g) <= 6, 'one to six posts on the home page');
-  assert.match(tr, /<span id="here"/);
-  // The blog list shares the fixed chrome and names itself without any script.
-  assert.match(readFileSync('dist/tr/blog/index.html', 'utf8'), /<span id="here">Blog<\/span>/);
+  assert.doesNotMatch(readFileSync('dist/tr/blog/index.html', 'utf8'), /<footer/);
   // The Turkish blog leads back to the Turkish home, not the English one.
   assert.match(readFileSync('dist/tr/blog/index.html', 'utf8'), /href="\/tr\/" class="blog-nav-link[ "]/);
 });
@@ -237,7 +238,7 @@ test('long posts get a contents list and every post a reading time', () => {
   assert.match(html, /\d+ min read/);
   assert.match(readFileSync('dist/tr/blog/opus-cheats-and-sketches/index.html', 'utf8'), /\d+ dk okuma/);
   // Posts are CC0, the rest of the site is not: the notice is on each post and on the colophon,
-  // which now carries the licences the footer used to list.
+  // which carries the site's licences.
   assert.match(html, /publicdomain\/zero\/1\.0\//);
   assert.doesNotMatch(readFileSync('dist/index.html', 'utf8'), /publicdomain\/zero/);
   const colophon = readFileSync('dist/tr/colophon/index.html', 'utf8');

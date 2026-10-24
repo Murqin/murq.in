@@ -34,12 +34,11 @@ const otherPages = [
     lang={lang}
     ogImagePath={ogImageUrl(lang, 'home')}
     alternates={links}
-    showVisitorCount={true}
     snap={true}
 >
     <Controls lang={lang} links={links} />
 
-    <section class="snap-page" id="about-me" data-here={t.aboutTitle}>
+    <section class="snap-page" id="about-me">
         <div class="snap-hero">
             <img src="/assets/avatar-netrunner.webp" alt="Icarus Murqin" class="avatar" width="96" height="96" />
             <div>
@@ -64,7 +63,7 @@ const otherPages = [
         </p>
     </section>
 
-    <section class="snap-page" id="blog" data-here={t.blogTitle}>
+    <section class="snap-page" id="blog">
         <div class="page-head">
             <h2>{t.blogHomeTitle}</h2>
             <RssLink lang={lang} />
@@ -88,7 +87,7 @@ const otherPages = [
         <a href={blogHref} class="source-link bracket" data-seed-nav={blogHref}>{t.allPostsHome}</a>
     </section>
 
-    <section class="snap-page" id="projects" data-here={t.projectsTitle}>
+    <section class="snap-page" id="projects">
         <h2>{t.projectsTitle}</h2>
         <p class="snap-text">{t.projectsIntro}</p>
         <Projects lang={lang} projects={PINNED_PROJECTS} />
@@ -102,7 +101,7 @@ const otherPages = [
         }
     </section>
 
-    <section class="snap-page" id="other-pages" data-here={t.otherTitle}>
+    <section class="snap-page" id="other-pages">
         <h2>{t.otherTitle}</h2>
         <ul class="snap-other">
             {
@@ -116,6 +115,8 @@ const otherPages = [
                 ))
             }
         </ul>
+        <!-- An old-web hit counter at the very end of the page, instead of a footer strip. -->
+        <p id="visitor-count" class="visitor-counter">{t.visitorPrefix}<span class="count-value">…</span></p>
     </section>
 
     <script>
