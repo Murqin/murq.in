@@ -253,6 +253,44 @@ body {
         filter 0.8s ease-out;
 }
 
+/* Teleport (blackhole.ts): the column switches off like an old CRT, flaring white, folding into a
+   bright horizontal line, then into a dot, and comes back the same way in reverse. */
+.teleported .container {
+    animation: teleport-out 0.9s cubic-bezier(0.6, 0, 0.8, 0.4) forwards;
+}
+
+.returning .container {
+    animation: teleport-out 0.9s cubic-bezier(0.2, 0.6, 0.4, 1) reverse both;
+}
+
+@keyframes teleport-out {
+    0% {
+        transform: none;
+        filter: none;
+        opacity: 1;
+    }
+    25% {
+        transform: scale(1.03, 1.03);
+        filter: brightness(1.8) saturate(0.4);
+        opacity: 1;
+    }
+    60% {
+        transform: scale(1, 0.006);
+        filter: brightness(4) saturate(0) drop-shadow(0 0 6px #fff) drop-shadow(0 0 18px var(--accent));
+        opacity: 1;
+    }
+    85% {
+        transform: scale(0.004, 0.006);
+        filter: brightness(5) saturate(0) drop-shadow(0 0 8px #fff) drop-shadow(0 0 24px var(--accent));
+        opacity: 1;
+    }
+    100% {
+        transform: scale(0, 0);
+        filter: brightness(5) blur(2px);
+        opacity: 0;
+    }
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
     width: 6px;
