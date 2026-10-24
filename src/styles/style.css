@@ -276,6 +276,13 @@ body {
     display: block;
     box-shadow: 0 0 30px rgba(139, 126, 255, 0.15);
     border: 2px solid var(--border);
+    /* The avatar has a transparent background: a glass fill lets the seed-driven
+       gradient show through, so the circle matches whatever theme the seed draws.
+       Tinted with the accent, not white: a white tint turned the circle grey
+       against the violet card and border. */
+    background: rgba(139, 126, 255, 0.06);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
     object-fit: cover;
     transition:
         transform 0.5s var(--ease-out-expo),
