@@ -99,7 +99,7 @@ await test('mobile layout and touch navigation', { timeout: 120000 }, async t =>
     await call('Emulation.setTouchEmulationEnabled', { enabled: true, maxTouchPoints: 5 });
     await call('Browser.grantPermissions', { origin, permissions: ['clipboardReadWrite', 'clipboardSanitizedWrite'] });
     const post = '/blog/fedora-migration-notes-anti-cheat-workarounds-drivers-and-my-ai-usage/';
-    const paths = ['/', '/blog/', '/projects/', '/now/', '/ai/', '/colophon/', post,
+    const paths = ['/', '/blog/', '/projects/', '/now/', '/ai/', '/colophon/', '/museum/', post,
         '/blog/opus-cheats-and-sketches/', '/blog/my-first-experience-with-claude-fable-5/'];
     for (const width of [320, 360, 390, 768]) {
         await call('Emulation.setDeviceMetricsOverride', { width, height: 800, deviceScaleFactor: 1, mobile: true });

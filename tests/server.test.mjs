@@ -283,3 +283,41 @@ test('preview images draw Turkish letters, not empty boxes', async () => {
     assert.ok(!png.equals(missing), `${letter} is drawn`);
   }
 });
+
+test('the museum pairs languages, links from home, and serves real revision screenshots', async () => {
+  const en = readFileSync('dist/museum/index.html', 'utf8');
+  const tr = readFileSync('dist/tr/museum/index.html', 'utf8');
+  const ids = ['feel-nothing', 'back-to-2005', 'monospace-cards', 'blue', 'seeded-sky'];
+  for (const [lang, html, route] of [['en', en, '/museum/'], ['tr', tr, '/tr/museum/']]) {
+    const home = readFileSync(lang === 'en' ? 'dist/index.html' : 'dist/tr/index.html', 'utf8');
+    assert.ok(home.includes(`data-seed-nav="${route}"`), `${lang} home links to its museum`);
+    assert.ok(html.includes('hreflang="en" href="https://murq.in/museum/"'));
+    assert.ok(html.includes('hreflang="tr" href="https://murq.in/tr/museum/"'));
+    assert.ok(html.includes(`/og/${lang}/museum.png`));
+    assert.ok(existsSync(`dist/og/${lang}/museum.png`));
+    const revisions = [...html.matchAll(/href="https:\/\/github.com\/Murqin\/murq.in\/tree\/([a-f0-9]{40})"/g)];
+    assert.equal(revisions.length, ids.length, 'every exhibit pins its source revision');
+    for (const id of ids) {
+      assert.ok(html.includes(`id="${id}"`));
+      assert.ok(html.includes(`src="/assets/museum/${id}.webp"`));
+      const image = readFileSync(`dist/assets/museum/${id}.webp`);
+      assert.equal(image.toString('ascii', 0, 4), 'RIFF');
+      assert.equal(image.toString('ascii', 8, 12), 'WEBP');
+    }
+  }
+  const dir = tmp();
+  const s = start(dir);
+  await s.ready;
+  try {
+    for (const route of ['/museum/', '/tr/museum/', '/assets/museum/feel-nothing.webp']) {
+      const response = await fetch(s.url(route));
+      assert.equal(response.status, 200, route);
+    }
+    const sitemap = readFileSync('dist/sitemap-0.xml', 'utf8');
+    assert.ok(sitemap.includes('https://murq.in/museum/'));
+    assert.ok(sitemap.includes('https://murq.in/tr/museum/'));
+  } finally {
+    await stop(s);
+    rmSync(dir, { recursive: true });
+  }
+});

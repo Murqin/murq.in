@@ -36,6 +36,9 @@ npm test           # build:all, then tests/server.test.mjs against the built ser
   `/<hex>` path is always the English home.
 - Link preview images are generated at build time (`src/lib/og.ts`, `src/pages/og/[...path].png.ts`);
   a new page gets one by passing `ogImagePath` to `Base`.
+- Museum exhibits: `src/data/museum.ts`, rendered by `MuseumPage.astro` at `/museum/` and `/tr/museum/`.
+  Screenshots live in `public/assets/museum/`. Dates identify the pinned source revision; these are
+  captures of archived code rendered today, not images saved on the historical date.
 - Projects on the home page: `src/data/projects.ts`. Only list projects whose links resolve publicly.
 - Styles: `src/styles/style.css`, imported in `src/layouts/Base.astro`. Keep it imported, never linked
   from `public/`: Vite gives it a content-hashed `/_astro/` URL, which is what stops Cloudflare from

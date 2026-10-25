@@ -17,6 +17,7 @@ export const getStaticPaths = (async () => {
         page('now', { title: t.nowTitle, kicker: t.nowIntro });
         page('ai', { title: t.aiTitle, kicker: t.aiIntro });
         page('colophon', { title: t.colophonTitle, kicker: t.colophonIntro });
+        page('museum', { title: t.museumTitle, kicker: t.museumIntro });
         page('404', { title: '404', kicker: t.notFoundText });
         page('projects', { title: t.projectsTitle, kicker: t.projectsIntro });
         for (const post of await getPosts(lang)) {

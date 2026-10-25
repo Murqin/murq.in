@@ -6,6 +6,15 @@ This file contains notices and licensing information for third-party assets used
 
 ## Assets
 
+### Historical site screenshots
+
+- **File Path**: `public/assets/museum/*.webp`
+- **Source**: Captured from the archived revisions listed in `src/data/museum.ts`; each exhibit links
+  to its exact source revision, including any notices present at that point in the site's history
+- **Licensing**: Fonts, avatars, and other third-party material visible in these captures retain
+  their original ownership and licensing. Inclusion in a screenshot does not place those assets
+  under this repository's MIT license.
+
 ### 1. Eclipse icon (favicon-eclipse-*.png, apple-touch-icon-eclipse.png)
 
 - **File Path**: `assets/favicon-eclipse-32.png`, `assets/favicon-eclipse-192.png`, `assets/apple-touch-icon-eclipse.png`

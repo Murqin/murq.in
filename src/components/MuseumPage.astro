@@ -1,0 +1,65 @@
+---
+import Base from '../layouts/Base.astro';
+import Controls from './Controls.astro';
+import { MUSEUM } from '../data/museum';
+import { LANGS, type Lang } from '../lib/blog';
+import { formatPostDate } from '../lib/date';
+import { ui } from '../lib/i18n';
+import { ogImageUrl } from '../lib/ogPath';
+
+interface Props {
+    lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = ui[lang];
+const links = Object.fromEntries(LANGS.map((l) => [l, ui[l].museumUrl]));
+---
+
+<Base
+    title={`${t.museumTitle} — Icarus Murqin`}
+    description={t.museumIntro}
+    lang={lang}
+    ogImagePath={ogImageUrl(lang, 'museum')}
+    alternates={links}
+>
+    <Controls lang={lang} links={links} />
+    <section class="snap-page museum-page">
+        <a href={t.homeUrl} class="blog-nav-link page-back bracket" data-seed-nav={t.homeUrl}>murq.in</a>
+        <h1 class="snap-title">{t.museumTitle}</h1>
+        <p class="snap-text">{t.museumIntro}</p>
+        <p class="museum-note">{t.museumNote}</p>
+        <ol class="museum-entries">
+            {
+                MUSEUM.map((entry, index) => (
+                    <li>
+                        <article class="museum-entry" id={entry.id} aria-labelledby={`${entry.id}-title`}>
+                            <div class="museum-meta">
+                                <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+                                <time datetime={entry.date}>{formatPostDate(new Date(entry.date), lang)}</time>
+                            </div>
+                            <div class="museum-content">
+                                <h2 id={`${entry.id}-title`}>{entry.title[lang]}</h2>
+                                <p class="museum-description">{entry.description[lang]}</p>
+                                <a class="museum-preview" href={`/assets/museum/${entry.id}.webp`} target="_blank" rel="noopener noreferrer">
+                                    <img
+                                        src={`/assets/museum/${entry.id}.webp`}
+                                        alt={`${entry.title[lang]} — ${t.museumScreenshot}`}
+                                        width="1200"
+                                        height="833"
+                                        loading="lazy"
+                                        decoding="async"
+                                    />
+                                </a>
+                                <a class="museum-source bracket" href={`https://github.com/Murqin/murq.in/tree/${entry.commit}`} target="_blank" rel="noopener noreferrer">
+                                    {t.museumSource} · {entry.commit.slice(0, 7)}
+                                </a>
+                            </div>
+                        </article>
+                    </li>
+                ))
+            }
+        </ol>
+        <a class="source-link bracket" href={t.homeUrl} data-seed-nav={t.homeUrl}>{t.museumToday}</a>
+    </section>
+</Base>
