@@ -1743,6 +1743,10 @@ html.chrome .post-title {
 
 /* Touch screens get finger-sized targets around the small icons. */
 @media (pointer: coarse) {
+    .sky-controls {
+        height: 44px;
+    }
+
     .page-controls .lang-switch-item,
     .sky-controls .dice-btn,
     .sky-controls .seed-star {
@@ -1751,6 +1755,10 @@ html.chrome .post-title {
         display: inline-flex;
         align-items: center;
         justify-content: center;
+    }
+
+    .post-tools > * {
+        min-height: 44px;
     }
 }
 
@@ -1804,6 +1812,12 @@ html.chrome .now-list {
 
 html.chrome .now-item {
     grid-template-columns: 140px minmax(0, 1fr);
+}
+
+@media (max-width: 480px) {
+    html.chrome .now-item {
+        grid-template-columns: 1fr;
+    }
 }
 
 html.chrome .post-toc > summary::after {
