@@ -6,7 +6,8 @@ Notes for Claude Code working on murq.in. Humans: start with README.md.
 
 A personal site: Astro (static output) + TypeScript, served by a small Node server with no runtime
 dependencies (`server/src/server.ts`). The server adds what static files cannot: the 12-hex seed URLs
-(`/1a2b3c4d5e6f` renders the home page with that theme) and the visitor counter (`/api/visitors`).
+(`/1a2b3c4d5e6f` renders the home page with that theme), the visitor counter (`/api/visitors`),
+and HTML/Markdown content negotiation through `Accept: text/markdown`.
 
 ## Commands
 
@@ -39,6 +40,10 @@ npm test           # build:all, then tests/server.test.mjs against the built ser
 - Museum exhibits: `src/data/museum.ts`, rendered by `MuseumPage.astro` at `/museum/` and `/tr/museum/`.
   Screenshots live in `public/assets/museum/`. Dates identify the pinned source revision; these are
   captures of archived code rendered today, not images saved on the historical date.
+- Agent-readable pages: `src/lib/agentContent.ts` builds both languages from the same content/data
+  as HTML. `src/pages/[...page].md.ts` writes the Markdown variants. Keep the `alternate` links and
+  server negotiation in sync. There is no llm.txt/llms.txt index (removed by user preference).
+  Profile/email/social links are shared through `src/data/profile.ts`.
 - Projects on the home page: `src/data/projects.ts`. Only list projects whose links resolve publicly.
 - Styles: `src/styles/style.css`, imported in `src/layouts/Base.astro`. Keep it imported, never linked
   from `public/`: Vite gives it a content-hashed `/_astro/` URL, which is what stops Cloudflare from

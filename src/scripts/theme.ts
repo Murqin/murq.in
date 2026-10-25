@@ -3,6 +3,7 @@
 // The project list used to be rendered here too; it is built at build time now.
 
 import { registerRerollClick } from './blackhole';
+import { PROFILE } from '../data/profile';
 import { clearConstellation, showConstellation } from './constellation';
 
 interface Seeds {
@@ -316,7 +317,7 @@ function copySeed(): void {
 }
 
 // --- Copy e-mail ---
-const MAIL = 'murqin@proton.me';
+const MAIL = PROFILE.email;
 
 // Only the label changes, so the copy icon beside it survives the swap.
 function copyMail(btn: HTMLElement): void {

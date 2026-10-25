@@ -321,3 +321,164 @@ test('the museum pairs languages, links from home, and serves real revision scre
     rmSync(dir, { recursive: true });
   }
 });
+
+test('every built HTML page advertises an existing Markdown representation without a separate agent index', () => {
+  const pages = readdirSync('dist', { recursive: true }).filter(file => typeof file === 'string' && file.endsWith('.html'));
+  assert.ok(pages.length >= 22);
+  for (const file of pages) {
+    const html = readFileSync(join('dist', file), 'utf8');
+    const alternate = /rel="alternate" type="text\/markdown" href="([^"]+)"/.exec(html);
+    assert.ok(alternate, `${file} advertises Markdown`);
+    assert.equal(alternate[1], '/' + file.replace(/\.html$/, '.md'));
+    assert.ok(!html.includes('/llm.txt'));
+    assert.ok(!html.includes('/llms.txt'));
+    const markdown = readFileSync(join('dist', alternate[1]), 'utf8');
+    assert.match(markdown, /^---\ntitle: /);
+    assert.match(markdown, /\nlanguage: "(?:en|tr)"\n/);
+    assert.match(markdown, /\n# /);
+  }
+  assert.ok(!existsSync('dist/llm.txt'));
+  assert.ok(!existsSync('dist/llms.txt'));
+});
+
+test('content negotiation serves the same page in HTML or Markdown, including languages and seed URLs', async () => {
+  const dir = tmp();
+  const s = start(dir);
+  await s.ready;
+  const post = readdirSync('dist/blog', { withFileTypes: true }).find(d => d.isDirectory()).name;
+  const cases = [
+    ['/', 'index.md'], ['/index.html', 'index.md'], ['/1a2b3c4d5e6f', 'index.md'],
+    ['/tr/?s=1a2b3c4d5e6f', 'tr/index.md'], ['/projects', 'projects/index.md'],
+    ['/projects/', 'projects/index.md'], ['/projects/index.html', 'projects/index.md'],
+    ['/now/', 'now/index.md'], ['/tr/ai/', 'tr/ai/index.md'],
+    ['/colophon/', 'colophon/index.md'], ['/tr/museum/', 'tr/museum/index.md'],
+    ['/blog/', 'blog/index.md'], [`/blog/${post}/`, `blog/${post}/index.md`],
+    [`/tr/blog/${post}/`, `tr/blog/${post}/index.md`],
+  ];
+  try {
+    for (const [route, file] of cases) {
+      const response = await fetch(s.url(route), { headers: { Accept: 'text/markdown' } });
+      assert.equal(response.status, 200, route);
+      assert.equal(response.headers.get('content-type'), 'text/markdown; charset=utf-8');
+      assert.equal(response.headers.get('vary'), 'Accept');
+      assert.match(response.headers.get('cache-control'), /max-age=0/);
+      assert.ok(response.headers.get('link').includes(`</${file}>; rel="alternate"; type="text/markdown"`));
+      assert.ok(!response.headers.get('link').includes('describedby'));
+      assert.equal(await response.text(), readFileSync(join('dist', file), 'utf8'));
+      const html = await fetch(s.url(route));
+      assert.equal(html.status, 200);
+      assert.match(html.headers.get('content-type'), /text\/html/);
+      assert.equal(html.headers.get('vary'), 'Accept');
+      assert.match(await html.text(), /<!DOCTYPE html>/i);
+    }
+    for (const route of ['/llm.txt', '/llms.txt']) {
+      const response = await fetch(s.url(route));
+      assert.equal(response.status, 404);
+      await response.arrayBuffer();
+    }
+    const body = readFileSync(join('dist', `blog/${post}/index.md`), 'utf8');
+    assert.match(body, /\ndate: "\d{4}-\d{2}-\d{2}"/);
+    assert.ok(body.includes('Written with AI assistance'));
+    assert.ok(body.includes('CC0'));
+  } finally {
+    await stop(s);
+    rmSync(dir, { recursive: true });
+  }
+});
+
+test('Accept quality and exclusions select the representation without changing non-page resources', async () => {
+  const dir = tmp();
+  const s = start(dir);
+  await s.ready;
+  const cases = [
+    ['*/*', 'text/html'], ['text/*', 'text/html'], ['text/html', 'text/html'],
+    ['text/markdown', 'text/markdown'], ['TEXT/MARKDOWN', 'text/markdown'],
+    ['text/markdown; charset=utf-8', 'text/markdown'],
+    ['text/markdown;q=0, */*;q=1', 'text/html'],
+    ['text/markdown;q=0.2, text/html;q=0.9', 'text/html'],
+    ['text/markdown;q=1, text/html;q=0.5', 'text/markdown'],
+    ['text/markdown;q=0.5, text/html;q=0, */*;q=1', 'text/markdown'],
+    ['text/markdown;q=0.3, text/*;q=0.8', 'text/html'],
+    ['text/markdown;q=0.8, text/*;q=0.2', 'text/markdown'],
+    ['text/markdown;q=bad', 'text/html'], ['text/markdown;q=2', 'text/html'],
+  ];
+  try {
+    for (const [accept, expected] of cases) {
+      const response = await fetch(s.url('/'), { headers: { Accept: accept } });
+      assert.ok(response.headers.get('content-type').startsWith(expected), accept);
+      await response.arrayBuffer();
+    }
+    const api = await fetch(s.url('/api/visitors'), { headers: { Accept: 'text/markdown' } });
+    assert.match(api.headers.get('content-type'), /application\/json/);
+    assert.deepEqual(await api.json(), { count: 0 });
+    const image = await fetch(s.url('/assets/museum/feel-nothing.webp'), { headers: { Accept: 'text/markdown' } });
+    assert.equal(image.headers.get('content-type'), 'image/webp');
+    assert.equal(image.headers.get('vary'), null);
+    await image.arrayBuffer();
+  } finally {
+    await stop(s);
+    rmSync(dir, { recursive: true });
+  }
+});
+
+test('HEAD and conditional requests keep HTML and Markdown validators separate', async () => {
+  const dir = tmp();
+  const s = start(dir);
+  await s.ready;
+  try {
+    const html = await fetch(s.url('/'));
+    const htmlTag = html.headers.get('etag');
+    await html.arrayBuffer();
+    const md = await fetch(s.url('/'), { headers: { Accept: 'text/markdown', 'If-None-Match': htmlTag } });
+    assert.equal(md.status, 200, 'HTML ETag must not validate Markdown');
+    const mdTag = md.headers.get('etag');
+    assert.notEqual(mdTag, htmlTag);
+    const length = Buffer.byteLength(await md.text());
+    const direct = await fetch(s.url('/index.md'));
+    assert.equal(direct.headers.get('etag'), mdTag);
+    assert.match(direct.headers.get('cache-control'), /max-age=0/);
+    await direct.arrayBuffer();
+    for (const [accept, etag] of [['text/html', htmlTag], ['text/markdown', mdTag]]) {
+      const cached = await fetch(s.url('/'), { headers: { Accept: accept, 'If-None-Match': `"other", ${etag}` } });
+      assert.equal(cached.status, 304);
+      assert.equal(cached.headers.get('vary'), 'Accept');
+      assert.equal(cached.headers.get('etag'), etag);
+      assert.ok(cached.headers.get('link').includes('/index.md'));
+      assert.equal(await cached.text(), '');
+    }
+    const head = await fetch(s.url('/'), { method: 'HEAD', headers: { Accept: 'text/markdown' } });
+    assert.equal(head.status, 200);
+    assert.equal(head.headers.get('etag'), mdTag);
+    assert.equal(head.headers.get('content-length'), String(length));
+    assert.match(head.headers.get('content-type'), /text\/markdown/);
+    assert.equal(head.headers.get('vary'), 'Accept');
+    assert.equal(await head.text(), '');
+    const switched = await fetch(s.url('/'), { headers: { Accept: 'text/html', 'If-None-Match': mdTag } });
+    assert.equal(switched.status, 200);
+    await switched.arrayBuffer();
+  } finally {
+    await stop(s);
+    rmSync(dir, { recursive: true });
+  }
+});
+
+test('Markdown misses preserve 404 status and cannot resolve files outside the site root', async () => {
+  const dir = tmp();
+  const s = start(dir);
+  await s.ready;
+  try {
+    for (const [route, expected] of [
+      ['/no-such-page', '404.md'], ['/tr/no-such-page', 'tr/404/index.md'],
+      ['/%E0%A4%A', '404.md'], ['/%2e%2e%2f%2e%2e%2fetc/passwd', '404.md'],
+    ]) {
+      const response = await fetch(s.url(route), { headers: { Accept: 'text/markdown', 'If-None-Match': '*' } });
+      assert.equal(response.status, 404, route);
+      assert.match(response.headers.get('content-type'), /text\/markdown/);
+      assert.equal(response.headers.get('vary'), 'Accept');
+      assert.equal(await response.text(), readFileSync(join('dist', expected), 'utf8'));
+    }
+  } finally {
+    await stop(s);
+    rmSync(dir, { recursive: true });
+  }
+});

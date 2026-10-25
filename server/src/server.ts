@@ -1,12 +1,12 @@
-// Static host for the built Astro site, plus the two bits of behaviour that
-// static files cannot provide: the seed-URL fallback and the visitor counter.
+// Static host for the built Astro site, with seed-URL fallback, visitor counting,
+// and content negotiation for the Markdown representations built alongside HTML.
 // Runtime dependencies: none beyond Node itself.
 
 import { createServer, type IncomingMessage, type ServerResponse } from 'node:http';
 import { createReadStream } from 'node:fs';
 import { pipeline } from 'node:stream/promises';
 import { stat, readFile, writeFile, rename, mkdir, rm } from 'node:fs/promises';
-import { join, normalize, resolve, extname, sep } from 'node:path';
+import { join, normalize, resolve, relative, extname, sep } from 'node:path';
 
 const PORT = Number(process.env['PORT'] ?? 8080);
 // resolve() so the containment check below compares two absolute, normalized
@@ -49,7 +49,9 @@ function cacheControl(pathname: string, ext: string): string {
     // Vite writes content-hashed filenames under /_astro, so they can be pinned.
     if (pathname.startsWith('/_astro/')) return 'public, max-age=31536000, immutable';
     if (ext === '.woff2' || ext === '.woff') return 'public, max-age=604800';
-    if (ext === '.html' || ext === '') return 'public, max-age=0, must-revalidate';
+    if (ext === '.html' || ext === '.md' || ext === '') {
+        return 'public, max-age=0, must-revalidate';
+    }
     return 'public, max-age=3600';
 }
 
@@ -227,14 +229,19 @@ async function sendFile(
     res: ServerResponse,
     filePath: string,
     pathname: string,
-    status = 200
+    status = 200,
+    varyAccept = false
 ): Promise<void> {
     const info = await stat(filePath);
     const ext = extname(filePath);
-    const etag = `W/"${info.size.toString(16)}-${info.mtimeMs.toString(16)}"`;
+    const etag = `W/"${ext.slice(1)}-${info.size.toString(16)}-${info.mtimeMs.toString(16)}"`;
+    const cache = cacheControl(pathname, varyAccept ? '.html' : ext);
+    if (varyAccept) res.setHeader('Vary', 'Accept');
 
-    if (req.headers['if-none-match'] === etag) {
-        res.writeHead(304, { ETag: etag, 'Cache-Control': cacheControl(pathname, ext) });
+    if (status === 200 && req.headers['if-none-match']?.split(',').some((tag) =>
+        tag.trim() === '*' || tag.trim().replace(/^W\//, '') === etag.replace(/^W\//, '')
+    )) {
+        res.writeHead(304, { ETag: etag, 'Cache-Control': cache });
         res.end();
         return;
     }
@@ -242,7 +249,7 @@ async function sendFile(
     res.writeHead(status, {
         'Content-Type': MIME[ext] ?? 'application/octet-stream',
         'Content-Length': info.size,
-        'Cache-Control': cacheControl(pathname, ext),
+        'Cache-Control': cache,
         ETag: etag,
         'X-Content-Type-Options': 'nosniff',
     });
@@ -264,6 +271,43 @@ async function sendFile(
     }
 }
 
+function prefersMarkdown(accept: string | undefined): boolean {
+    if (!accept) return false;
+    const ranges = accept.split(',').map((range) => {
+        const [type = '', ...parameters] = range.toLowerCase().split(';').map((part) => part.trim());
+        const parameter = parameters.find((part) => /^q\s*=/.test(part));
+        const weight = parameter ? Number(parameter.slice(parameter.indexOf('=') + 1).trim()) : 1;
+        const quality = Number.isFinite(weight) && weight >= 0 && weight <= 1 ? weight : 0;
+        return { type, quality };
+    });
+    // A wildcard alone is not a request to replace the browser's normal HTML representation.
+    const markdown = Math.max(0, ...ranges.filter((range) => range.type === 'text/markdown').map((range) => range.quality));
+    if (markdown === 0) return false;
+    const html = ['text/html', 'text/*', '*/*']
+        .map((type) => ranges.filter((range) => range.type === type))
+        .find((matches) => matches.length > 0);
+    return markdown >= Math.max(0, ...(html ?? []).map((range) => range.quality));
+}
+
+async function sendPage(
+    req: IncomingMessage,
+    res: ServerResponse,
+    filePath: string,
+    pathname: string,
+    status = 200
+): Promise<void> {
+    if (extname(filePath) === '.html') {
+        const markdownPath = '/' + relative(SITE_ROOT, filePath).split(sep).map(encodeURIComponent).join('/').replace(/\.html$/, '.md');
+        const markdown = await resolveFile(markdownPath);
+        if (markdown) {
+            res.setHeader('Link', `<${markdownPath}>; rel="alternate"; type="text/markdown"`);
+            await sendFile(req, res, prefersMarkdown(req.headers.accept) ? markdown : filePath, pathname, status, true);
+            return;
+        }
+    }
+    await sendFile(req, res, filePath, pathname, status);
+}
+
 // A miss under /tr/ gets the Turkish page; the English one stays the fallback for everything else.
 // Astro writes only the root 404 as 404.html; src/pages/tr/404.astro builds to tr/404/index.html.
 async function sendNotFound(req: IncomingMessage, res: ServerResponse, pathname: string): Promise<void> {
@@ -271,7 +315,7 @@ async function sendNotFound(req: IncomingMessage, res: ServerResponse, pathname:
     for (const candidate of candidates) {
         const page = await resolveFile(candidate);
         if (page) {
-            await sendFile(req, res, page, candidate, 404);
+            await sendPage(req, res, page, candidate, 404);
             return;
         }
     }
@@ -341,14 +385,14 @@ async function handle(req: IncomingMessage, res: ServerResponse): Promise<void> 
     if (SEED_PATH.test(pathname)) {
         const home = await resolveFile('/index.html');
         if (home) {
-            await sendFile(req, res, home, '/index.html');
+            await sendPage(req, res, home, '/index.html');
             return;
         }
     }
 
     const file = await resolveFile(pathname);
     if (file) {
-        await sendFile(req, res, file, pathname);
+        await sendPage(req, res, file, pathname);
         return;
     }
 

@@ -1,5 +1,6 @@
 ---
 import type { Lang } from '../lib/blog';
+import { markdownPath } from '../lib/markdownPath';
 // Imported, not linked from public/: Vite then emits it under /_astro/ with a content hash, so a deploy
 // changes its URL and no cache (Cloudflare's included) can pair new HTML with an old stylesheet.
 import '../styles/style.css';
@@ -62,6 +63,7 @@ const xDefault = alternates['en'];
         <title>{title}</title>
         <meta name="description" content={description} />
         <link rel="canonical" href={canonical} />
+        <link rel="alternate" type="text/markdown" href={markdownPath(Astro.url.pathname)} />
         <meta property="og:title" content={ogTitle} />
         <meta property="og:description" content={description} />
         <meta property="og:url" content={canonical} />
