@@ -365,7 +365,14 @@ async function fetchVisitorCount(): Promise<void> {
 // its own scope, so global onclick="..." would not resolve.
 applyCombinedSystem(resolveSeeds());
 
-document.querySelector<HTMLElement>('.dice-btn')?.addEventListener('click', () => {
+document.querySelector<HTMLElement>('.dice-btn')?.addEventListener('click', (event) => {
+    const button = event.currentTarget as HTMLElement;
+    const faces = [...button.querySelectorAll<SVGGElement>('[data-dice-face]')];
+    const current = faces.findIndex((face) => face.getAttribute('display') !== 'none');
+    // Skip the current face so even consecutive rolls give visible feedback.
+    let next = Math.floor(Math.random() * (faces.length - 1));
+    if (next >= current) next++;
+    faces.forEach((face, index) => face.setAttribute('display', index === next ? 'inline' : 'none'));
     rerollTheme();
     registerRerollClick(reduceMotion.matches);
 });
@@ -373,9 +380,19 @@ document.querySelector<HTMLElement>('.seed-star')?.addEventListener('click', cop
 
 // Light/dark: the head script already picked one before paint; the button flips it, remembers the
 // choice and redraws the sky gradient (stars and lines follow through CSS variables).
-document.querySelector<HTMLElement>('.theme-btn')?.addEventListener('click', () => {
+const themeButton = document.querySelector<HTMLElement>('.theme-btn');
+function updateThemeButton(): void {
+    const label = isLight() ? themeButton?.dataset['darkLabel'] : themeButton?.dataset['lightLabel'];
+    if (!themeButton || !label) return;
+    themeButton.setAttribute('aria-label', label);
+    themeButton.setAttribute('title', label);
+}
+updateThemeButton();
+
+themeButton?.addEventListener('click', () => {
     const next = isLight() ? 'dark' : 'light';
     document.documentElement.dataset['theme'] = next;
+    updateThemeButton();
     try {
         localStorage.setItem('theme', next);
     } catch {

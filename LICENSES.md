@@ -6,6 +6,16 @@ This file contains notices and licensing information for third-party assets used
 
 ## Assets
 
+### Phosphor control icons
+
+- **File Path**: `src/components/DiceIcon.astro`, `src/components/ThemeIcon.astro`, `src/components/PlanetIcon.astro`
+- **Source**: `raw/regular/dice-{one,two,three,four,five,six}.svg`, `sun.svg`, `moon.svg`, and `planet.svg` from
+  [Phosphor Icons](https://github.com/phosphor-icons/core/tree/2b75f3ad12b420c9504ef05df8d2564a28f8500e/raw/regular)
+- **Modifications**: Shared dice frame with six pip groups; the visible face changes on each roll.
+  Sun and moon share presentation attributes and switch visibility with the site's theme.
+- **License**: MIT, copyright (c) 2023 Phosphor Icons. Full text in
+  [phosphor.txt](./public/assets/licenses/phosphor.txt), also shipped at `/assets/licenses/phosphor.txt`.
+
 ### Historical site screenshots
 
 - **File Path**: `public/assets/museum/*.webp`

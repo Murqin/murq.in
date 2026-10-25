@@ -110,19 +110,43 @@ await test('mobile layout and touch navigation', { timeout: 120000 }, async t =>
                     await navigate(route);
                     const layout = await evaluate(`(() => {
                         const rect=e=>{const r=e.getBoundingClientRect();return {x:r.x,y:r.y,w:r.width,h:r.height};};
-                        const controls=[...document.querySelectorAll('.sky-controls button,.lang-switch-item')].map(rect);
+                        const controls=[...document.querySelectorAll('.sky-controls button,.page-controls button,.lang-switch-item')].map(rect);
                         const clipped=[...document.querySelectorAll('h1,h2,h3,p,li,a,button,summary,time,code')].filter(e=>{const r=e.getBoundingClientRect();return r.width && (r.left < -1 || r.right > innerWidth+1) && !e.closest('pre');}).map(e=>e.textContent.trim().slice(0,60));
                         return {width:innerWidth,scroll:document.documentElement.scrollWidth,clipped,controls,
                             rows:[...document.querySelectorAll('.now-item')].map(e=>({label:rect(e.querySelector('dt')),text:rect(e.querySelector('dd'))})),
-                            tools:[...document.querySelectorAll('.post-tools > *')].map(rect),snap:getComputedStyle(document.documentElement).scrollSnapType};
+                            tools:[...document.querySelectorAll('.post-tools > *')].map(rect),snap:getComputedStyle(document.documentElement).scrollSnapType,
+                            theme:document.documentElement.dataset.theme,
+                            themeIcons:[...document.querySelectorAll('[data-theme-icon]')].filter(e=>getComputedStyle(e).display!=='none').map(e=>e.dataset.themeIcon),
+                            themeLabel:document.querySelector('.theme-btn').getAttribute('aria-label'),
+                            themeAction:document.querySelector('.theme-btn').dataset[document.documentElement.dataset.theme==='light'?'darkLabel':'lightLabel'],
+                            themeInPageControls:!!document.querySelector('.page-controls .theme-btn'),
+                            skyButtonCount:document.querySelectorAll('.sky-controls button').length,
+                            topControls:[...document.querySelectorAll('.page-controls-row button,.lang-switch-item')].map(rect),
+                            skyControls:[...document.querySelectorAll('.sky-controls button')].map(rect),
+                            hub:rect(document.querySelector('.page-controls')),
+                            hero:document.querySelector('.snap-hero') ? rect(document.querySelector('.snap-hero')) : null};
                     })()`);
                     assert.equal(layout.width, width);
                     assert.ok(layout.scroll <= width, `Page overflows: ${layout.scroll}`);
                     assert.deepEqual(layout.clipped, []);
+                    assert.deepEqual(layout.themeIcons, [layout.theme === 'light' ? 'moon' : 'sun']);
+                    assert.equal(layout.themeLabel, layout.themeAction);
+                    assert.equal(layout.themeInPageControls, true);
+                    assert.equal(layout.skyButtonCount, 2);
                     for (const button of layout.controls) {
                         assert.ok(button.w >= 44 && button.h >= 44, 'Touch target smaller than 44px');
-                        assert.equal(button.y, layout.controls[0].y, 'Top controls are not aligned');
                     }
+                    for (const row of [layout.topControls, layout.skyControls]) {
+                        for (const button of row) assert.equal(button.y, row[0].y, 'Controls in a row are not aligned');
+                    }
+                    assert.ok(layout.skyControls[0].y >= Math.max(...layout.topControls.map(button => button.y + button.h)), 'Sky actions should sit below the preferences');
+                    for (let a = 0; a < layout.controls.length; a++) {
+                        for (let b = a + 1; b < layout.controls.length; b++) {
+                            const first = layout.controls[a], second = layout.controls[b];
+                            assert.ok(first.x + first.w <= second.x || second.x + second.w <= first.x || first.y + first.h <= second.y || second.y + second.h <= first.y, 'Control touch targets overlap');
+                        }
+                    }
+                    if (layout.hero) assert.ok(layout.hero.y >= layout.hub.y + layout.hub.h, 'Hub overlaps the opening profile');
                     if (width <= 480) for (const row of layout.rows) {
                         assert.equal(row.label.x, row.text.x, 'Label and text should stack on phones');
                         assert.ok(row.text.y >= row.label.y + row.label.h);
@@ -138,10 +162,21 @@ await test('mobile layout and touch navigation', { timeout: 120000 }, async t =>
                 const before = await evaluate('document.documentElement.dataset.theme');
                 await tap('.theme-btn');
                 assert.notEqual(await evaluate('document.documentElement.dataset.theme'), before);
+                assert.equal(await evaluate("[...document.querySelectorAll('[data-theme-icon]')].find(e=>getComputedStyle(e).display!=='none').dataset.themeIcon"), before === 'light' ? 'sun' : 'moon');
                 assert.equal(await evaluate("document.querySelector('.seed-star').dataset.seed"), seed);
                 await tap('.seed-star');
                 assert.equal(await evaluate('navigator.clipboard.readText()'), origin + (lang === 'tr' ? `/tr/?s=${seed}` : `/${seed}`));
+                const previousFace = await evaluate("document.querySelector('[data-dice-face][display=inline]').dataset.diceFace");
                 await tap('.dice-btn');
+                const dice = await evaluate(`(() => {
+                    const faces = [...document.querySelectorAll('[data-dice-face]')];
+                    const visible = faces.filter(face => getComputedStyle(face).display !== 'none');
+                    return {count: visible.length, face: Number(visible[0]?.dataset.diceFace), pips: visible[0]?.querySelectorAll('circle').length};
+                })()`);
+                assert.equal(dice.count, 1);
+                assert.ok(dice.face >= 1 && dice.face <= 6);
+                assert.notEqual(dice.face, Number(previousFace));
+                assert.equal(dice.pips, dice.face);
                 const newSeed = await evaluate("document.querySelector('.seed-star').dataset.seed");
                 assert.match(newSeed, /^[0-9a-f]{12}$/);
                 assert.notEqual(newSeed, seed);

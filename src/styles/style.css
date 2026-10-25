@@ -1451,23 +1451,33 @@ html.chrome .container {
     font-family: var(--font-head);
 }
 
-/* Language top-right, the sky's controls top-left: the two corners mirror each other, and each
-   cluster sits on one line at the same height. */
+/* Keep preferences and sky actions together, while separating their two rows. */
 .page-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+}
+
+.page-controls-row {
     display: flex;
     align-items: center;
     gap: 8px;
 }
 
 .sky-controls {
-    position: fixed;
-    top: 18px;
-    left: clamp(16px, 3vw, 32px);
-    z-index: 10;
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 2px;
     height: 24px;
+}
+
+.sky-controls button {
+    width: 32px;
+    height: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .sky-controls .dice-btn,
@@ -1477,10 +1487,10 @@ html.chrome .container {
     right: auto;
 }
 
-/* The seed tooltip opens toward the page, now that the star sits on the left edge. */
+/* The hub is on the right, so the tooltip opens toward the page. */
 .sky-controls .seed-star::after {
-    right: auto;
-    left: 0;
+    right: 0;
+    left: auto;
 }
 
 /* Post page: back link and contents in a sticky side column, the text in a readable measure. */
@@ -1607,8 +1617,7 @@ html.chrome .post-title {
 
 /* Phones: fixed controls would sit on top of the text; they scroll away with the first screen. */
 @media (max-width: 860px) {
-    .page-controls,
-    .sky-controls {
+    .page-controls {
         position: absolute;
     }
 }
@@ -1870,6 +1879,20 @@ html.chrome .post-toc[open] > summary::after {
     transform: rotate(180deg);
 }
 
+/* The head script selects the theme before paint, so the action icon is right on first render. */
+.theme-btn .theme-sun {
+    display: block;
+}
+
+.theme-btn .theme-moon,
+:root[data-theme="light"] .theme-btn .theme-sun {
+    display: none;
+}
+
+:root[data-theme="light"] .theme-btn .theme-moon {
+    display: block;
+}
+
 .theme-btn:focus-visible {
     outline: 1px solid var(--accent);
     outline-offset: 4px;
@@ -1884,7 +1907,7 @@ body,
 }
 
 @media (pointer: coarse) {
-    .sky-controls .theme-btn {
+    .page-controls .theme-btn {
         min-width: 44px;
         min-height: 44px;
         display: inline-flex;
@@ -1983,7 +2006,7 @@ body,
     color: var(--text-dim);
 }
 
-/* The reticle sits still like the dice and theme buttons; only the old star twinkled. */
+/* Keep the seed control still; only the old star icon twinkled. */
 .sky-controls .seed-star {
     display: inline-flex;
     animation: none;
@@ -2017,7 +2040,7 @@ body,
 
     html.snap .snap-page:first-child,
     html.snap #about-me {
-        padding-top: 96px;
+        padding-top: 136px;
     }
 }
 

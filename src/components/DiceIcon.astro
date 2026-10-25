@@ -1,0 +1,22 @@
+---
+// Phosphor's regular dice faces share a frame but use different pip spacing for each face.
+const faces = [
+    [[128, 128]],
+    [[108, 108], [148, 148]],
+    [[92, 92], [128, 128], [164, 164]],
+    [[100, 100], [156, 100], [100, 156], [156, 156]],
+    [[92, 92], [164, 92], [92, 164], [128, 128], [164, 164]],
+    [[92, 84], [164, 84], [92, 128], [164, 128], [92, 172], [164, 172]],
+];
+---
+
+<svg viewBox="0 0 256 256" width="22" height="22" fill="currentColor" aria-hidden="true">
+    <rect x="40" y="40" width="176" height="176" rx="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16" />
+    {
+        faces.map((pips, index) => (
+            <g data-dice-face={index + 1} display={index === 4 ? 'inline' : 'none'}>
+                {pips.map(([cx, cy]) => <circle cx={cx} cy={cy} r="12" />)}
+            </g>
+        ))
+    }
+</svg>
